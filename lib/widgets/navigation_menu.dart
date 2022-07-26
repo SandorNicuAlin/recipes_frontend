@@ -1,6 +1,5 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class NavigationMenu extends StatelessWidget {
   const NavigationMenu({Key? key, this.selectedIndex, this.onTapCallback})
@@ -16,6 +15,7 @@ class NavigationMenu extends StatelessWidget {
       right: 0,
       bottom: 0,
       child: Container(
+        height: MediaQuery.of(context).size.height * 12 / 100,
         decoration: const BoxDecoration(
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(15),
@@ -28,18 +28,27 @@ class NavigationMenu extends StatelessWidget {
             topRight: Radius.circular(15),
           ),
           child: BottomNavigationBar(
+            selectedFontSize: 16,
+            selectedIconTheme: const IconThemeData(size: 30),
+            iconSize: 25,
             elevation: 1,
             items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(
-                icon: Icon(Icons.home),
+                icon: Icon(
+                  Icons.home_rounded,
+                ),
                 label: 'Home',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.business),
+                icon: Icon(
+                  Icons.business_rounded,
+                ),
                 label: 'Business',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.school),
+                icon: Icon(
+                  Icons.school_rounded,
+                ),
                 label: 'School',
               ),
             ],
