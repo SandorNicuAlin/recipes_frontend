@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+
+import './login.dart';
 import '../../colors/my_colors.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-// import 'package:google_fonts/google_fonts.dart';
+import '../../widgets/input_fields/text_input_field.dart';
+import '../../widgets/input_fields/password_text_input_field.dart';
+import '../../helpers/input_field_validators.dart';
+import '../../widgets/buttons/custom_elevated_button.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
+  static const routeName = '/register';
 
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
@@ -16,27 +20,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _pass = TextEditingController();
   final TextEditingController _confirmPass = TextEditingController();
 
-  bool _passwordVisibility = true;
-  bool _confirmPasswordVisibility = true;
-
   void _onFormSubmit() {
     _formKey.currentState!.validate();
-  }
-
-  void _changePasswordVisibility() {
-    setState(() {
-      _passwordVisibility = !_passwordVisibility;
-    });
-  }
-
-  void _changeConfirmPasswordVisibility() {
-    setState(() {
-      _confirmPasswordVisibility = !_confirmPasswordVisibility;
-    });
-  }
-
-  void _redirectToLoginPage() {
-    print('hello');
   }
 
   @override
@@ -121,28 +106,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     1 /
                                     100,
                               ),
-                              child: TextFormField(
-                                cursorColor: MyColors.greenColor,
-                                decoration: const InputDecoration(
-                                  labelStyle: TextStyle(
-                                    color: Colors.grey,
-                                  ),
-                                  focusedBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: MyColors.greenColor,
-                                    ),
-                                  ),
-                                  label: Text('Username'),
-                                ),
-                                validator: (String? value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Please enter your username';
-                                  }
-                                  if (value.length < 3) {
-                                    return 'Username must have 3 or more characters';
-                                  }
-                                  return null;
-                                },
+                              child: const TextInputField(
+                                keyboardType: TextInputType.text,
+                                label: 'Username',
+                                validatorCallback:
+                                    InputFieldValidators.usernameValidator,
                               ),
                             ),
                             Padding(
@@ -151,31 +119,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     1 /
                                     100,
                               ),
-                              child: TextFormField(
+                              child: const TextInputField(
                                 keyboardType: TextInputType.emailAddress,
-                                cursorColor: MyColors.greenColor,
-                                decoration: const InputDecoration(
-                                  focusedBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: MyColors.greenColor,
-                                    ),
-                                  ),
-                                  labelStyle: TextStyle(
-                                    color: Colors.grey,
-                                  ),
-                                  label: Text('Email'),
-                                ),
-                                validator: (String? value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Please enter your email';
-                                  }
-                                  if (!RegExp(
-                                          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                      .hasMatch(value)) {
-                                    return 'Please enter a valid Email';
-                                  }
-                                  return null;
-                                },
+                                label: 'Email',
+                                validatorCallback:
+                                    InputFieldValidators.emailValidator,
                               ),
                             ),
                             Padding(
@@ -184,30 +132,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     1 /
                                     100,
                               ),
-                              child: TextFormField(
+                              child: const TextInputField(
                                 keyboardType: TextInputType.phone,
-                                cursorColor: MyColors.greenColor,
-                                decoration: const InputDecoration(
-                                  focusedBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: MyColors.greenColor,
-                                    ),
-                                  ),
-                                  labelStyle: TextStyle(
-                                    color: Colors.grey,
-                                  ),
-                                  label: Text('Phone'),
-                                ),
-                                validator: (String? value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Please enter your phone number';
-                                  }
-                                  if (!RegExp(r'(^(?:[+0]9)?[0-9]{10,12}$)')
-                                      .hasMatch(value)) {
-                                    return 'Please enter a valid phone number';
-                                  }
-                                  return null;
-                                },
+                                label: 'Phone',
+                                validatorCallback:
+                                    InputFieldValidators.phoneNumberValidator,
                               ),
                             ),
                             Padding(
@@ -216,46 +145,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     1 /
                                     100,
                               ),
-                              child: TextFormField(
+                              child: PasswordTextInputField(
+                                passwordType: 'password',
                                 controller: _pass,
-                                obscureText: _passwordVisibility,
-                                cursorColor: MyColors.greenColor,
-                                decoration: InputDecoration(
-                                  suffixIcon: IconButton(
-                                    splashColor: Colors.transparent,
-                                    highlightColor: Colors.transparent,
-                                    onPressed: _changePasswordVisibility,
-                                    icon: _passwordVisibility
-                                        ? const Icon(
-                                            FontAwesomeIcons.eye,
-                                            size: 16,
-                                            color: Colors.grey,
-                                          )
-                                        : const Icon(
-                                            FontAwesomeIcons.eyeSlash,
-                                            size: 16,
-                                            color: Colors.grey,
-                                          ),
-                                  ),
-                                  focusedBorder: const UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: MyColors.greenColor,
-                                    ),
-                                  ),
-                                  labelStyle: const TextStyle(
-                                    color: Colors.grey,
-                                  ),
-                                  label: const Text('Password'),
-                                ),
-                                validator: (String? value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Please enter a password';
-                                  }
-                                  if (value.length < 5) {
-                                    return 'Password must have 4 or more characters';
-                                  }
-                                  return null;
-                                },
+                                label: 'Password',
+                                keyboardType: TextInputType.text,
+                                validatorCallback:
+                                    InputFieldValidators.passwordValidator,
                               ),
                             ),
                             Padding(
@@ -264,47 +160,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     1 /
                                     100,
                               ),
-                              child: TextFormField(
+                              child: PasswordTextInputField(
+                                passwordType: 'confirmPassword',
                                 controller: _confirmPass,
-                                obscureText: _confirmPasswordVisibility,
-                                cursorColor: MyColors.greenColor,
-                                decoration: InputDecoration(
-                                  suffixIcon: IconButton(
-                                    splashColor: Colors.transparent,
-                                    highlightColor: Colors.transparent,
-                                    onPressed: _changeConfirmPasswordVisibility,
-                                    icon: _confirmPasswordVisibility
-                                        ? const Icon(
-                                            FontAwesomeIcons.eye,
-                                            size: 16,
-                                            color: Colors.grey,
-                                          )
-                                        : const Icon(
-                                            FontAwesomeIcons.eyeSlash,
-                                            size: 16,
-                                            color: Colors.grey,
-                                          ),
-                                  ),
-                                  focusedBorder: const UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: MyColors.greenColor,
-                                    ),
-                                  ),
-                                  labelStyle: const TextStyle(
-                                    color: Colors.grey,
-                                  ),
-                                  label: const Text('Confirm password'),
-                                ),
-                                validator: (String? value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Please re-enter your password';
-                                  }
-                                  if (_pass.value.text !=
-                                      _confirmPass.value.text) {
-                                    return 'Passwords don\'t match';
-                                  }
-                                  return null;
-                                },
+                                label: 'Confirm password',
+                                keyboardType: TextInputType.text,
+                                validatorCallback: (value) =>
+                                    InputFieldValidators
+                                        .confirmPasswordValidator(value,
+                                            passwordController: _pass,
+                                            confirmPasswordController:
+                                                _confirmPass),
                               ),
                             ),
                             Center(
@@ -320,20 +186,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       1.5 /
                                       100,
                                 ),
-                                child: ElevatedButton(
-                                  style: ButtonStyle(
-                                    elevation: MaterialStateProperty.all(0),
-                                    shape: MaterialStateProperty.all(
-                                      RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(15),
-                                      ),
-                                    ),
-                                    backgroundColor: MaterialStateProperty.all(
-                                      MyColors.greenColor,
-                                    ),
-                                  ),
-                                  onPressed: _onFormSubmit,
-                                  child: const Text('Sign Up'),
+                                child: CustomElevatedButton(
+                                  text: 'Sign Up',
+                                  backgroundColor: MyColors.greenColor,
+                                  onSubmitCallback: _onFormSubmit,
                                 ),
                               ),
                             ),
@@ -353,9 +209,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   ),
                                 ),
                                 GestureDetector(
-                                  onTap: _redirectToLoginPage,
+                                  onTap: () => Navigator.of(context)
+                                      .pushReplacementNamed(
+                                    LoginScreen.routeName,
+                                  ),
                                   child: const Text(
-                                    ' Signup',
+                                    ' Login',
                                     style: TextStyle(
                                       color: MyColors.greenColor,
                                       fontSize: 13,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-// import 'widgets/navigation_menu.dart';
+
 import './screens/auth/register.dart';
+import './screens/auth/login.dart';
 import './colors/my_colors.dart';
 
 void main() {
@@ -44,7 +45,11 @@ class _MyAppState extends State<MyApp> {
           fontFamily: 'Gilroy',
           primaryColor: MyColors.greenColor,
         ),
-        home: const RegisterScreen()
+        routes: {
+          LoginScreen.routeName: (ctx) => const LoginScreen(),
+          RegisterScreen.routeName: (ctx) => const RegisterScreen(),
+        },
+        home: const LoginScreen()
         // Scaffold(
         //   extendBody: true,
         //   body: Stack(
