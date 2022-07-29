@@ -6,6 +6,8 @@ import '../../widgets/input_fields/text_input_field.dart';
 import '../../widgets/input_fields/password_text_input_field.dart';
 import '../../helpers/input_field_validators.dart';
 import '../../widgets/buttons/custom_elevated_button.dart';
+import '../../helpers/auth.dart';
+import '../../widgets/loading/custom_circular_progress_indicator.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -17,11 +19,32 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  final TextEditingController _username = TextEditingController();
+  final TextEditingController _email = TextEditingController();
+  final TextEditingController _phone = TextEditingController();
   final TextEditingController _pass = TextEditingController();
   final TextEditingController _confirmPass = TextEditingController();
 
-  void _onFormSubmit() {
-    _formKey.currentState!.validate();
+  bool _isLoading = false;
+
+  void _onFormSubmit() async {
+    if (_formKey.currentState!.validate()) {
+      setState(() {
+        _isLoading = true;
+      });
+
+      int responseStatusCode = await Auth.register(
+        _username.value.text,
+        _email.value.text,
+        _phone.value.text,
+        _pass.value.text,
+      );
+
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   @override
@@ -53,7 +76,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                 Padding(
                   padding: EdgeInsets.symmetric(
-                    horizontal: MediaQuery.of(context).size.width * 4 / 100,
+                    horizontal: MediaQuery.of(context).size.width * 6 / 100,
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -106,7 +129,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     1 /
                                     100,
                               ),
-                              child: const TextInputField(
+                              child: TextInputField(
+                                controller: _username,
                                 keyboardType: TextInputType.text,
                                 label: 'Username',
                                 validatorCallback:
@@ -119,7 +143,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     1 /
                                     100,
                               ),
-                              child: const TextInputField(
+                              child: TextInputField(
+                                controller: _email,
                                 keyboardType: TextInputType.emailAddress,
                                 label: 'Email',
                                 validatorCallback:
@@ -132,7 +157,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     1 /
                                     100,
                               ),
-                              child: const TextInputField(
+                              child: TextInputField(
+                                controller: _phone,
                                 keyboardType: TextInputType.phone,
                                 label: 'Phone',
                                 validatorCallback:
@@ -187,7 +213,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       100,
                                 ),
                                 child: CustomElevatedButton(
-                                  text: 'Sign Up',
+                                  content: _isLoading
+                                      ? const CustomCircularProgressIndicator()
+                                      : const Text('Sign Up'),
                                   backgroundColor: MyColors.greenColor,
                                   onSubmitCallback: _onFormSubmit,
                                 ),
@@ -205,7 +233,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   'Already have an account?',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 13,
+                                    fontSize: 14.5,
                                   ),
                                 ),
                                 GestureDetector(
@@ -217,7 +245,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     ' Login',
                                     style: TextStyle(
                                       color: MyColors.greenColor,
-                                      fontSize: 13,
+                                      fontSize: 14.5,
                                     ),
                                   ),
                                 ),

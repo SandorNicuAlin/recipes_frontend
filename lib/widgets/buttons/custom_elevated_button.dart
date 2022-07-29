@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 class CustomElevatedButton extends StatelessWidget {
   const CustomElevatedButton({
     Key? key,
-    this.text,
+    this.content,
     this.onSubmitCallback,
     this.backgroundColor,
   }) : super(key: key);
 
   final void Function()? onSubmitCallback;
   final Color? backgroundColor;
-  final String? text;
+  final Widget? content;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class CustomElevatedButton extends StatelessWidget {
         ),
       ),
       onPressed: onSubmitCallback!,
-      child: Text(text!),
+      child: content!,
     );
   }
 }

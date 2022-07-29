@@ -17,6 +17,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _email = TextEditingController();
   final TextEditingController _pass = TextEditingController();
 
   void _onFormSubmit() {
@@ -50,7 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(
-                    horizontal: MediaQuery.of(context).size.width * 4 / 100,
+                    horizontal: MediaQuery.of(context).size.width * 6 / 100,
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -92,6 +93,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     100,
                               ),
                               child: TextInputField(
+                                controller: _email,
                                 keyboardType: TextInputType.emailAddress,
                                 label: 'Email',
                                 validatorCallback: (value) =>
@@ -130,7 +132,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       100,
                                 ),
                                 child: CustomElevatedButton(
-                                  text: 'Log In',
+                                  content: const Text('Log In'),
                                   backgroundColor: MyColors.greenColor,
                                   onSubmitCallback: _onFormSubmit,
                                 ),
@@ -148,7 +150,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   'Don\'t have an account?',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 13,
+                                    fontSize: 14.5,
                                   ),
                                 ),
                                 GestureDetector(
@@ -160,7 +162,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     ' Signup',
                                     style: TextStyle(
                                       color: MyColors.greenColor,
-                                      fontSize: 13,
+                                      fontSize: 14.5,
                                     ),
                                   ),
                                 ),

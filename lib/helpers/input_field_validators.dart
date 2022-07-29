@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class InputFieldValidators {
   static String? checkIfEmpty(String? value, {errorMessage}) {
     if (value == null || value.isEmpty) {
