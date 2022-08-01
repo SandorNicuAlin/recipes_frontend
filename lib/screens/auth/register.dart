@@ -8,6 +8,7 @@ import '../../helpers/input_field_validators.dart';
 import '../../widgets/buttons/custom_elevated_button.dart';
 import '../../helpers/auth.dart';
 import '../../widgets/loading/custom_circular_progress_indicator.dart';
+import '../../widgets/modals/auth_modal.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -29,22 +30,75 @@ class _RegisterScreenState extends State<RegisterScreen> {
   bool _isLoading = false;
 
   void _onFormSubmit() async {
-    if (_formKey.currentState!.validate()) {
-      setState(() {
-        _isLoading = true;
-      });
+    // if (_formKey.currentState!.validate()) {
+    setState(() {
+      _isLoading = true;
+    });
 
-      int responseStatusCode = await Auth.register(
+    try {
+      Map response = await Auth.register(
         _username.value.text,
         _email.value.text,
         _phone.value.text,
         _pass.value.text,
       );
 
-      setState(() {
-        _isLoading = false;
-      });
+      if (response['statusCode'] == 400) {
+        // 400 - validation error
+        showDialog(
+          context: context,
+          builder: (context) => AuthModal.authModal(
+            context,
+            title: 'Registered Failed!',
+            subtitle: response['body']['error'],
+            image: const Image(
+              image: AssetImage('assets/images/groceries.png'),
+            ),
+            buttonText: 'Try again',
+            buttonCallback: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        );
+        return;
+      }
+      // 200 - success
+      showDialog(
+        context: context,
+        builder: (context) => AuthModal.authModal(
+          context,
+          title: 'Success',
+          subtitle: 'You have successfully registered!',
+          image: Padding(
+            padding: EdgeInsets.only(
+              right: MediaQuery.of(context).size.width * 10 / 100,
+            ),
+            child: const Image(
+              image: AssetImage('assets/images/success.png'),
+            ),
+          ),
+          buttonText: 'Log In',
+        ),
+      );
+    } catch (_) {
+      // 500 - server error
+      showDialog(
+        context: context,
+        builder: (context) => AuthModal.authModal(context,
+            title: 'Server Error - 500',
+            subtitle: 'Something went wrong!',
+            image: const Image(
+              image: AssetImage('assets/images/groceries.png'),
+            ),
+            buttonText: 'Try again'),
+      );
     }
+
+    setState(() {
+      _isLoading = false;
+    });
+
+    // }
   }
 
   @override

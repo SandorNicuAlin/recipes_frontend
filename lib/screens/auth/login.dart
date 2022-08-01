@@ -6,6 +6,8 @@ import '../../widgets/input_fields/text_input_field.dart';
 import '../../widgets/input_fields/password_text_input_field.dart';
 import '../../helpers/input_field_validators.dart';
 import '../../widgets/buttons/custom_elevated_button.dart';
+import '../../helpers/auth.dart';
+import '../../widgets/loading/custom_circular_progress_indicator.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -20,8 +22,25 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _email = TextEditingController();
   final TextEditingController _pass = TextEditingController();
 
-  void _onFormSubmit() {
-    _formKey.currentState!.validate();
+  bool _isLoading = false;
+
+  void _onFormSubmit() async {
+    if (_formKey.currentState!.validate()) {
+      setState(() {
+        _isLoading = true;
+      });
+
+      int statusCode = await Auth.login(
+        _email.value.text,
+        _pass.value.text,
+      );
+
+      setState(() {
+        _isLoading = false;
+      });
+
+      if (statusCode == 400) {}
+    }
   }
 
   @override
@@ -132,7 +151,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                       100,
                                 ),
                                 child: CustomElevatedButton(
-                                  content: const Text('Log In'),
+                                  content: _isLoading
+                                      ? const CustomCircularProgressIndicator()
+                                      : const Text('Log In'),
                                   backgroundColor: MyColors.greenColor,
                                   onSubmitCallback: _onFormSubmit,
                                 ),

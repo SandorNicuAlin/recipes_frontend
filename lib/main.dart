@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import './screens/auth/register.dart';
 import './screens/auth/login.dart';
 import './colors/my_colors.dart';
 import 'screens/main/main_screen.dart';
+import './widgets/modals/auth_modal.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,6 +19,15 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  Future<bool> _checkIfLoggedIn() async {
+    bool sessionStatus = false;
+    final localStorage = await SharedPreferences.getInstance();
+    if (localStorage.getString('API_ACCESS_KEY')!.isNotEmpty) {
+      sessionStatus = true;
+    }
+    return sessionStatus;
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -32,6 +43,8 @@ class _MyAppState extends State<MyApp> {
           HomeScreen.routeName: (ctx) => const HomeScreen(),
         },
         home:
+            // final approach
+            // _checkIfLoggedIn() ? const HomeScreen() : const LoginScreen()
 
             //custom card
             //     const Scaffold(
@@ -40,6 +53,9 @@ class _MyAppState extends State<MyApp> {
 
             // login screen
             const LoginScreen()
+
+        // alert dialog
+        // Scaffold(body: const AuthModal())
 
         // page with navigation menu
         // const HomeScreen(),
