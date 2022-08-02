@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import './login.dart';
@@ -8,6 +10,7 @@ import '../../helpers/input_field_validators.dart';
 import '../../widgets/buttons/custom_elevated_button.dart';
 import '../../helpers/auth.dart';
 import '../../widgets/loading/custom_circular_progress_indicator.dart';
+import '../../widgets/modals/auth_modal.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -28,18 +31,105 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   bool _isLoading = false;
 
+  void _navigatorPop() {
+    Navigator.of(context).pop();
+  }
+
+  void _clearForm() {
+    _username.clear();
+    _email.clear();
+    _phone.clear();
+    _pass.clear();
+    _confirmPass.clear();
+  }
+
+  void _badServerRequestsHandle() {
+    showDialog(
+      context: context,
+      builder: (context) => AuthModal.authModal(
+        context,
+        title: 'Server Error - 500',
+        subtitle: 'Something went wrong!',
+        image: const Image(
+          image: AssetImage('assets/images/groceries.png'),
+        ),
+        buttonText: 'Try again',
+        buttonCallback: _navigatorPop,
+      ),
+    );
+  }
+
   void _onFormSubmit() async {
     if (_formKey.currentState!.validate()) {
       setState(() {
         _isLoading = true;
       });
 
-      int responseStatusCode = await Auth.register(
-        _username.value.text,
-        _email.value.text,
-        _phone.value.text,
-        _pass.value.text,
-      );
+      try {
+        Map response = await Auth.register(
+          _username.value.text,
+          _email.value.text,
+          _phone.value.text,
+          _pass.value.text,
+        );
+
+        // print('statusCode: ${response['statusCode']}');
+        // print('body: ${response['body']}');
+
+        if (response['statusCode'] == 400) {
+          // 400 - validation error
+          String errorBody = '';
+          response['body']['error'].forEach((key, value) {
+            errorBody = '${errorBody + value[0]}\n';
+          });
+          showDialog(
+            context: context,
+            builder: (context) => AuthModal.authModal(
+              context,
+              title: 'Registered Failed!',
+              subtitle: errorBody,
+              image: const Image(
+                image: AssetImage('assets/images/groceries.png'),
+              ),
+              buttonText: 'Try again',
+              buttonCallback: _navigatorPop,
+            ),
+          );
+        } else if (response['statusCode'] == 200) {
+          // 200 - success
+          _clearForm();
+          showDialog(
+            context: context,
+            builder: (context) => AuthModal.authModal(
+              context,
+              title: 'Success',
+              subtitle: 'You have successfully registered!',
+              image: Padding(
+                padding: EdgeInsets.only(
+                  right: MediaQuery.of(context).size.width * 10 / 100,
+                ),
+                child: const Image(
+                  image: AssetImage('assets/images/success.png'),
+                ),
+              ),
+              buttonText: 'Log In',
+              buttonCallback: () {
+                Navigator.of(context)
+                    .pushReplacementNamed(LoginScreen.routeName);
+              },
+            ),
+          );
+        }
+      } on SocketException {
+        // 500 - server error
+        _badServerRequestsHandle();
+      } on FormatException {
+        // request to a bad url
+        _badServerRequestsHandle();
+      }
+      // } catch (err) {
+      //   print('err $err');
+      // }
 
       setState(() {
         _isLoading = false;
