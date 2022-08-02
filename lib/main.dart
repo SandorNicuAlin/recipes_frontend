@@ -4,8 +4,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import './screens/auth/register.dart';
 import './screens/auth/login.dart';
 import './colors/my_colors.dart';
-import 'screens/main/main_screen.dart';
+import 'screens/main/home_screen.dart';
 import './widgets/modals/auth_modal.dart';
+import './widgets/loading/loading_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,46 +20,66 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  Future<bool> _checkIfLoggedIn() async {
-    bool sessionStatus = false;
-    final localStorage = await SharedPreferences.getInstance();
-    if (localStorage.getString('API_ACCESS_KEY')!.isNotEmpty) {
-      sessionStatus = true;
+  bool _isLoading = false;
+  bool _firstTime = true;
+  bool _loggedIn = false;
+
+  @override
+  void didChangeDependencies() async {
+    if (_firstTime) {
+      setState(() {
+        _isLoading = true;
+      });
+
+      final localStorage = await SharedPreferences.getInstance();
+      final key = localStorage.getString('API_ACCESS_KEY');
+
+      if (key != '' && key != null) {
+        _loggedIn = true;
+      }
+
+      setState(() {
+        _isLoading = false;
+      });
+      _firstTime = false;
     }
-    return sessionStatus;
+    super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Recipes',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          fontFamily: 'Gilroy',
-          primaryColor: MyColors.greenColor,
-        ),
-        routes: {
-          LoginScreen.routeName: (ctx) => const LoginScreen(),
-          RegisterScreen.routeName: (ctx) => const RegisterScreen(),
-          HomeScreen.routeName: (ctx) => const HomeScreen(),
-        },
-        home:
-            // final approach
-            // _checkIfLoggedIn() ? const HomeScreen() : const LoginScreen()
+      title: 'Recipes',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        fontFamily: 'Gilroy',
+        primaryColor: MyColors.greenColor,
+      ),
+      routes: {
+        LoginScreen.routeName: (ctx) => const LoginScreen(),
+        RegisterScreen.routeName: (ctx) => const RegisterScreen(),
+        HomeScreen.routeName: (ctx) => const HomeScreen(),
+      },
+      home:
+          // final approach
+          // _checkIfLoggedIn() ? const HomeScreen() : const LoginScreen()
 
-            //custom card
-            //     const Scaffold(
-            //   body: CustomCard(),
-            // ),
+          //custom card
+          //     const Scaffold(
+          //   body: CustomCard(),
+          // ),
 
-            // login screen
-            const LoginScreen()
+          // login screen
+          // const LoginScreen()
+          _isLoading
+              ? const LoadingScreen()
+              : (_loggedIn ? const HomeScreen() : const LoginScreen()),
 
-        // alert dialog
-        // Scaffold(body: const AuthModal())
+      // alert dialog
+      // Scaffold(body: const AuthModal())
 
-        // page with navigation menu
-        // const HomeScreen(),
-        );
+      // page with navigation menu
+      // const HomeScreen(),
+    );
   }
 }

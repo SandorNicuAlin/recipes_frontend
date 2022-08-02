@@ -34,6 +34,11 @@ dependencies:
   http: ^0.13.4
   device_info_plus: ^4.0.1
   shared_preferences: ^2.0.15
+  flutter_native_splash: ^2.2.7
+
+flutter_native_splash: 
+  color: '#53b175'
+  image: 'assets/images/carrot_white.png'
   
 
   # The following adds the Cupertino Icons font to your application.

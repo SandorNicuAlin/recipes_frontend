@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -38,7 +37,7 @@ class Auth {
     };
   }
 
-  static Future<int> login(
+  static Future<Map> login(
     String email,
     String password,
   ) async {
@@ -55,29 +54,42 @@ class Auth {
       },
     );
 
-    // TODO
-    print('Response status: ${response.statusCode}');
-    print(
-        'Response body: ${json.decode(response.body) as Map<String, dynamic>}');
-
     final decodedBody = json.decode(response.body) as Map<String, dynamic>;
-    final localStorage = await SharedPreferences.getInstance();
-    localStorage.setString('API_ACCESS_KEY', decodedBody['token']);
-    return response.statusCode;
+
+    return {
+      'statusCode': response.statusCode,
+      'body': decodedBody,
+    };
   }
 
   static Future<String> _getDeviceName() async {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     if (defaultTargetPlatform == TargetPlatform.android) {
       AndroidDeviceInfo info = await deviceInfo.androidInfo;
-      return info.model!;
+      return 'android';
     } else if (defaultTargetPlatform == TargetPlatform.iOS) {
       IosDeviceInfo info = await deviceInfo.iosInfo;
       return info.name!;
-    } else if (defaultTargetPlatform == TargetPlatform.windows) {
+    } else if (kIsWeb) {
       WebBrowserInfo info = await deviceInfo.webBrowserInfo;
-      return info.appName!;
+      return info.browserName.toString();
+    } else if (defaultTargetPlatform == TargetPlatform.windows) {
+      WindowsDeviceInfo info = await deviceInfo.windowsInfo;
+      return info.computerName;
     }
     return 'noname';
+  }
+
+  static Future<void> logout() async {
+    final localStorage = await SharedPreferences.getInstance();
+    final token = localStorage.getString('API_ACCESS_KEY');
+    var url = Uri.parse('${HttpRequest.baseUrl}/api/logout');
+    var response = await http.get(
+      url,
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      },
+    );
   }
 }
