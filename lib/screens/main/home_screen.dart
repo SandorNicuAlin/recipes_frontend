@@ -58,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
         NavigationMenu(
           selectedIndex: _selectedIndex,
           onTapCallback: _onItemTapped,
-        )
+        ),
       ],
     );
   }

@@ -217,20 +217,16 @@ class _LoginScreenState extends State<LoginScreen> {
                             Center(
                               child: Container(
                                 width: MediaQuery.of(context).size.width,
-                                height: MediaQuery.of(context).size.height *
-                                    11 /
-                                    100,
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 15.0),
-                                margin: EdgeInsets.symmetric(
-                                  vertical: MediaQuery.of(context).size.height *
-                                      1.5 /
-                                      100,
-                                ),
+                                height: 60,
+                                margin:
+                                    const EdgeInsets.symmetric(vertical: 20),
                                 child: CustomElevatedButton(
                                   content: _isLoading
                                       ? const CustomCircularProgressIndicator()
-                                      : const Text('Log In'),
+                                      : const Text(
+                                          'Log In',
+                                          style: TextStyle(fontSize: 16),
+                                        ),
                                   backgroundColor: MyColors.greenColor,
                                   onSubmitCallback: _onFormSubmit,
                                 ),
