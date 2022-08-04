@@ -98,6 +98,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           );
         } else if (response['statusCode'] == 200) {
+          // 200 - success
           final localStorage = await SharedPreferences.getInstance();
           localStorage.setString('API_ACCESS_KEY', response['body']['token']);
           if (!mounted) {}

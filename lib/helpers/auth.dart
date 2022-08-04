@@ -1,12 +1,15 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'http_request.dart';
+import '../widgets/modals/auth_modal.dart';
 
 class Auth {
   static Future<Map> register(

@@ -9,6 +9,7 @@ import 'screens/main/home_screen.dart';
 import './widgets/modals/auth_modal.dart';
 import './widgets/loading/loading_screen.dart';
 import './providers/user_provider.dart';
+import 'screens/main/account/menu/my_details/my_details_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -65,6 +66,7 @@ class _MyAppState extends State<MyApp> {
           LoginScreen.routeName: (ctx) => const LoginScreen(),
           RegisterScreen.routeName: (ctx) => const RegisterScreen(),
           HomeScreen.routeName: (ctx) => const HomeScreen(),
+          MyDetailsScreen.routeName: (ctx) => const MyDetailsScreen(),
         },
         home:
             // final approach

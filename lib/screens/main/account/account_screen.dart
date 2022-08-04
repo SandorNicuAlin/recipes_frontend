@@ -7,9 +7,14 @@ import './../../auth/login.dart';
 import '../../../helpers/auth.dart';
 import '../../../widgets/account/account_menu_item.dart';
 import '../../../widgets/account/account_header.dart';
+import 'menu/my_details/my_details_screen.dart';
+import '../../../helpers/custom_animations.dart';
 
 class AccountScreen extends StatelessWidget {
-  const AccountScreen({Key? key}) : super(key: key);
+  const AccountScreen({
+    Key? key,
+  }) : super(key: key);
+
   Future<void> _logOutHandler() async {
     await Auth.logout();
     final localStorage = await SharedPreferences.getInstance();
@@ -24,29 +29,38 @@ class AccountScreen extends StatelessWidget {
         children: [
           const AccountHeader(),
           Column(
-            children: const [
-              AccountMenuItem(
-                icon: Icons.account_box_outlined,
-                text: Text(
-                  'My details',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            children: [
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).push(
+                    CustomAnimations.pageTransitionRightToLeft(
+                      const MyDetailsScreen(),
+                    ),
+                  );
+                },
+                child: const AccountMenuItem(
+                  icon: Icons.account_box_outlined,
+                  text: Text(
+                    'My details',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  ),
                 ),
               ),
-              AccountMenuItem(
+              const AccountMenuItem(
                 icon: Icons.group_outlined,
                 text: Text(
                   'My groups',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 ),
               ),
-              AccountMenuItem(
+              const AccountMenuItem(
                 icon: Icons.help_outline,
                 text: Text(
                   'Help',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 ),
               ),
-              AccountMenuItem(
+              const AccountMenuItem(
                 icon: Icons.info_outline,
                 text: Text(
                   'About',
