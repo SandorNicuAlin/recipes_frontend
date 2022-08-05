@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recipes_frontend/providers/group_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
 
@@ -54,6 +55,7 @@ class _MyAppState extends State<MyApp> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (ctx) => UserProvider()),
+        ChangeNotifierProvider(create: (ctx) => GroupProvider())
       ],
       child: MaterialApp(
         title: 'Recipes',

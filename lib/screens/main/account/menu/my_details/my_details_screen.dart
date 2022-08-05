@@ -19,7 +19,7 @@ class MyDetailsScreen extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Consumer<UserProvider>(
-          builder: (context, user, child) => Column(
+          builder: (context, userProvider, child) => Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               InkWell(
@@ -49,7 +49,7 @@ class MyDetailsScreen extends StatelessWidget {
                           padding: const EdgeInsets.only(
                               right: 8.0, top: 8.0, bottom: 16.0),
                           child: Text(
-                            user.user.username!,
+                            userProvider.user.username,
                             style: const TextStyle(fontSize: 17),
                           ),
                         ),
@@ -86,7 +86,7 @@ class MyDetailsScreen extends StatelessWidget {
                           padding: const EdgeInsets.only(
                               right: 8.0, top: 8.0, bottom: 16.0),
                           child: Text(
-                            user.user.email!,
+                            userProvider.user.email,
                             style: const TextStyle(fontSize: 17),
                           ),
                         ),
@@ -126,7 +126,7 @@ class MyDetailsScreen extends StatelessWidget {
                             padding: const EdgeInsets.only(
                                 right: 8.0, top: 8.0, bottom: 16.0),
                             child: Text(
-                              user.user.phone!,
+                              userProvider.user.phone,
                               style: const TextStyle(fontSize: 17),
                             ),
                           ),
