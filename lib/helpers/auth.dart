@@ -1,12 +1,15 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'http_request.dart';
+import '../widgets/modals/auth_modal.dart';
 
 class Auth {
   static Future<Map> register(
@@ -90,6 +93,26 @@ class Auth {
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': 'Bearer $token',
       },
+    );
+  }
+
+  static void navigatorPop(BuildContext context) {
+    Navigator.of(context).pop();
+  }
+
+  static void badServerRequestsHandler(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AuthModal.authModal(
+        context,
+        title: 'Server Error - 500',
+        subtitle: 'Something went wrong!',
+        image: const Image(
+          image: AssetImage('assets/images/groceries.png'),
+        ),
+        buttonText: 'Try again',
+        buttonCallback: navigatorPop,
+      ),
     );
   }
 }

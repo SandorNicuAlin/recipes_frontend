@@ -43,7 +43,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     _confirmPass.clear();
   }
 
-  void _badServerRequestsHandle() {
+  void _badServerRequestsHandler() {
     showDialog(
       context: context,
       builder: (context) => AuthModal.authModal(
@@ -122,10 +122,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
         }
       } on SocketException {
         // 500 - server error
-        _badServerRequestsHandle();
+        Auth.badServerRequestsHandler(context);
       } on FormatException {
         // request to a bad url
-        _badServerRequestsHandle();
+        Auth.badServerRequestsHandler(context);
       }
       // } catch (err) {
       //   print('err $err');
@@ -292,20 +292,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             Center(
                               child: Container(
                                 width: MediaQuery.of(context).size.width,
-                                height: MediaQuery.of(context).size.height *
-                                    11 /
-                                    100,
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 15.0),
-                                margin: EdgeInsets.symmetric(
-                                  vertical: MediaQuery.of(context).size.height *
-                                      1.5 /
-                                      100,
-                                ),
+                                height: 60,
+                                margin:
+                                    const EdgeInsets.symmetric(vertical: 20),
                                 child: CustomElevatedButton(
                                   content: _isLoading
                                       ? const CustomCircularProgressIndicator()
-                                      : const Text('Sign Up'),
+                                      : const Text(
+                                          'Sign Up',
+                                          style: TextStyle(fontSize: 16),
+                                        ),
                                   backgroundColor: MyColors.greenColor,
                                   onSubmitCallback: _onFormSubmit,
                                 ),

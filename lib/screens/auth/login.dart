@@ -29,26 +29,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   bool _isLoading = false;
 
-  void _navigatorPop() {
-    Navigator.of(context).pop();
-  }
-
-  void _badServerRequestsHandle() {
-    showDialog(
-      context: context,
-      builder: (context) => AuthModal.authModal(
-        context,
-        title: 'Server Error - 500',
-        subtitle: 'Something went wrong!',
-        image: const Image(
-          image: AssetImage('assets/images/groceries.png'),
-        ),
-        buttonText: 'Try again',
-        buttonCallback: _navigatorPop,
-      ),
-    );
-  }
-
   void _onFormSubmit() async {
     if (_formKey.currentState!.validate()) {
       setState(() {
@@ -80,7 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 image: AssetImage('assets/images/groceries.png'),
               ),
               buttonText: 'Try again',
-              buttonCallback: _navigatorPop,
+              buttonCallback: () => Auth.navigatorPop(context),
             ),
           );
         } else if (response['statusCode'] == 401) {
@@ -94,10 +74,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 image: AssetImage('assets/images/groceries.png'),
               ),
               buttonText: 'Try again',
-              buttonCallback: _navigatorPop,
+              buttonCallback: () => Auth.navigatorPop(context),
             ),
           );
         } else if (response['statusCode'] == 200) {
+          // 200 - success
           final localStorage = await SharedPreferences.getInstance();
           localStorage.setString('API_ACCESS_KEY', response['body']['token']);
           if (!mounted) {}
@@ -105,10 +86,10 @@ class _LoginScreenState extends State<LoginScreen> {
         }
       } on SocketException {
         // 500 - server error
-        _badServerRequestsHandle();
+        Auth.badServerRequestsHandler(context);
       } on FormatException {
         // request to a bad url
-        _badServerRequestsHandle();
+        Auth.badServerRequestsHandler(context);
       }
       // } catch (err) {
       //   print('err: ${err}');
@@ -217,20 +198,16 @@ class _LoginScreenState extends State<LoginScreen> {
                             Center(
                               child: Container(
                                 width: MediaQuery.of(context).size.width,
-                                height: MediaQuery.of(context).size.height *
-                                    11 /
-                                    100,
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 15.0),
-                                margin: EdgeInsets.symmetric(
-                                  vertical: MediaQuery.of(context).size.height *
-                                      1.5 /
-                                      100,
-                                ),
+                                height: 60,
+                                margin:
+                                    const EdgeInsets.symmetric(vertical: 20),
                                 child: CustomElevatedButton(
                                   content: _isLoading
                                       ? const CustomCircularProgressIndicator()
-                                      : const Text('Log In'),
+                                      : const Text(
+                                          'Log In',
+                                          style: TextStyle(fontSize: 16),
+                                        ),
                                   backgroundColor: MyColors.greenColor,
                                   onSubmitCallback: _onFormSubmit,
                                 ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recipes_frontend/screens/main/account/menu/my_details/my_details_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../widgets/navigation_menu/navigation_menu.dart';
@@ -58,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
         NavigationMenu(
           selectedIndex: _selectedIndex,
           onTapCallback: _onItemTapped,
-        )
+        ),
       ],
     );
   }
