@@ -13,7 +13,7 @@ class MyDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar.customAppBar(
+      appBar: CustomAppBar(
         context: context,
         title: 'My Details',
       ),
@@ -26,7 +26,7 @@ class MyDetailsScreen extends StatelessWidget {
                 onTap: () {
                   Navigator.of(context).push(
                     CustomAnimations.pageTransitionRightToLeft(
-                      EditUserScreen(characteristic: 'Name'),
+                      const EditUserScreen(characteristic: 'Name'),
                     ),
                   );
                 },

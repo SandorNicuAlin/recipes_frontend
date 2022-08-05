@@ -58,12 +58,15 @@ class UserProvider with ChangeNotifier {
         'Authorization': 'Bearer $token',
       },
     );
+    if (response.statusCode == 200) {
+      await fetchUser();
+    }
 
-    await fetchUser();
+    final decodedBody = jsonDecode(response.body) as Map<String, dynamic>;
 
     return {
       'statusCode': response.statusCode,
-      'body': response.body,
+      'body': decodedBody,
     };
   }
 }

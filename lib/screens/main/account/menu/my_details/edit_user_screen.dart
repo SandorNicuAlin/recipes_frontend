@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -25,27 +24,8 @@ class EditUserScreen extends StatefulWidget {
 class _EditUserScreenState extends State<EditUserScreen> {
   final TextEditingController _controller = TextEditingController();
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
-  bool _isLoading = false;
 
-  void _navigatorPop() {
-    Navigator.of(context).pop();
-  }
-
-  void _badServerRequestsHandle() {
-    showDialog(
-      context: context,
-      builder: (context) => AuthModal.authModal(
-        context,
-        title: 'Server Error - 500',
-        subtitle: 'Something went wrong!',
-        image: const Image(
-          image: AssetImage('assets/images/groceries.png'),
-        ),
-        buttonText: 'Try again',
-        buttonCallback: _navigatorPop,
-      ),
-    );
-  }
+  String? Function(String?)? validatorMethod;
 
   void _onFormSubmit() async {
     String? selector;
@@ -61,9 +41,6 @@ class _EditUserScreenState extends State<EditUserScreen> {
         break;
     }
     if (_key.currentState!.validate()) {
-      setState(() {
-        _isLoading = true;
-      });
       // try {
       Map response = await Provider.of<UserProvider>(
         context,
@@ -76,69 +53,57 @@ class _EditUserScreenState extends State<EditUserScreen> {
       print('statusCode: ${response['statusCode']}');
       print('body: ${response['body']}');
 
-      //   if (response['statusCode'] == 400) {
-      //     // 400 - validation error
-      //     // String errorBody = '';
-      //     // response['body']['error'].forEach((key, value) {
-      //     //   errorBody = '${errorBody + value[0]}\n';
-      //     // });
-      //     showDialog(
-      //       context: context,
-      //       builder: (context) => AuthModal.authModal(
-      //         context,
-      //         title: 'Update Failed!',
-      //         subtitle: 'err',
-      //         image: const Image(
-      //           image: AssetImage('assets/images/groceries.png'),
-      //         ),
-      //         buttonText: 'Try again',
-      //         buttonCallback: () => _navigatorPop(),
-      //       ),
-      //     );
-      //   }
+      if (response['statusCode'] == 400) {
+        // 400 - validation error
+        String errorBody = '';
+        response['body']['error'][selector].forEach((message) {
+          errorBody = '${errorBody + message}\n';
+        });
+        if (true) {}
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+              content: Text(
+                errorBody,
+                style: const TextStyle(color: Colors.white),
+              ),
+              backgroundColor: Colors.red),
+        );
+      }
       // } on SocketException {
       //   // 500 - server error
-      //   _badServerRequestsHandle();
+      //   Auth.badServerRequestsHandler(context);
       // } on FormatException {
       //   // request to a bad url
-      //   _badServerRequestsHandle();
+      //   Auth.badServerRequestsHandler(context);
       // }
       // } catch (err) {
       //   print('err: ${err}');
       // }
 
-      setState(() {
-        _isLoading = false;
-      });
-
       if (true) {}
-      _navigatorPop();
+      Navigator.of(context).pop();
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar.customAppBar(
+      appBar: CustomAppBar(
+        onActionTapCallback: _onFormSubmit,
         context: context,
         title: widget.characteristic,
-        actions: [
+        actions: const [
           Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: EdgeInsets.all(16.0),
             child: Center(
-              child: _isLoading
-                  ? const CupertinoActivityIndicator(radius: 8)
-                  : InkWell(
-                      onTap: _onFormSubmit,
-                      child: const Text(
-                        'Done',
-                        style: TextStyle(
-                          color: MyColors.greenColor,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ),
+              child: Text(
+                'Done',
+                style: TextStyle(
+                  color: MyColors.greenColor,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
             ),
           ),
         ],
@@ -148,12 +113,15 @@ class _EditUserScreenState extends State<EditUserScreen> {
           switch (widget.characteristic) {
             case 'Name':
               _controller.text = user.user.username!;
+              validatorMethod = InputFieldValidators.usernameValidator;
               break;
             case 'Email':
               _controller.text = user.user.email!;
+              validatorMethod = InputFieldValidators.emailValidator;
               break;
             case 'Phone':
               _controller.text = user.user.phone!;
+              validatorMethod = InputFieldValidators.phoneNumberValidator;
               break;
           }
           return Padding(
@@ -168,7 +136,7 @@ class _EditUserScreenState extends State<EditUserScreen> {
                     controller: _controller,
                     keyboardType: TextInputType.text,
                     label: widget.characteristic,
-                    validatorCallback: InputFieldValidators.usernameValidator,
+                    validatorCallback: validatorMethod,
                   ),
                 ),
                 const SizedBox(height: 10),

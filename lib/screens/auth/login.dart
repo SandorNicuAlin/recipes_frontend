@@ -29,26 +29,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   bool _isLoading = false;
 
-  void _navigatorPop() {
-    Navigator.of(context).pop();
-  }
-
-  void _badServerRequestsHandle() {
-    showDialog(
-      context: context,
-      builder: (context) => AuthModal.authModal(
-        context,
-        title: 'Server Error - 500',
-        subtitle: 'Something went wrong!',
-        image: const Image(
-          image: AssetImage('assets/images/groceries.png'),
-        ),
-        buttonText: 'Try again',
-        buttonCallback: _navigatorPop,
-      ),
-    );
-  }
-
   void _onFormSubmit() async {
     if (_formKey.currentState!.validate()) {
       setState(() {
@@ -80,7 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 image: AssetImage('assets/images/groceries.png'),
               ),
               buttonText: 'Try again',
-              buttonCallback: _navigatorPop,
+              buttonCallback: () => Auth.navigatorPop(context),
             ),
           );
         } else if (response['statusCode'] == 401) {
@@ -94,7 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 image: AssetImage('assets/images/groceries.png'),
               ),
               buttonText: 'Try again',
-              buttonCallback: _navigatorPop,
+              buttonCallback: () => Auth.navigatorPop(context),
             ),
           );
         } else if (response['statusCode'] == 200) {
@@ -106,10 +86,10 @@ class _LoginScreenState extends State<LoginScreen> {
         }
       } on SocketException {
         // 500 - server error
-        _badServerRequestsHandle();
+        Auth.badServerRequestsHandler(context);
       } on FormatException {
         // request to a bad url
-        _badServerRequestsHandle();
+        Auth.badServerRequestsHandler(context);
       }
       // } catch (err) {
       //   print('err: ${err}');

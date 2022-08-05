@@ -95,4 +95,24 @@ class Auth {
       },
     );
   }
+
+  static void navigatorPop(BuildContext context) {
+    Navigator.of(context).pop();
+  }
+
+  static void badServerRequestsHandler(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AuthModal.authModal(
+        context,
+        title: 'Server Error - 500',
+        subtitle: 'Something went wrong!',
+        image: const Image(
+          image: AssetImage('assets/images/groceries.png'),
+        ),
+        buttonText: 'Try again',
+        buttonCallback: navigatorPop,
+      ),
+    );
+  }
 }

@@ -1,15 +1,65 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
-class CustomAppBar {
-  static AppBar customAppBar({
-    required BuildContext context,
-    required String title,
-    List<Widget>? actions,
-  }) {
+class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
+  const CustomAppBar({
+    Key? key,
+    required this.context,
+    required this.title,
+    this.actions,
+    this.onActionTapCallback,
+  })  : preferredSize = const Size.fromHeight(kToolbarHeight),
+        super(key: key);
+
+  final BuildContext context;
+  final String title;
+  final List<Widget>? actions;
+  final Function? onActionTapCallback;
+
+  @override
+  final Size preferredSize;
+
+  @override
+  State<CustomAppBar> createState() => _CustomAppBarState();
+}
+
+class _CustomAppBarState extends State<CustomAppBar> {
+  bool _isLoading = false;
+
+  void _onActionTap() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    await widget.onActionTapCallback!();
+
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return AppBar(
-      actions: actions ?? [],
+      actions: _isLoading
+          ? [
+              const Padding(
+                padding: EdgeInsets.only(right: 28.0),
+                child: CupertinoActivityIndicator(
+                  radius: 8,
+                ),
+              ),
+            ]
+          : [
+              InkWell(
+                onTap: _onActionTap,
+                child: Row(
+                  children: [...widget.actions ?? []],
+                ),
+              ),
+            ],
       title: Text(
-        title,
+        widget.title,
         style: const TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.bold,

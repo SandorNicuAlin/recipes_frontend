@@ -43,7 +43,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     _confirmPass.clear();
   }
 
-  void _badServerRequestsHandle() {
+  void _badServerRequestsHandler() {
     showDialog(
       context: context,
       builder: (context) => AuthModal.authModal(
@@ -122,10 +122,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
         }
       } on SocketException {
         // 500 - server error
-        _badServerRequestsHandle();
+        Auth.badServerRequestsHandler(context);
       } on FormatException {
         // request to a bad url
-        _badServerRequestsHandle();
+        Auth.badServerRequestsHandler(context);
       }
       // } catch (err) {
       //   print('err $err');
