@@ -13,6 +13,8 @@ import '../../../providers/user_provider.dart';
 import '../../../providers/group_provider.dart';
 import '../../../widgets/loading/text_placeholder.dart';
 import '../account/menu/my_groups/user_groups_screen.dart';
+import './menu/help/help_screen.dart';
+import './menu/about/about_screen.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({
@@ -34,15 +36,15 @@ class _AccountScreenState extends State<AccountScreen> {
         _isLoading = true;
       });
       await Provider.of<UserProvider>(context, listen: false).fetchUser();
-      if (true) {}
+      if (!mounted) return;
       await Provider.of<GroupProvider>(context, listen: false)
           .fetchAllForUser();
+      if (!mounted) return;
       setState(() {
         _isLoading = false;
       });
       _firstTime = false;
     }
-
     super.didChangeDependencies();
   }
 
@@ -95,25 +97,47 @@ class _AccountScreenState extends State<AccountScreen> {
                     text: Text(
                       _isLoading
                           ? 'My groups'
-                          : 'My groups (${groupProvider.groups.length})',
+                          : 'My groups (${groupProvider.groups_by_user.length})',
                       style: const TextStyle(
                           fontWeight: FontWeight.bold, fontSize: 16),
                     ),
                   ),
                 ),
               ),
-              const AccountMenuItem(
-                icon: Icons.help_outline,
-                text: Text(
-                  'Help',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+              InkWell(
+                onTap: _isLoading
+                    ? () {}
+                    : () {
+                        Navigator.of(context).push(
+                          CustomAnimations.pageTransitionRightToLeft(
+                            const HelpScreen(),
+                          ),
+                        );
+                      },
+                child: const AccountMenuItem(
+                  icon: Icons.help_outline,
+                  text: Text(
+                    'Help',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  ),
                 ),
               ),
-              const AccountMenuItem(
-                icon: Icons.info_outline,
-                text: Text(
-                  'About',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+              InkWell(
+                onTap: _isLoading
+                    ? () {}
+                    : () {
+                        Navigator.of(context).push(
+                          CustomAnimations.pageTransitionRightToLeft(
+                            const AboutScreen(),
+                          ),
+                        );
+                      },
+                child: const AccountMenuItem(
+                  icon: Icons.info_outline,
+                  text: Text(
+                    'About',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  ),
                 ),
               ),
             ],

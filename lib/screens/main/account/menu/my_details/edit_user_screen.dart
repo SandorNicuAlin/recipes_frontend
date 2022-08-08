@@ -92,6 +92,9 @@ class _EditUserScreenState extends State<EditUserScreen> {
         onActionTapCallback: _onFormSubmit,
         context: context,
         title: widget.characteristic,
+        border: const Border(
+          bottom: BorderSide(color: Colors.black12),
+        ),
         actions: const [
           Padding(
             padding: EdgeInsets.all(16.0),

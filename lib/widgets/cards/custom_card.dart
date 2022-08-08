@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 
-import './buttons/custom_elevated_button.dart';
-import '../colors/my_colors.dart';
+import '../buttons/custom_elevated_button.dart';
+import '../../colors/my_colors.dart';
 
 class CustomCard extends StatelessWidget {
   const CustomCard({
     Key? key,
-    this.image,
-    this.title,
-    this.subtitle,
-    this.content,
+    required this.image,
+    required this.title,
+    required this.subtitle,
+    required this.content,
   }) : super(key: key);
 
-  final ImageProvider<Object>? image;
-  final String? title;
-  final String? subtitle;
-  final Widget? content;
+  final ImageProvider<Object> image;
+  final String title;
+  final String subtitle;
+  final Widget content;
 
   final EdgeInsetsGeometry _symmetricOneEdgeInsets =
       const EdgeInsets.symmetric(vertical: 1);
@@ -43,7 +43,7 @@ class CustomCard extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: Center(
                     child: Image(
-                      image: image!,
+                      image: image,
                     ),
                   ),
                 ),
@@ -55,14 +55,14 @@ class CustomCard extends StatelessWidget {
                       Padding(
                         padding: _symmetricOneEdgeInsets,
                         child: Text(
-                          title!,
+                          title,
                           style: TextStyle(fontWeight: _fontWeightBold),
                         ),
                       ),
                       Padding(
                         padding: _symmetricOneEdgeInsets,
                         child: Text(
-                          subtitle!,
+                          subtitle,
                           style: const TextStyle(color: Colors.grey),
                         ),
                       ),
@@ -75,7 +75,7 @@ class CustomCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      content!,
+                      content,
                       CustomElevatedButton(
                         backgroundColor: MyColors.greenColor,
                         onSubmitCallback: () {},

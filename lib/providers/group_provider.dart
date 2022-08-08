@@ -8,10 +8,10 @@ import '../classes/group.dart';
 import '../helpers/http_request.dart';
 
 class GroupProvider with ChangeNotifier {
-  List<Group> _groups = [];
+  List<Group> _groups_by_user = [];
 
-  List<Group> get groups {
-    return _groups;
+  List<Group> get groups_by_user {
+    return _groups_by_user;
   }
 
   Future<void> fetchAllForUser() async {
@@ -31,9 +31,9 @@ class GroupProvider with ChangeNotifier {
 
     final decodedBody = jsonDecode(response.body) as Map<String, dynamic>;
 
-    _groups = [];
+    _groups_by_user = [];
     decodedBody['groups'].forEach((group) {
-      _groups.add(
+      _groups_by_user.add(
         Group(
           id: group['id'],
           name: group['name'],

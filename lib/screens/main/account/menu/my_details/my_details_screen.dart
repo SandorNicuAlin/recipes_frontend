@@ -16,6 +16,9 @@ class MyDetailsScreen extends StatelessWidget {
       appBar: CustomAppBar(
         context: context,
         title: 'My Details',
+        border: const Border(
+          bottom: BorderSide(color: Colors.black12),
+        ),
       ),
       body: SingleChildScrollView(
         child: Consumer<UserProvider>(

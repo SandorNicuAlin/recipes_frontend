@@ -11,6 +11,8 @@ import './widgets/modals/auth_modal.dart';
 import './widgets/loading/loading_screen.dart';
 import './providers/user_provider.dart';
 import 'screens/main/account/menu/my_details/my_details_screen.dart';
+import 'widgets/cards/custom_card_2.dart';
+import './widgets/cards/custom_card.dart';
 
 void main() {
   runApp(const MyApp());
@@ -72,18 +74,31 @@ class _MyAppState extends State<MyApp> {
         },
         home:
             // final approach
-            // _checkIfLoggedIn() ? const HomeScreen() : const LoginScreen()
-
-            //custom card
-            //     const Scaffold(
-            //   body: CustomCard(),
-            // ),
-
-            // login screen
-            // const LoginScreen()
             _isLoading
                 ? const LoadingScreen()
                 : (_loggedIn ? const HomeScreen() : const LoginScreen()),
+
+        // custom card
+        //     const Scaffold(
+        //   body: CustomCard(
+        //     image: AssetImage('images/banana.png'),
+        //     title: 'Banana',
+        //     subtitle: 'Bananas',
+        //     content: Text('2 gr.'),
+        //   ),
+        // ),
+
+        // custom card 2
+        //     const Scaffold(
+        //   body: CustomCardTwo(
+        //     color: Colors.blue,
+        //     image: AssetImage('/images/beverages.png'),
+        //     text: 'Beverages',
+        //   ),
+        // ),
+
+        // login screen
+        // const LoginScreen()
 
         // alert dialog
         // Scaffold(body: const AuthModal())
