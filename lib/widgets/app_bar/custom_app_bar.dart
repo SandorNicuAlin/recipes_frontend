@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   const CustomAppBar({
     Key? key,
-    required this.context,
     required this.title,
     this.actions,
     this.onActionTapCallback,
@@ -12,7 +11,6 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   })  : preferredSize = const Size.fromHeight(kToolbarHeight),
         super(key: key);
 
-  final BuildContext context;
   final String title;
   final List<Widget>? actions;
   final Function? onActionTapCallback;

@@ -13,6 +13,7 @@ import './providers/user_provider.dart';
 import 'screens/main/account/menu/my_details/my_details_screen.dart';
 import 'widgets/cards/custom_card_2.dart';
 import './widgets/cards/custom_card.dart';
+import './widgets/cards/group_card.dart';
 
 void main() {
   runApp(const MyApp());
@@ -77,6 +78,12 @@ class _MyAppState extends State<MyApp> {
             _isLoading
                 ? const LoadingScreen()
                 : (_loggedIn ? const HomeScreen() : const LoginScreen()),
+
+        // group card
+
+        //     const Scaffold(
+        //   body: GroupCard(),
+        // ),
 
         // custom card
         //     const Scaffold(

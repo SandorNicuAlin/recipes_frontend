@@ -90,7 +90,6 @@ class _EditUserScreenState extends State<EditUserScreen> {
     return Scaffold(
       appBar: CustomAppBar(
         onActionTapCallback: _onFormSubmit,
-        context: context,
         title: widget.characteristic,
         border: const Border(
           bottom: BorderSide(color: Colors.black12),

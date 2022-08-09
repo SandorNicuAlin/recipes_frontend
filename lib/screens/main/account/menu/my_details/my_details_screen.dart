@@ -13,10 +13,9 @@ class MyDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(
-        context: context,
+      appBar: const CustomAppBar(
         title: 'My Details',
-        border: const Border(
+        border: Border(
           bottom: BorderSide(color: Colors.black12),
         ),
       ),

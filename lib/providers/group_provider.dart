@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 import '../classes/group.dart';
+import '../classes/user.dart';
 import '../helpers/http_request.dart';
 
 class GroupProvider with ChangeNotifier {
@@ -12,6 +13,15 @@ class GroupProvider with ChangeNotifier {
 
   List<Group> get groups_by_user {
     return _groups_by_user;
+  }
+
+  Group? groupByName(String name) {
+    for (var group in _groups_by_user) {
+      if (group.name == name) {
+        return group;
+      }
+    }
+    return null;
   }
 
   Future<void> fetchAllForUser() async {
@@ -37,6 +47,16 @@ class GroupProvider with ChangeNotifier {
         Group(
           id: group['id'],
           name: group['name'],
+          members: group['members']
+              .map<User>(
+                (user) => User(
+                  id: user['id'],
+                  username: user['username'],
+                  email: user['email'],
+                  phone: user['phone'],
+                ),
+              )
+              .toList(),
         ),
       );
     });

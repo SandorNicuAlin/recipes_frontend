@@ -37,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
     ),
     const Scaffold(
       body: Center(
-        child: Text('Favorite'),
+        child: Text('Notifications'),
       ),
     ),
     const AccountScreen(),

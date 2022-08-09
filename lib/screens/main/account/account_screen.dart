@@ -193,8 +193,9 @@ class _AccountScreenState extends State<AccountScreen> {
         ),
         child: Padding(
           padding: EdgeInsets.symmetric(
-              horizontal: MediaQuery.of(context).size.width * 5 / 100,
-              vertical: MediaQuery.of(context).size.height * 3 / 100),
+            horizontal: MediaQuery.of(context).size.width * 5 / 100,
+            vertical: MediaQuery.of(context).size.height * 3 / 100,
+          ),
           child: Row(
             children: [
               Container(

@@ -7,16 +7,15 @@ class AboutScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       appBar: CustomAppBar(
-        context: context,
         title: 'About',
-        border: const Border(
+        border: Border(
           bottom: BorderSide(color: Colors.black12),
         ),
       ),
-      body: const Center(
-        child: Text('About Screen'),
+      body: Center(
+        child: Text('About'),
       ),
     );
   }

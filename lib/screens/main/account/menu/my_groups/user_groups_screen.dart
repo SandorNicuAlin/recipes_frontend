@@ -3,6 +3,9 @@ import 'package:provider/provider.dart';
 
 import '../../../../../widgets/app_bar/custom_app_bar.dart';
 import '../../../../../providers/group_provider.dart';
+import '../../../../../widgets/cards/group_card.dart';
+import '../../../../../helpers/custom_animations.dart';
+import './single_user_group_screen.dart';
 
 class UserGroupsScreen extends StatefulWidget {
   const UserGroupsScreen({Key? key}) : super(key: key);
@@ -15,25 +18,55 @@ class _UserGroupsScreenState extends State<UserGroupsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(
-        context: context,
+      appBar: const CustomAppBar(
         title: 'My Groups',
-        border: const Border(
-          bottom: BorderSide(color: Colors.black12),
-        ),
       ),
       body: Consumer<GroupProvider>(
         builder: (context, groupProvider, child) => Center(
           child: groupProvider.groups_by_user.isEmpty
               ? const Center(
-                  child: Text('You are not part of any group yet.'),
+                  child: Text('You are not currently part of any group.'),
                 )
-              : Column(
-                  children: [
-                    ...groupProvider.groups_by_user.map(
-                      (group) => Text(group.name),
-                    )
-                  ],
+              : Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                  child: GridView(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 1,
+                      crossAxisSpacing: 20,
+                      mainAxisSpacing: 20,
+                    ),
+                    children: [
+                      ...groupProvider.groups_by_user.map(
+                        (group) => InkWell(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              PageRouteBuilder(
+                                pageBuilder: (BuildContext context,
+                                        Animation<double> animation,
+                                        Animation<double> secondaryAnimation) =>
+                                    SingleUserGroupScreen(
+                                  name: group.name,
+                                ),
+                                transitionsBuilder: (context, animation,
+                                        secondaryAnimation, child) =>
+                                    Align(
+                                  child: FadeTransition(
+                                    opacity: animation,
+                                    child: child,
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                          child: GroupCard(
+                            name: group.name,
+                            members: group.members,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
         ),
       ),
