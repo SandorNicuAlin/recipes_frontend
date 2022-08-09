@@ -4,17 +4,17 @@ import 'package:flutter/cupertino.dart';
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   const CustomAppBar({
     Key? key,
-    required this.context,
     required this.title,
     this.actions,
     this.onActionTapCallback,
+    this.border,
   })  : preferredSize = const Size.fromHeight(kToolbarHeight),
         super(key: key);
 
-  final BuildContext context;
   final String title;
   final List<Widget>? actions;
   final Function? onActionTapCallback;
+  final ShapeBorder? border;
 
   @override
   final Size preferredSize;
@@ -75,9 +75,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
         },
       ),
       foregroundColor: Colors.black,
-      shape: const Border(
-        bottom: BorderSide(color: Colors.black12),
-      ),
+      shape: widget.border ?? const Border(),
     );
   }
 }

@@ -7,10 +7,14 @@ import '../../../colors/my_colors.dart';
 import './../../auth/login.dart';
 import '../../../helpers/auth.dart';
 import '../../../widgets/account/account_menu_item.dart';
-import 'menu/my_details/my_details_screen.dart';
+import './menu/my_details/my_details_screen.dart';
 import '../../../helpers/custom_animations.dart';
 import '../../../providers/user_provider.dart';
+import '../../../providers/group_provider.dart';
 import '../../../widgets/loading/text_placeholder.dart';
+import '../account/menu/my_groups/user_groups_screen.dart';
+import './menu/help/help_screen.dart';
+import './menu/about/about_screen.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({
@@ -32,12 +36,15 @@ class _AccountScreenState extends State<AccountScreen> {
         _isLoading = true;
       });
       await Provider.of<UserProvider>(context, listen: false).fetchUser();
+      if (!mounted) return;
+      await Provider.of<GroupProvider>(context, listen: false)
+          .fetchAllForUser();
+      if (!mounted) return;
       setState(() {
         _isLoading = false;
       });
       _firstTime = false;
     }
-
     super.didChangeDependencies();
   }
 
@@ -74,25 +81,63 @@ class _AccountScreenState extends State<AccountScreen> {
                   ),
                 ),
               ),
-              const AccountMenuItem(
-                icon: Icons.group_outlined,
-                text: Text(
-                  'My groups',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+              Consumer<GroupProvider>(
+                builder: (context, groupProvider, child) => InkWell(
+                  onTap: _isLoading
+                      ? () {}
+                      : () {
+                          Navigator.of(context).push(
+                            CustomAnimations.pageTransitionRightToLeft(
+                              const UserGroupsScreen(),
+                            ),
+                          );
+                        },
+                  child: AccountMenuItem(
+                    icon: Icons.group_outlined,
+                    text: Text(
+                      _isLoading
+                          ? 'My groups'
+                          : 'My groups (${groupProvider.groups_by_user.length})',
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 16),
+                    ),
+                  ),
                 ),
               ),
-              const AccountMenuItem(
-                icon: Icons.help_outline,
-                text: Text(
-                  'Help',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+              InkWell(
+                onTap: _isLoading
+                    ? () {}
+                    : () {
+                        Navigator.of(context).push(
+                          CustomAnimations.pageTransitionRightToLeft(
+                            const HelpScreen(),
+                          ),
+                        );
+                      },
+                child: const AccountMenuItem(
+                  icon: Icons.help_outline,
+                  text: Text(
+                    'Help',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  ),
                 ),
               ),
-              const AccountMenuItem(
-                icon: Icons.info_outline,
-                text: Text(
-                  'About',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+              InkWell(
+                onTap: _isLoading
+                    ? () {}
+                    : () {
+                        Navigator.of(context).push(
+                          CustomAnimations.pageTransitionRightToLeft(
+                            const AboutScreen(),
+                          ),
+                        );
+                      },
+                child: const AccountMenuItem(
+                  icon: Icons.info_outline,
+                  text: Text(
+                    'About',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  ),
                 ),
               ),
             ],
@@ -148,8 +193,9 @@ class _AccountScreenState extends State<AccountScreen> {
         ),
         child: Padding(
           padding: EdgeInsets.symmetric(
-              horizontal: MediaQuery.of(context).size.width * 5 / 100,
-              vertical: MediaQuery.of(context).size.height * 3 / 100),
+            horizontal: MediaQuery.of(context).size.width * 5 / 100,
+            vertical: MediaQuery.of(context).size.height * 3 / 100,
+          ),
           child: Row(
             children: [
               Container(
@@ -163,7 +209,7 @@ class _AccountScreenState extends State<AccountScreen> {
                   child: Text(
                     _isLoading
                         ? ''
-                        : userProvider.user.username![0].toUpperCase(),
+                        : userProvider.user.username[0].toUpperCase(),
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 18,
@@ -181,7 +227,7 @@ class _AccountScreenState extends State<AccountScreen> {
                   _isLoading
                       ? const TextPlaceholder(width: 120)
                       : Text(
-                          userProvider.user.username!,
+                          userProvider.user.username,
                           style: const TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 20),
                         ),
@@ -191,7 +237,7 @@ class _AccountScreenState extends State<AccountScreen> {
                   _isLoading
                       ? const TextPlaceholder()
                       : Text(
-                          userProvider.user.email!,
+                          userProvider.user.email,
                           style: const TextStyle(
                             color: Colors.grey,
                             fontSize: 15,

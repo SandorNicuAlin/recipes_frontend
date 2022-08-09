@@ -90,8 +90,10 @@ class _EditUserScreenState extends State<EditUserScreen> {
     return Scaffold(
       appBar: CustomAppBar(
         onActionTapCallback: _onFormSubmit,
-        context: context,
         title: widget.characteristic,
+        border: const Border(
+          bottom: BorderSide(color: Colors.black12),
+        ),
         actions: const [
           Padding(
             padding: EdgeInsets.all(16.0),
@@ -109,18 +111,18 @@ class _EditUserScreenState extends State<EditUserScreen> {
         ],
       ),
       body: Consumer<UserProvider>(
-        builder: (context, user, child) {
+        builder: (context, userProvider, child) {
           switch (widget.characteristic) {
             case 'Name':
-              _controller.text = user.user.username!;
+              _controller.text = userProvider.user.username;
               validatorMethod = InputFieldValidators.usernameValidator;
               break;
             case 'Email':
-              _controller.text = user.user.email!;
+              _controller.text = userProvider.user.email;
               validatorMethod = InputFieldValidators.emailValidator;
               break;
             case 'Phone':
-              _controller.text = user.user.phone!;
+              _controller.text = userProvider.user.phone;
               validatorMethod = InputFieldValidators.phoneNumberValidator;
               break;
           }

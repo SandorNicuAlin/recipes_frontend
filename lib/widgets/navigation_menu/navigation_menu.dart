@@ -63,9 +63,9 @@ class NavigationMenu extends StatelessWidget {
               ),
               BottomNavigationBarItem(
                 icon: Icon(
-                  Icons.favorite_outline,
+                  Icons.notifications_none,
                 ),
-                label: 'Favorite',
+                label: 'Activity',
               ),
               BottomNavigationBarItem(
                 icon: Icon(

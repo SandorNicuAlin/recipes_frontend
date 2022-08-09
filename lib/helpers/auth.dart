@@ -87,7 +87,7 @@ class Auth {
     final localStorage = await SharedPreferences.getInstance();
     final token = localStorage.getString('API_ACCESS_KEY');
     var url = Uri.parse('${HttpRequest.baseUrl}/api/logout');
-    var response = await http.get(
+    await http.get(
       url,
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',
