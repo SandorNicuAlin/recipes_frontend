@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../colors/my_colors.dart';
 
-class UserInAGroup extends StatelessWidget {
-  const UserInAGroup({
+class UserInAGroupBadge extends StatelessWidget {
+  const UserInAGroupBadge({
     Key? key,
     required this.char,
   }) : super(key: key);
@@ -21,8 +21,8 @@ class UserInAGroup extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         color: MyColors.greenColor,
       ),
-      width: 30,
-      height: 30,
+      width: 25,
+      height: 25,
       child: Center(
         child: Text(
           char,

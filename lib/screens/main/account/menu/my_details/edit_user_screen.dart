@@ -41,7 +41,6 @@ class _EditUserScreenState extends State<EditUserScreen> {
         break;
     }
     if (_key.currentState!.validate()) {
-      // try {
       Map response = await Provider.of<UserProvider>(
         context,
         listen: false,
@@ -50,8 +49,8 @@ class _EditUserScreenState extends State<EditUserScreen> {
         _controller.value.text,
       );
 
-      print('statusCode: ${response['statusCode']}');
-      print('body: ${response['body']}');
+      // print('statusCode: ${response['statusCode']}');
+      // print('body: ${response['body']}');
 
       if (response['statusCode'] == 400) {
         // 400 - validation error
@@ -69,16 +68,6 @@ class _EditUserScreenState extends State<EditUserScreen> {
               backgroundColor: Colors.red),
         );
       }
-      // } on SocketException {
-      //   // 500 - server error
-      //   Auth.badServerRequestsHandler(context);
-      // } on FormatException {
-      //   // request to a bad url
-      //   Auth.badServerRequestsHandler(context);
-      // }
-      // } catch (err) {
-      //   print('err: ${err}');
-      // }
 
       if (true) {}
       Navigator.of(context).pop();

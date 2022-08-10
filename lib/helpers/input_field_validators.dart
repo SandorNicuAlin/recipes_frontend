@@ -58,4 +58,14 @@ class InputFieldValidators {
     }
     return null;
   }
+
+  static String? groupNameValidator(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter a name for the group';
+    }
+    if (value.length < 2) {
+      return 'Username must have 2 or more characters';
+    }
+    return null;
+  }
 }
