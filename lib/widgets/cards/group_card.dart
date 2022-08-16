@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../user/user_in_a_group_badge.dart';
 import '../../classes/user.dart';
@@ -9,28 +10,30 @@ class GroupCard extends StatelessWidget {
     Key? key,
     required this.name,
     required this.members,
+    required this.isAdministrator,
   }) : super(key: key);
 
   final String name;
   final List<User> members;
+  final bool isAdministrator;
 
   @override
   Widget build(BuildContext context) {
     List<Widget> membersWidget = [
       const SizedBox(
-        width: 25,
-        height: 25,
+        width: 20,
+        height: 20,
       )
     ];
     double positioned = 0.0;
     for (var i = 0; i < members.length; i++) {
-      if (i == 5) {
+      if (i == 4) {
         break;
       }
       membersWidget.add(
         Positioned(
           right: positioned,
-          child: UserInAGroup(
+          child: UserInAGroupBadge(
             char: members[i].username[0].toUpperCase(),
           ),
         ),
@@ -50,28 +53,44 @@ class GroupCard extends StatelessWidget {
             ),
           ),
           Column(
-            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              isAdministrator
+                  ? const Padding(
+                      padding: EdgeInsets.only(
+                        left: 12.0,
+                        top: 12.0,
+                      ),
+                      child: FaIcon(
+                        FontAwesomeIcons.crown,
+                        color: MyColors.greenColor,
+                      ),
+                    )
+                  : Container(),
               Padding(
                 padding: const EdgeInsets.only(
-                    left: 30.0, right: 30.0, bottom: 30.0),
+                  left: 16.0,
+                  right: 16.0,
+                  bottom: 16.0,
+                ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SizedBox(
-                      width: 200,
+                      width: 80,
                       child: Text(
                         overflow: TextOverflow.fade,
                         name,
                         softWrap: false,
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 20,
+                          fontSize: 18,
                         ),
                       ),
                     ),
                     SizedBox(
-                      width: 150,
+                      width: 90,
                       height: 30,
                       child: Stack(
                         children: membersWidget,

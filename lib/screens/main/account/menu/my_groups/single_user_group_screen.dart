@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../../widgets/app_bar/custom_app_bar_with_image.dart';
 import '../../../../../providers/group_provider.dart';
@@ -30,7 +31,6 @@ class SingleUserGroupScreen extends StatelessWidget {
         padding: const EdgeInsets.only(
           left: 16.0,
           right: 16.0,
-          bottom: 16.0,
         ),
         child: Center(
           child: Column(
@@ -53,54 +53,68 @@ class SingleUserGroupScreen extends StatelessWidget {
                         itemBuilder: (context, index) => Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: MyColors.greenColor,
-                                ),
-                                width: 45,
-                                height: 45,
-                                child: Center(
-                                  child: Text(
-                                    group.members[index].username[0]
-                                        .toUpperCase(),
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                width:
-                                    MediaQuery.of(context).size.width * 3 / 100,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
+                              Row(
                                 children: [
-                                  Text(
-                                    group.members[index].username,
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 18),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: MyColors.greenColor,
+                                    ),
+                                    width: 45,
+                                    height: 45,
+                                    child: Center(
+                                      child: Text(
+                                        group.members[index].username[0]
+                                            .toUpperCase(),
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                    ),
                                   ),
                                   SizedBox(
-                                    height: MediaQuery.of(context).size.height *
-                                        0.5 /
+                                    width: MediaQuery.of(context).size.width *
+                                        3 /
                                         100,
                                   ),
-                                  Text(
-                                    group.members[index].email,
-                                    style: const TextStyle(
-                                      color: Colors.grey,
-                                      fontSize: 13,
-                                    ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      Text(
+                                        group.members[index].username,
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18),
+                                      ),
+                                      SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.5 /
+                                                100,
+                                      ),
+                                      Text(
+                                        group.members[index].email,
+                                        style: const TextStyle(
+                                          color: Colors.grey,
+                                          fontSize: 13,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
+                              group.members[index].isAdministrator!
+                                  ? const FaIcon(
+                                      FontAwesomeIcons.crown,
+                                      color: MyColors.greenColor,
+                                    )
+                                  : Container(),
                             ],
                           ),
                         ),

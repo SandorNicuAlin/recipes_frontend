@@ -6,6 +6,7 @@ import '../../../../../providers/group_provider.dart';
 import '../../../../../widgets/cards/group_card.dart';
 import '../../../../../helpers/custom_animations.dart';
 import './single_user_group_screen.dart';
+import './create_group_screen.dart';
 
 class UserGroupsScreen extends StatefulWidget {
   const UserGroupsScreen({Key? key}) : super(key: key);
@@ -18,8 +19,26 @@ class _UserGroupsScreenState extends State<UserGroupsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(
+      appBar: CustomAppBar(
         title: 'My Groups',
+        actions: const [
+          Padding(
+            padding: EdgeInsets.only(
+              left: 16.0,
+              right: 20.0,
+            ),
+            child: Icon(
+              Icons.group_add,
+            ),
+          )
+        ],
+        onActionTapCallback: () {
+          Navigator.of(context).push(
+            CustomAnimations.pageTransitionRightToLeft(
+              const CreateGroupScreen(),
+            ),
+          );
+        },
       ),
       body: Consumer<GroupProvider>(
         builder: (context, groupProvider, child) => Center(
@@ -32,7 +51,7 @@ class _UserGroupsScreenState extends State<UserGroupsScreen> {
                   child: GridView(
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 1,
+                      crossAxisCount: 2,
                       crossAxisSpacing: 20,
                       mainAxisSpacing: 20,
                     ),
@@ -62,6 +81,7 @@ class _UserGroupsScreenState extends State<UserGroupsScreen> {
                           child: GroupCard(
                             name: group.name,
                             members: group.members,
+                            isAdministrator: group.isAdministrator!,
                           ),
                         ),
                       )

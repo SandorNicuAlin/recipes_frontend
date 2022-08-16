@@ -54,13 +54,41 @@ class GroupProvider with ChangeNotifier {
                   username: user['username'],
                   email: user['email'],
                   phone: user['phone'],
+                  isAdministrator: user['is_administrator'] == 1 ? true : false,
                 ),
               )
               .toList(),
+          isAdministrator: group['is_administrator'] == 1 ? true : false,
         ),
       );
     });
 
     notifyListeners();
+  }
+
+  Future<Map> createGroup(String name) async {
+    final localStorage = await SharedPreferences.getInstance();
+    final token = localStorage.getString('API_ACCESS_KEY');
+    var url = Uri.parse('${HttpRequest.baseUrl}/api/create-group');
+    var response = await http.post(
+      url,
+      body: jsonEncode({
+        'name': name,
+      }),
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      },
+    );
+    if (response.statusCode == 200) {
+      await fetchAllForUser();
+    }
+
+    final decodedBody = jsonDecode(response.body) as Map<String, dynamic>;
+
+    return {
+      'statusCode': response.statusCode,
+      'body': decodedBody,
+    };
   }
 }
