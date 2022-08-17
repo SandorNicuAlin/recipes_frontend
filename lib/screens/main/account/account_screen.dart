@@ -150,6 +150,7 @@ class _AccountScreenState extends State<AccountScreen> {
               width: MediaQuery.of(context).size.width * 90 / 100,
               height: 70,
               child: CustomElevatedButton(
+                borderRadius: 15,
                 backgroundColor: const Color(0xffF2F3F2),
                 content: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
