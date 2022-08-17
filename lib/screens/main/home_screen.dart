@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:recipes_frontend/screens/main/account/menu/my_details/my_details_screen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
 
 import '../../widgets/navigation_menu/navigation_menu.dart';
-import '../../widgets/buttons/custom_elevated_button.dart';
-import '../../colors/my_colors.dart';
-import '../auth/login.dart';
 import './account/account_screen.dart';
+import './activity/activity_screen.dart';
+import '../../providers/notification_provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -17,6 +15,25 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  bool _isLoading = false;
+  bool _firstTime = true;
+
+  @override
+  void didChangeDependencies() async {
+    if (_firstTime) {
+      setState(() {
+        _isLoading = true;
+      });
+      await Provider.of<NotificationProvider>(context, listen: false)
+          .fetchAllNotifications();
+      setState(() {
+        _isLoading = false;
+      });
+      _firstTime = false;
+    }
+    super.didChangeDependencies();
+  }
+
   int _selectedIndex = 0;
 
   List<Widget> widgetOptions = <Widget>[
@@ -35,11 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Text('Cart'),
       ),
     ),
-    const Scaffold(
-      body: Center(
-        child: Text('Notifications'),
-      ),
-    ),
+    const ActivityScreen(),
     const AccountScreen(),
   ];
 

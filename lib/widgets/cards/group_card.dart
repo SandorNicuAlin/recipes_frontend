@@ -70,34 +70,44 @@ class GroupCard extends StatelessWidget {
                   : Container(),
               Padding(
                 padding: const EdgeInsets.only(
-                  left: 16.0,
-                  right: 16.0,
-                  bottom: 16.0,
+                  left: 8.0,
+                  right: 8.0,
+                  bottom: 8.0,
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    SizedBox(
-                      width: 80,
-                      child: Text(
-                        overflow: TextOverflow.fade,
-                        name,
-                        softWrap: false,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 90,
-                      height: 30,
-                      child: Stack(
-                        children: membersWidget,
-                      ),
-                    ),
-                  ],
+                child: Text(
+                  overflow: TextOverflow.ellipsis,
+                  name.replaceAll('', '\u200B'),
+                  softWrap: false,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
                 ),
+                //  Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //   children: [
+                //     SizedBox(
+                // width: 80,
+                //   width: MediaQuery.of(context).size.width * 30 / 100,
+                //   child: Text(
+                //     overflow: TextOverflow.fade,
+                //     name,
+                //     softWrap: false,
+                //     style: const TextStyle(
+                //       fontWeight: FontWeight.bold,
+                //       fontSize: 18,
+                //     ),
+                //   ),
+                // ),
+                // SizedBox(
+                //   width: 90,
+                //   height: 30,
+                //   child: Stack(
+                //     children: membersWidget,
+                //   ),
+                // ),
+                // ],
+                // ),
               ),
             ],
           ),

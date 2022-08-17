@@ -77,6 +77,7 @@ class CustomCard extends StatelessWidget {
                     children: [
                       content,
                       CustomElevatedButton(
+                        borderRadius: 15,
                         backgroundColor: MyColors.greenColor,
                         onSubmitCallback: () {},
                         content: const Icon(Icons.add),

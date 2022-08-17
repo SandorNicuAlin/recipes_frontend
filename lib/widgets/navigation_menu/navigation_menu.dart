@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../colors/my_colors.dart';
+import '../../providers/notification_provider.dart';
+import '../../classes/app_notification.dart';
 
 class NavigationMenu extends StatelessWidget {
   const NavigationMenu({Key? key, this.selectedIndex, this.onTapCallback})
@@ -42,32 +45,72 @@ class NavigationMenu extends StatelessWidget {
             selectedFontSize: 12,
             unselectedFontSize: 12,
             elevation: 16,
-            items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
+            items: <BottomNavigationBarItem>[
+              const BottomNavigationBarItem(
                 icon: Icon(
                   Icons.shop_outlined,
                 ),
                 label: 'Shop',
               ),
-              BottomNavigationBarItem(
+              const BottomNavigationBarItem(
                 icon: Icon(
                   Icons.explore_outlined,
                 ),
                 label: 'Explore',
               ),
-              BottomNavigationBarItem(
+              const BottomNavigationBarItem(
                 icon: Icon(
                   Icons.shopping_cart_outlined,
                 ),
                 label: 'Cart',
               ),
               BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.notifications_none,
+                icon: Stack(
+                  children: [
+                    const Icon(
+                      Icons.notifications_none,
+                    ),
+                    Consumer<NotificationProvider>(
+                      builder: (context, notificationProvider, child) {
+                        List<AppNotification> unseenNotifications = [];
+                        for (AppNotification notification
+                            in notificationProvider.notifications) {
+                          if (!notification.seen) {
+                            unseenNotifications.add(notification);
+                          }
+                        }
+                        return unseenNotifications.isEmpty
+                            ? const Text('')
+                            : Positioned(
+                                right: 0,
+                                child: Container(
+                                  width: 15,
+                                  height: 15,
+                                  decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Colors.red,
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      unseenNotifications.length > 9
+                                          ? '9+'
+                                          : unseenNotifications.length
+                                              .toString(),
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 10,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              );
+                      },
+                    )
+                  ],
                 ),
                 label: 'Activity',
               ),
-              BottomNavigationBarItem(
+              const BottomNavigationBarItem(
                 icon: Icon(
                   Icons.account_box_outlined,
                 ),

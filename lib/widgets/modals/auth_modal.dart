@@ -58,6 +58,7 @@ class AuthModal {
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height * 7 / 100,
                     child: CustomElevatedButton(
+                      borderRadius: 15,
                       backgroundColor: MyColors.greenColor,
                       content: Text(buttonText),
                       onSubmitCallback: buttonCallback,

@@ -202,6 +202,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 margin:
                                     const EdgeInsets.symmetric(vertical: 20),
                                 child: CustomElevatedButton(
+                                  borderRadius: 15,
                                   content: _isLoading
                                       ? const CustomCircularProgressIndicator()
                                       : const Text(

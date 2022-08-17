@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:recipes_frontend/providers/group_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
 
@@ -10,8 +9,10 @@ import 'screens/main/home_screen.dart';
 import './widgets/modals/auth_modal.dart';
 import './widgets/loading/loading_screen.dart';
 import './providers/user_provider.dart';
-import 'screens/main/account/menu/my_details/my_details_screen.dart';
-import 'widgets/cards/custom_card_2.dart';
+import './providers/group_provider.dart';
+import './providers/notification_provider.dart';
+import './screens/main/account/menu/my_details/my_details_screen.dart';
+import './widgets/cards/custom_card_2.dart';
 import './widgets/cards/custom_card.dart';
 import './widgets/cards/group_card.dart';
 
@@ -58,7 +59,8 @@ class _MyAppState extends State<MyApp> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (ctx) => UserProvider()),
-        ChangeNotifierProvider(create: (ctx) => GroupProvider())
+        ChangeNotifierProvider(create: (ctx) => GroupProvider()),
+        ChangeNotifierProvider(create: (ctx) => NotificationProvider()),
       ],
       child: MaterialApp(
         title: 'Recipes',
