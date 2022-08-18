@@ -47,7 +47,7 @@ class NotificationProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> confirmGroupInvitation(groupId) async {
+  Future<Map> confirmGroupInvitation(groupId) async {
     final localStorage = await SharedPreferences.getInstance();
     final token = localStorage.getString('API_ACCESS_KEY');
     var url = Uri.parse('${HttpRequest.baseUrl}/api/groups/add-members');
@@ -67,13 +67,18 @@ class NotificationProvider with ChangeNotifier {
     final decodedBody = jsonDecode(response.body) as Map<String, dynamic>;
 
     await fetchAllNotifications();
+
+    return {
+      'statusCode': response.statusCode,
+      'body': decodedBody,
+    };
   }
 
   Future<void> deleteNotification(notificationId) async {
     final localStorage = await SharedPreferences.getInstance();
     final token = localStorage.getString('API_ACCESS_KEY');
     var url = Uri.parse('${HttpRequest.baseUrl}/api/notifications/delete');
-    var response = await http.post(
+    await http.post(
       url,
       headers: {
         'Authorization': 'Bearer $token',
@@ -85,8 +90,6 @@ class NotificationProvider with ChangeNotifier {
 
     // print('statusCode: ${response.statusCode}');
     // print('body: ${response.body}');
-
-    final decodedBody = jsonDecode(response.body) as Map<String, dynamic>;
 
     await fetchAllNotifications();
   }

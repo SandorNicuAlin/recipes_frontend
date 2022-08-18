@@ -43,21 +43,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
     _confirmPass.clear();
   }
 
-  void _badServerRequestsHandler() {
-    showDialog(
-      context: context,
-      builder: (context) => AuthModal.authModal(
-        context,
-        title: 'Server Error - 500',
-        subtitle: 'Something went wrong!',
-        image: const Image(
-          image: AssetImage('assets/images/groceries.png'),
-        ),
-        buttonText: 'Try again',
-        buttonCallback: _navigatorPop,
-      ),
-    );
-  }
+  // void _badServerRequestsHandler() {
+  //   showDialog(
+  //     context: context,
+  //     builder: (context) => AuthModal.authModal(
+  //       context,
+  //       title: 'Server Error - 500',
+  //       subtitle: 'Something went wrong!',
+  //       image: const Image(
+  //         image: AssetImage('assets/images/groceries.png'),
+  //       ),
+  //       buttonText: 'Try again',
+  //       buttonCallback: _navigatorPop,
+  //     ),
+  //   );
+  // }
 
   void _onFormSubmit() async {
     if (_formKey.currentState!.validate()) {

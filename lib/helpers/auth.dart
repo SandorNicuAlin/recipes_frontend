@@ -1,7 +1,5 @@
 import 'dart:convert';
-import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -68,7 +66,6 @@ class Auth {
   static Future<String> _getDeviceName() async {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     if (defaultTargetPlatform == TargetPlatform.android) {
-      AndroidDeviceInfo info = await deviceInfo.androidInfo;
       return 'android';
     } else if (defaultTargetPlatform == TargetPlatform.iOS) {
       IosDeviceInfo info = await deviceInfo.iosInfo;

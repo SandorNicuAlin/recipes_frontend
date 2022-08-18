@@ -80,7 +80,7 @@ class GroupCard extends StatelessWidget {
                   softWrap: false,
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 18,
+                    fontSize: 17,
                   ),
                 ),
                 //  Row(

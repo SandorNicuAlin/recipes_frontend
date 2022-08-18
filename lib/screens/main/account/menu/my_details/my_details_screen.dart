@@ -65,7 +65,7 @@ class MyDetailsScreen extends StatelessWidget {
                 onTap: () {
                   Navigator.of(context).push(
                     CustomAnimations.pageTransitionRightToLeft(
-                      EditUserScreen(characteristic: 'Email'),
+                      const EditUserScreen(characteristic: 'Email'),
                     ),
                   );
                 },
@@ -102,7 +102,7 @@ class MyDetailsScreen extends StatelessWidget {
                 onTap: () {
                   Navigator.of(context).push(
                     CustomAnimations.pageTransitionRightToLeft(
-                      EditUserScreen(characteristic: 'Phone'),
+                      const EditUserScreen(characteristic: 'Phone'),
                     ),
                   );
                 },
