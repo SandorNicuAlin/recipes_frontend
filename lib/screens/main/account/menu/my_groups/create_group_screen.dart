@@ -25,8 +25,8 @@ class _CreateGroupScreenState extends State<CreateGroupScreen> {
         Map response = await Provider.of<GroupProvider>(context, listen: false)
             .createGroup(_controller.value.text);
 
-        print('statusCode: ${response['statusCode']}');
-        print('body: ${response['body']}');
+        // print('statusCode: ${response['statusCode']}');
+        // print('body: ${response['body']}');
 
         if (response['statusCode'] == 400) {
           // 400 - validation error

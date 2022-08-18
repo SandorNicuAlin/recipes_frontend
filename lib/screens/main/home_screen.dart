@@ -15,20 +15,13 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  bool _isLoading = false;
   bool _firstTime = true;
 
   @override
   void didChangeDependencies() async {
     if (_firstTime) {
-      setState(() {
-        _isLoading = true;
-      });
       await Provider.of<NotificationProvider>(context, listen: false)
           .fetchAllNotifications();
-      setState(() {
-        _isLoading = false;
-      });
       _firstTime = false;
     }
     super.didChangeDependencies();

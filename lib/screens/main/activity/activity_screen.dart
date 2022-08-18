@@ -38,7 +38,7 @@ class ActivityScreen extends StatelessWidget {
                             height: 50,
                           ),
                           Text(
-                            'Your inbox in empty at the moment',
+                            'Your inbox is empty at the moment',
                             style: TextStyle(color: Colors.black45),
                           ),
                         ],

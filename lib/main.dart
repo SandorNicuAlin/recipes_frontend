@@ -6,15 +6,11 @@ import './screens/auth/register.dart';
 import './screens/auth/login.dart';
 import './colors/my_colors.dart';
 import 'screens/main/home_screen.dart';
-import './widgets/modals/auth_modal.dart';
 import './widgets/loading/loading_screen.dart';
 import './providers/user_provider.dart';
 import './providers/group_provider.dart';
 import './providers/notification_provider.dart';
 import './screens/main/account/menu/my_details/my_details_screen.dart';
-import './widgets/cards/custom_card_2.dart';
-import './widgets/cards/custom_card.dart';
-import './widgets/cards/group_card.dart';
 
 void main() {
   runApp(const MyApp());

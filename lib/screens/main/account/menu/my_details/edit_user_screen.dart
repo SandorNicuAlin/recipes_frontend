@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -8,8 +6,6 @@ import '../../../../../providers/user_provider.dart';
 import '../../../../../widgets/input_fields/text_input_field.dart';
 import '../../../../../helpers/input_field_validators.dart';
 import '../../../../../colors/my_colors.dart';
-import '../../../../../widgets/modals/auth_modal.dart';
-import '../../../../../helpers/auth.dart';
 
 class EditUserScreen extends StatefulWidget {
   const EditUserScreen({Key? key, required this.characteristic})

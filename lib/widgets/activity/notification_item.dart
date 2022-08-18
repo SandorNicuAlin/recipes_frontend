@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:another_flushbar/flushbar.dart';
 
 import '../../colors/my_colors.dart';
 import '../../widgets/buttons/custom_elevated_button.dart';
 import '../../providers/notification_provider.dart';
-import '../../widgets/loading/custom_circular_progress_indicator.dart';
 
 class NotificationItem extends StatefulWidget {
   const NotificationItem({
@@ -33,8 +33,17 @@ class _NotificationItemState extends State<NotificationItem> {
     setState(() {
       _isLoading = true;
     });
-    await Provider.of<NotificationProvider>(context, listen: false)
-        .confirmGroupInvitation(widget.groupId);
+    Map response =
+        await Provider.of<NotificationProvider>(context, listen: false)
+            .confirmGroupInvitation(widget.groupId);
+    if (response['statusCode'] == 400) {
+      if (true) {}
+      await Flushbar(
+        title: 'Error',
+        message: 'Something went wrong',
+        duration: const Duration(seconds: 3),
+      ).show(context);
+    }
     setState(() {
       _isLoading = false;
     });

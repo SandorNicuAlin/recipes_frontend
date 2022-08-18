@@ -9,8 +9,10 @@ import '../classes/user.dart';
 import '../helpers/http_request.dart';
 
 class GroupProvider with ChangeNotifier {
+  // ignore: non_constant_identifier_names
   List<Group> _groups_by_user = [];
 
+  // ignore: non_constant_identifier_names
   List<Group> get groups_by_user {
     return _groups_by_user;
   }
