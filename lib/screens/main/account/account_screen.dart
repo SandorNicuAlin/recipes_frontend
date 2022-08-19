@@ -60,7 +60,7 @@ class _AccountScreenState extends State<AccountScreen> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          accountHeader(),
+          _accountHeader(),
           Column(
             children: [
               InkWell(
@@ -182,7 +182,7 @@ class _AccountScreenState extends State<AccountScreen> {
     );
   }
 
-  Widget accountHeader() {
+  Widget _accountHeader() {
     return Consumer<UserProvider>(
       builder: (context, userProvider, _) => Container(
         decoration: const BoxDecoration(

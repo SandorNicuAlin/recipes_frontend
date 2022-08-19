@@ -28,7 +28,7 @@ class _UserGroupsScreenState extends State<UserGroupsScreen> {
               right: 20.0,
             ),
             child: Icon(
-              Icons.group_add,
+              Icons.add_rounded,
             ),
           )
         ],
@@ -65,7 +65,9 @@ class _UserGroupsScreenState extends State<UserGroupsScreen> {
                                         Animation<double> animation,
                                         Animation<double> secondaryAnimation) =>
                                     SingleUserGroupScreen(
+                                  groupId: group.id,
                                   name: group.name,
+                                  isAdministrator: group.isAdministrator!,
                                 ),
                                 transitionsBuilder: (context, animation,
                                         secondaryAnimation, child) =>
