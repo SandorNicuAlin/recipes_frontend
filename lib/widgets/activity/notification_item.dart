@@ -39,6 +39,7 @@ class _NotificationItemState extends State<NotificationItem> {
     if (response['statusCode'] == 400) {
       if (true) {}
       await Flushbar(
+        backgroundColor: Colors.red,
         title: 'Error',
         message: 'Something went wrong',
         duration: const Duration(seconds: 3),
