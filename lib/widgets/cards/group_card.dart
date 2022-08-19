@@ -68,46 +68,49 @@ class GroupCard extends StatelessWidget {
                       ),
                     )
                   : Container(),
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 8.0,
-                  right: 8.0,
-                  bottom: 8.0,
-                ),
-                child: Text(
-                  overflow: TextOverflow.ellipsis,
-                  name.replaceAll('', '\u200B'),
-                  softWrap: false,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 17,
+              Flexible(
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    left: 8.0,
+                    right: 8.0,
+                    bottom: 8.0,
                   ),
+                  child: Text(
+                    name.replaceAll('', '\u200B'),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    softWrap: false,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 17,
+                    ),
+                  ),
+                  //  Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //   children: [
+                  //     SizedBox(
+                  // width: 80,
+                  //   width: MediaQuery.of(context).size.width * 30 / 100,
+                  //   child: Text(
+                  //     overflow: TextOverflow.fade,
+                  //     name,
+                  //     softWrap: false,
+                  //     style: const TextStyle(
+                  //       fontWeight: FontWeight.bold,
+                  //       fontSize: 18,
+                  //     ),
+                  //   ),
+                  // ),
+                  // SizedBox(
+                  //   width: 90,
+                  //   height: 30,
+                  //   child: Stack(
+                  //     children: membersWidget,
+                  //   ),
+                  // ),
+                  // ],
+                  // ),
                 ),
-                //  Row(
-                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //   children: [
-                //     SizedBox(
-                // width: 80,
-                //   width: MediaQuery.of(context).size.width * 30 / 100,
-                //   child: Text(
-                //     overflow: TextOverflow.fade,
-                //     name,
-                //     softWrap: false,
-                //     style: const TextStyle(
-                //       fontWeight: FontWeight.bold,
-                //       fontSize: 18,
-                //     ),
-                //   ),
-                // ),
-                // SizedBox(
-                //   width: 90,
-                //   height: 30,
-                //   child: Stack(
-                //     children: membersWidget,
-                //   ),
-                // ),
-                // ],
-                // ),
               ),
             ],
           ),
