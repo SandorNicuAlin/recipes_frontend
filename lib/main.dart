@@ -10,6 +10,8 @@ import './widgets/loading/loading_screen.dart';
 import './providers/user_provider.dart';
 import './providers/group_provider.dart';
 import './providers/notification_provider.dart';
+import './providers/recipe_provider.dart';
+import './providers/recipe_step_provider.dart';
 import './screens/main/account/menu/my_details/my_details_screen.dart';
 
 void main() {
@@ -57,6 +59,8 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (ctx) => UserProvider()),
         ChangeNotifierProvider(create: (ctx) => GroupProvider()),
         ChangeNotifierProvider(create: (ctx) => NotificationProvider()),
+        ChangeNotifierProvider(create: (ctx) => RecipeProvier()),
+        ChangeNotifierProvider(create: (ctx) => RecipeStepProvider()),
       ],
       child: MaterialApp(
         title: 'Recipes',
