@@ -7,12 +7,14 @@ class CustomAppBarWithImage extends StatelessWidget
     required this.title,
     this.border,
     required this.image,
+    this.actions,
   })  : preferredSize = const Size.fromHeight(kToolbarHeight),
         super(key: key);
 
   final String title;
   final ShapeBorder? border;
   final ImageProvider<Object> image;
+  final List<Widget>? actions;
 
   @override
   final Size preferredSize;
@@ -41,6 +43,7 @@ class CustomAppBarWithImage extends StatelessWidget
       ),
       foregroundColor: Colors.black,
       shape: border ?? const Border(),
+      actions: actions,
     );
   }
 }

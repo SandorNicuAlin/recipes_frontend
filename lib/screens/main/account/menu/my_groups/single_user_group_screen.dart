@@ -1,19 +1,53 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:another_flushbar/flushbar.dart';
 
 import '../../../../../widgets/app_bar/custom_app_bar_with_image.dart';
 import '../../../../../providers/group_provider.dart';
 import '../../../../../classes/group.dart';
 import '../../../../../colors/my_colors.dart';
+import '../../../../../widgets/modals/yes_no_modal.dart';
+import '../../../../../helpers/custom_animations.dart';
+import './add_member_screen.dart';
 
 class SingleUserGroupScreen extends StatelessWidget {
   const SingleUserGroupScreen({
     Key? key,
+    required this.groupId,
     required this.name,
+    required this.isAdministrator,
   }) : super(key: key);
 
+  final int groupId;
   final String name;
+  final bool isAdministrator;
+
+  Future<void> _giveAdminPrivilages(
+    BuildContext context,
+    userId,
+    groupId,
+  ) async {
+    Navigator.pop(context);
+    Map response = await Provider.of<GroupProvider>(
+      context,
+      listen: false,
+    ).giveAdminPrivilages(
+      userId,
+      groupId,
+    );
+
+    if (response['statusCode'] == 400) {
+      if (true) {}
+      await Flushbar(
+        backgroundColor: Colors.red,
+        title: 'Error',
+        message: 'Something went wrong',
+        duration: const Duration(seconds: 3),
+      ).show(context);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +59,23 @@ class SingleUserGroupScreen extends StatelessWidget {
         child: CustomAppBarWithImage(
           image: const AssetImage('images/groceries_2_2x.png'),
           title: name,
+          actions: isAdministrator
+              ? [
+                  Padding(
+                    padding: const EdgeInsets.only(right: 10.0),
+                    child: IconButton(
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          CustomAnimations.pageTransitionRightToLeft(
+                            AddGroupMemberScreen(groupId: groupId),
+                          ),
+                        );
+                      },
+                      icon: const Icon(Icons.group_add_rounded),
+                    ),
+                  ),
+                ]
+              : [],
         ),
       ),
       body: Padding(
@@ -111,10 +162,50 @@ class SingleUserGroupScreen extends StatelessWidget {
                               ),
                               group.members[index].isAdministrator!
                                   ? const FaIcon(
-                                      FontAwesomeIcons.crown,
+                                      FontAwesomeIcons.solidChessKing,
                                       color: MyColors.greenColor,
                                     )
-                                  : Container(),
+                                  : (isAdministrator
+                                      ? InkWell(
+                                          child: const FaIcon(
+                                            FontAwesomeIcons.chessKing,
+                                            color: MyColors.greenColor,
+                                          ),
+                                          onTap: () {
+                                            showCupertinoDialog(
+                                              context: context,
+                                              builder: (context) =>
+                                                  YesNoModal.yesNoModal(
+                                                title: const Text(
+                                                  'Administrator Privilages',
+                                                ),
+                                                content: Text(
+                                                  'Do you want to give ${group.members[index].username} administrator privilages?',
+                                                ),
+                                                actions: [
+                                                  CupertinoDialogAction(
+                                                    child: const Text('Yes'),
+                                                    onPressed: () async {
+                                                      await _giveAdminPrivilages(
+                                                        context,
+                                                        group.members[index].id,
+                                                        group.id,
+                                                      );
+                                                    },
+                                                  ),
+                                                  CupertinoDialogAction(
+                                                    child: const Text('No'),
+                                                    onPressed: () {
+                                                      Navigator.pop(context);
+                                                    },
+                                                  )
+                                                ],
+                                              ),
+                                              barrierDismissible: true,
+                                            );
+                                          },
+                                        )
+                                      : Container()),
                             ],
                           ),
                         ),
