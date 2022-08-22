@@ -20,8 +20,10 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void didChangeDependencies() async {
     if (_firstTime) {
-      await Provider.of<NotificationProvider>(context, listen: false)
-          .fetchAllNotifications();
+      await Provider.of<NotificationProvider>(
+        context,
+        listen: false,
+      ).fetchAllNotifications();
       _firstTime = false;
     }
     super.didChangeDependencies();
@@ -32,17 +34,12 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Widget> widgetOptions = <Widget>[
     const Scaffold(
       body: Center(
-        child: Text('Shop'),
+        child: Text('Recipes'),
       ),
     ),
     const Scaffold(
       body: Center(
-        child: Text('Explore'),
-      ),
-    ),
-    const Scaffold(
-      body: Center(
-        child: Text('Cart'),
+        child: Text('Stock'),
       ),
     ),
     const ActivityScreen(),

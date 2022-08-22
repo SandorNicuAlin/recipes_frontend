@@ -48,21 +48,15 @@ class NavigationMenu extends StatelessWidget {
             items: <BottomNavigationBarItem>[
               const BottomNavigationBarItem(
                 icon: Icon(
-                  Icons.shop_outlined,
+                  Icons.menu_book_outlined,
                 ),
-                label: 'Shop',
+                label: 'Recipes',
               ),
               const BottomNavigationBarItem(
                 icon: Icon(
-                  Icons.explore_outlined,
+                  Icons.inventory_2_outlined,
                 ),
-                label: 'Explore',
-              ),
-              const BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.shopping_cart_outlined,
-                ),
-                label: 'Cart',
+                label: 'Stock',
               ),
               BottomNavigationBarItem(
                 icon: Stack(
