@@ -78,7 +78,7 @@ class GroupCard extends StatelessWidget {
                   child: Text(
                     name.replaceAll('', '\u200B'),
                     maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+                    // overflow: TextOverflow.ellipsis,
                     softWrap: false,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
