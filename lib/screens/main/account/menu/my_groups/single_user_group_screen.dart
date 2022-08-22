@@ -67,7 +67,10 @@ class SingleUserGroupScreen extends StatelessWidget {
                       onPressed: () {
                         Navigator.of(context).push(
                           CustomAnimations.pageTransitionRightToLeft(
-                            AddGroupMemberScreen(groupId: groupId),
+                            AddGroupMemberScreen(
+                              groupId: groupId,
+                              groupName: name,
+                            ),
                           ),
                         );
                       },

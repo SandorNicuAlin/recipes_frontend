@@ -4,27 +4,32 @@ import 'package:flutter/material.dart';
 class IosSearchField extends StatefulWidget {
   const IosSearchField({
     Key? key,
+    required this.controller,
     required this.prefixIcon,
+    required this.suffixIcon,
+    this.onChangeCallback,
   }) : super(key: key);
 
-  final Widget prefixIcon;
+  final Icon prefixIcon;
+  final Icon suffixIcon;
+  final TextEditingController controller;
+  final Function(String)? onChangeCallback;
 
   @override
   State<IosSearchField> createState() => _IosSearchFieldState();
 }
 
 class _IosSearchFieldState extends State<IosSearchField> {
-  final TextEditingController _controller = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return CupertinoSearchTextField(
-      prefixIcon: const Padding(
-        padding: EdgeInsets.only(top: 3.5),
-        child: Icon(Icons.search_rounded),
+      prefixIcon: Padding(
+        padding: const EdgeInsets.only(top: 3.5),
+        child: widget.prefixIcon,
       ),
-      suffixIcon: const Icon(Icons.clear_rounded),
-      controller: _controller,
+      suffixIcon: widget.suffixIcon,
+      controller: widget.controller,
+      onChanged: widget.onChangeCallback,
     );
   }
 }

@@ -22,8 +22,12 @@ class _CreateGroupScreenState extends State<CreateGroupScreen> {
   Widget build(BuildContext context) {
     void _onFormSubmit() async {
       if (_key.currentState!.validate()) {
-        Map response = await Provider.of<GroupProvider>(context, listen: false)
-            .createGroup(_controller.value.text);
+        Map response = await Provider.of<GroupProvider>(
+          context,
+          listen: false,
+        ).createGroup(
+          _controller.value.text,
+        );
 
         // print('statusCode: ${response['statusCode']}');
         // print('body: ${response['body']}');
@@ -37,11 +41,12 @@ class _CreateGroupScreenState extends State<CreateGroupScreen> {
           if (true) {}
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-                content: Text(
-                  errorBody,
-                  style: const TextStyle(color: Colors.white),
-                ),
-                backgroundColor: Colors.red),
+              content: Text(
+                errorBody,
+                style: const TextStyle(color: Colors.white),
+              ),
+              backgroundColor: Colors.red,
+            ),
           );
           return;
         }
