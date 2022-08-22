@@ -73,14 +73,21 @@ class UserProvider with ChangeNotifier {
     };
   }
 
-  Future<dynamic> fetchAllThatDontBelongToGroup(int groupId) async {
+  Future<dynamic> fetchAllThatDontBelongToGroup(
+      int groupId, String filterText) async {
     final localStorage = await SharedPreferences.getInstance();
     final token = localStorage.getString('API_ACCESS_KEY');
     var url = Uri.parse(
         '${HttpRequest.baseUrl}/api/user/all-that-dont-belong-to-group');
+    if (filterText.isEmpty) {
+      return [];
+    }
     var response = await http.post(
       url,
-      body: jsonEncode({'group_id': groupId}),
+      body: jsonEncode({
+        'group_id': groupId,
+        'filter_text': filterText,
+      }),
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': 'Bearer $token',
@@ -92,6 +99,6 @@ class UserProvider with ChangeNotifier {
 
     final decodedBody = jsonDecode(response.body) as Map<String, dynamic>;
 
-    return decodedBody['non_members_of_group'].toList();
+    return decodedBody['filtered_nonmembers'].toList();
   }
 }

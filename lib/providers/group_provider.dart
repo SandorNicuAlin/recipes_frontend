@@ -125,4 +125,32 @@ class GroupProvider with ChangeNotifier {
       'body': decodedBody,
     };
   }
+
+  Future<Map> groupInvite(int groupId, List newMembers) async {
+    final localStorage = await SharedPreferences.getInstance();
+    final token = localStorage.getString('API_ACCESS_KEY');
+    var url =
+        Uri.parse('${HttpRequest.baseUrl}/api/groups/add-members-notification');
+    var response = await http.post(
+      url,
+      body: jsonEncode({
+        'group_id': groupId,
+        'new_members': newMembers,
+      }),
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    print('statusCode: ${response.statusCode}');
+    print('body: ${response.body}');
+
+    final decodedBody = jsonDecode(response.body) as Map<String, dynamic>;
+
+    return {
+      'statusCode': response.statusCode,
+      'body': decodedBody,
+    };
+  }
 }
