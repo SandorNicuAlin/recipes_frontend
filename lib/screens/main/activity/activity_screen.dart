@@ -26,41 +26,49 @@ class ActivityScreen extends StatelessWidget {
           ),
           Consumer<NotificationProvider>(
             builder: (context, notificationProvider, child) => Expanded(
-              child: notificationProvider.notifications.isEmpty
-                  ? Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          Image(
-                            image: AssetImage('images/success_grey.png'),
-                          ),
-                          SizedBox(
-                            height: 50,
-                          ),
-                          Text(
-                            'Your inbox is empty at the moment',
-                            style: TextStyle(color: Colors.black45),
-                          ),
-                        ],
+              child: Padding(
+                padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).size.height * 11 / 100,
+                ),
+                child: notificationProvider.notifications.isEmpty
+                    ? Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            Image(
+                              image: AssetImage('images/success_grey.png'),
+                            ),
+                            SizedBox(
+                              height: 50,
+                            ),
+                            Text(
+                              'Your inbox is empty at the moment',
+                              style: TextStyle(color: Colors.black45),
+                            ),
+                          ],
+                        ),
+                      )
+                    : ListView.builder(
+                        itemCount: notificationProvider.notifications.length,
+                        itemBuilder: (context, index) {
+                          String groupIdStr = notificationProvider
+                              .notifications[index].type
+                              .replaceAll(RegExp(r'[^0-9]'), '');
+                          int groupIdInt = int.parse(groupIdStr);
+                          return NotificationItem(
+                            notificationId:
+                                notificationProvider.notifications[index].id,
+                            groupId: groupIdInt,
+                            type:
+                                notificationProvider.notifications[index].type,
+                            text:
+                                notificationProvider.notifications[index].text,
+                            seen:
+                                notificationProvider.notifications[index].seen,
+                          );
+                        },
                       ),
-                    )
-                  : ListView.builder(
-                      itemCount: notificationProvider.notifications.length,
-                      itemBuilder: (context, index) {
-                        String groupIdStr = notificationProvider
-                            .notifications[index].type
-                            .replaceAll(RegExp(r'[^0-9]'), '');
-                        int groupIdInt = int.parse(groupIdStr);
-                        return NotificationItem(
-                          notificationId:
-                              notificationProvider.notifications[index].id,
-                          groupId: groupIdInt,
-                          type: notificationProvider.notifications[index].type,
-                          text: notificationProvider.notifications[index].text,
-                          seen: notificationProvider.notifications[index].seen,
-                        );
-                      },
-                    ),
+              ),
             ),
           ),
         ],

@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../../widgets/navigation_menu/navigation_menu.dart';
 import './account/account_screen.dart';
 import './activity/activity_screen.dart';
+import './recipes/recipes_screen.dart';
 import '../../providers/notification_provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -32,11 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
 
   List<Widget> widgetOptions = <Widget>[
-    const Scaffold(
-      body: Center(
-        child: Text('Recipes'),
-      ),
-    ),
+    const RecipesScreen(),
     const Scaffold(
       body: Center(
         child: Text('Stock'),
