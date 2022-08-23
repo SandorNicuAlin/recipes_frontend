@@ -59,7 +59,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (ctx) => UserProvider()),
         ChangeNotifierProvider(create: (ctx) => GroupProvider()),
         ChangeNotifierProvider(create: (ctx) => NotificationProvider()),
-        ChangeNotifierProvider(create: (ctx) => RecipeProvier()),
+        ChangeNotifierProvider(create: (ctx) => RecipeProvider()),
         ChangeNotifierProvider(create: (ctx) => RecipeStepProvider()),
       ],
       child: MaterialApp(
