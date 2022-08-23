@@ -17,7 +17,7 @@ class RecipeStepProvider with ChangeNotifier {
   Future<void> fetchAllForRecipe(recipeId) async {
     final localStorage = await SharedPreferences.getInstance();
     final token = localStorage.getString('API_ACCESS_KEY');
-    var url = Uri.parse('${HttpRequest.baseUrl}/api/recipes');
+    var url = Uri.parse('${HttpRequest.baseUrl}/api/recipe-steps');
     var response = await http.post(
       url,
       headers: {
@@ -37,7 +37,7 @@ class RecipeStepProvider with ChangeNotifier {
     final decodedBody = jsonDecode(response.body) as Map<String, dynamic>;
 
     _recipeSteps = [];
-    decodedBody['recipes'].forEach((recipeStep) {
+    decodedBody['recipe_steps'].forEach((recipeStep) {
       _recipeSteps.add(
         RecipeStep(
             id: recipeStep['id'],
