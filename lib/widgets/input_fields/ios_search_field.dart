@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 
 class IosSearchField extends StatefulWidget {
   const IosSearchField({
