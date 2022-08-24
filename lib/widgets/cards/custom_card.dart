@@ -31,12 +31,10 @@ class CustomCard extends StatelessWidget {
             border: Border.all(color: Colors.grey, width: 0.3),
             borderRadius: BorderRadius.circular(15),
           ),
-          width: MediaQuery.of(context).size.width * 25 / 100,
-          height: MediaQuery.of(context).size.height * 25 / 100,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
@@ -57,6 +55,7 @@ class CustomCard extends StatelessWidget {
                         child: Text(
                           title,
                           style: TextStyle(fontWeight: _fontWeightBold),
+                          maxLines: 1,
                         ),
                       ),
                       Padding(
@@ -64,27 +63,14 @@ class CustomCard extends StatelessWidget {
                         child: Text(
                           subtitle,
                           style: const TextStyle(color: Colors.grey),
+                          maxLines: 1,
                         ),
                       ),
                     ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      content,
-                      CustomElevatedButton(
-                        borderRadius: 15,
-                        backgroundColor: MyColors.greenColor,
-                        onSubmitCallback: () {},
-                        content: const Icon(Icons.add),
-                      ),
-                    ],
-                  ),
-                )
+                const SizedBox(height: 8),
+                content,
               ],
             ),
           ),

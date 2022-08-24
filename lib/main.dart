@@ -12,6 +12,7 @@ import './providers/group_provider.dart';
 import './providers/notification_provider.dart';
 import './providers/recipe_provider.dart';
 import './providers/recipe_step_provider.dart';
+import './providers/product_stock_provider.dart';
 import './screens/main/account/menu/my_details/my_details_screen.dart';
 
 void main() {
@@ -61,6 +62,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (ctx) => NotificationProvider()),
         ChangeNotifierProvider(create: (ctx) => RecipeProvider()),
         ChangeNotifierProvider(create: (ctx) => RecipeStepProvider()),
+        ChangeNotifierProvider(create: (ctx) => ProductStockProvider()),
       ],
       child: MaterialApp(
         title: 'Recipes',

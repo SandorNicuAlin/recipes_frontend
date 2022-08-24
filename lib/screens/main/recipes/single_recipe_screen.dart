@@ -124,9 +124,11 @@ class _SingleRecipeScreenState extends State<SingleRecipeScreen> {
                                 child: Row(
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        vertical: 8.0,
-                                        horizontal: 16.0,
+                                      padding: const EdgeInsets.only(
+                                        top: 8.0,
+                                        left: 22.0,
+                                        right: 8.0,
+                                        bottom: 8.0,
                                       ),
                                       child: Text(
                                         recipeStep.order.toString(),
@@ -142,7 +144,7 @@ class _SingleRecipeScreenState extends State<SingleRecipeScreen> {
                                       child: Padding(
                                         padding: const EdgeInsets.only(
                                           top: 8.0,
-                                          right: 16,
+                                          right: 22.0,
                                           bottom: 8.0,
                                         ),
                                         child: Column(
