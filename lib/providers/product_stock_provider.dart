@@ -50,4 +50,42 @@ class ProductStockProvider with ChangeNotifier {
 
     notifyListeners();
   }
+
+  Future<Map> addStock(
+    double quantity,
+    String name,
+    String um,
+  ) async {
+    final localStorage = await SharedPreferences.getInstance();
+    final token = localStorage.getString('API_ACCESS_KEY');
+    var url = Uri.parse('${HttpRequest.baseUrl}/api/recipes');
+    var response = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      },
+      body: jsonEncode(
+        {
+          'quantity': quantity,
+          'product': {
+            'name': name,
+            'um': um,
+          }
+        },
+      ),
+    );
+
+    // print('statusCode: ${response.statusCode}');
+    // print('body: ${response.body}');
+
+    final decodedBody = jsonDecode(response.body) as Map<String, dynamic>;
+
+    await fetchStock();
+
+    return {
+      'statusCode': response.statusCode,
+      'body': decodedBody,
+    };
+  }
 }

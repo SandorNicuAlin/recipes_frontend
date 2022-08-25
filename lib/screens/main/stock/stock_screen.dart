@@ -5,6 +5,8 @@ import '../../../providers/product_stock_provider.dart';
 import '../../../widgets/cards/custom_card.dart';
 import '../../../widgets/buttons/square_button.dart';
 import '../../../colors/my_colors.dart';
+import './add_stock_screen.dart';
+import '../../../helpers/custom_animations.dart';
 
 class StockScreen extends StatefulWidget {
   const StockScreen({Key? key}) : super(key: key);
@@ -43,7 +45,12 @@ class _StockScreenState extends State<StockScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.only(
+              top: 9.0,
+              left: 16.0,
+              right: 9.0,
+              bottom: 9.0,
+            ),
             width: MediaQuery.of(context).size.width,
             decoration: const BoxDecoration(
               border: Border(
@@ -52,12 +59,30 @@ class _StockScreenState extends State<StockScreen> {
                 ),
               ),
             ),
-            child: const Text(
-              'Stock',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-              ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  'Stock',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  ),
+                ),
+                IconButton(
+                  splashRadius: 30,
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      CustomAnimations.pageTransitionRightToLeft(
+                        const AddStockScreen(),
+                      ),
+                    );
+                  },
+                  icon: const Icon(
+                    Icons.add_rounded,
+                  ),
+                ),
+              ],
             ),
           ),
           const SizedBox(height: 2),
@@ -65,9 +90,10 @@ class _StockScreenState extends State<StockScreen> {
             builder: (context, productStockProvider, child) => Expanded(
               child: Padding(
                 padding: EdgeInsets.only(
-                    left: 16.0,
-                    right: 16.0,
-                    bottom: MediaQuery.of(context).size.height * 10.5 / 100),
+                  left: 16.0,
+                  right: 16.0,
+                  bottom: MediaQuery.of(context).size.height * 10.5 / 100,
+                ),
                 child: GridView.builder(
                   itemCount: productStockProvider.stock.length,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

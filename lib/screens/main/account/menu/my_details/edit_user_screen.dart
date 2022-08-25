@@ -128,7 +128,7 @@ class _EditUserScreenState extends State<EditUserScreen> {
                 ),
                 const SizedBox(height: 10),
                 Text(
-                  'Write another ${widget.characteristic} and save it by pressing the "Done" button.',
+                  'Write another ${widget.characteristic} and save it by pressing "Done".',
                   style: const TextStyle(
                     color: Colors.grey,
                   ),
