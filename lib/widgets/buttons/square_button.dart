@@ -7,10 +7,12 @@ class SquareButton extends StatelessWidget {
     Key? key,
     required this.content,
     this.borderRadius,
+    this.onTap,
   }) : super(key: key);
 
   final double? borderRadius;
   final Widget content;
+  final void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,7 @@ class SquareButton extends StatelessWidget {
       height: 35,
       child: InkWell(
         borderRadius: BorderRadius.circular(borderRadius ?? 11),
-        onTap: () {},
+        onTap: onTap,
         child: Container(
           decoration: BoxDecoration(
             border: Border.all(

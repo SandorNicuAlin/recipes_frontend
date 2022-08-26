@@ -12,7 +12,7 @@ class ProductStockProvider with ChangeNotifier {
   List<ProductStock> _stock = [];
 
   List<ProductStock> get stock {
-    return _stock;
+    return _stock.reversed.toList();
   }
 
   Future<void> fetchStock() async {
@@ -52,13 +52,13 @@ class ProductStockProvider with ChangeNotifier {
   }
 
   Future<Map> addStock(
-    double quantity,
+    String quantity,
     String name,
     String um,
   ) async {
     final localStorage = await SharedPreferences.getInstance();
     final token = localStorage.getString('API_ACCESS_KEY');
-    var url = Uri.parse('${HttpRequest.baseUrl}/api/recipes');
+    var url = Uri.parse('${HttpRequest.baseUrl}/api/product-stock/add');
     var response = await http.post(
       url,
       headers: {
@@ -78,6 +78,102 @@ class ProductStockProvider with ChangeNotifier {
 
     // print('statusCode: ${response.statusCode}');
     // print('body: ${response.body}');
+
+    final decodedBody = jsonDecode(response.body) as Map<String, dynamic>;
+
+    await fetchStock();
+
+    return {
+      'statusCode': response.statusCode,
+      'body': decodedBody,
+    };
+  }
+
+  Future<Map> updateQuantity(String quantity, int productStockId) async {
+    final localStorage = await SharedPreferences.getInstance();
+    final token = localStorage.getString('API_ACCESS_KEY');
+    var url = Uri.parse('${HttpRequest.baseUrl}/api/product-stock/update');
+    var response = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      },
+      body: jsonEncode(
+        {
+          'value': quantity,
+          'product_stock_id': productStockId,
+        },
+      ),
+    );
+
+    // print('statusCode: ${response.statusCode}');
+    // print('body: ${response.body}');
+
+    final decodedBody = jsonDecode(response.body) as Map<String, dynamic>;
+
+    await fetchStock();
+
+    return {
+      'statusCode': response.statusCode,
+      'body': decodedBody,
+    };
+  }
+
+  Future<Map> incrementDecrementQuantity(
+    bool isIncrementing,
+    int productStockId,
+  ) async {
+    final localStorage = await SharedPreferences.getInstance();
+    final token = localStorage.getString('API_ACCESS_KEY');
+    var url = Uri.parse(
+        '${HttpRequest.baseUrl}/api/product-stock/increment-decrement');
+    var response = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      },
+      body: jsonEncode(
+        {
+          'is_incrementing': isIncrementing,
+          'product_stock_id': productStockId,
+        },
+      ),
+    );
+
+    // print('statusCode: ${response.statusCode}');
+    // print('body: ${response.body}');
+
+    final decodedBody = jsonDecode(response.body) as Map<String, dynamic>;
+
+    await fetchStock();
+
+    return {
+      'statusCode': response.statusCode,
+      'body': decodedBody,
+    };
+  }
+
+  Future<Map> removeStock(int productStockId) async {
+    final localStorage = await SharedPreferences.getInstance();
+    final token = localStorage.getString('API_ACCESS_KEY');
+    var url = Uri.parse('${HttpRequest.baseUrl}/api/product-stock/remove');
+    var response = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      },
+      body: jsonEncode(
+        {
+          'product_stock_id': productStockId,
+        },
+      ),
+    );
+
+    print('statusCode: ${response.statusCode}');
+    print('body: ${response.body}');
 
     final decodedBody = jsonDecode(response.body) as Map<String, dynamic>;
 

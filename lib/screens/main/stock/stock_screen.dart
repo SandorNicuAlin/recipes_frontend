@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
+import 'package:another_flushbar/flushbar.dart';
 
 import '../../../providers/product_stock_provider.dart';
 import '../../../widgets/cards/custom_card.dart';
 import '../../../widgets/buttons/square_button.dart';
 import '../../../colors/my_colors.dart';
 import './add_stock_screen.dart';
+import './submit_add_stock_screen.dart';
 import '../../../helpers/custom_animations.dart';
+import '../../../widgets/loading/custom_circular_progress_indicator.dart';
+import '../../../widgets/modals/yes_no_modal.dart';
+import '../../../classes/product_stock.dart';
 
 class StockScreen extends StatefulWidget {
   const StockScreen({Key? key}) : super(key: key);
@@ -36,6 +42,85 @@ class _StockScreenState extends State<StockScreen> {
       _firstTime = false;
     }
     super.didChangeDependencies();
+  }
+
+  Future<void> _incrementDecrementHandler(
+    bool isIncrementing,
+    int productStockId,
+  ) async {
+    Map response = await Provider.of<ProductStockProvider>(
+      context,
+      listen: false,
+    ).incrementDecrementQuantity(
+      isIncrementing,
+      productStockId,
+    );
+
+    // 400 response
+    if (response['statusCode'] == 400) {
+      if (!mounted) return;
+      await Flushbar(
+        backgroundColor: Colors.red,
+        title: 'Error',
+        message: 'Something went wrong',
+        duration: const Duration(seconds: 2),
+      ).show(context);
+    }
+  }
+
+  Future<void> _onProductStockDelete(ProductStock productStock) async {
+    showCupertinoDialog(
+      context: context,
+      builder: (context) => YesNoModal.yesNoModal(
+        title: const Text(
+          'Delete product from stock',
+        ),
+        content: Text(
+          "Do you want to delete '${productStock.product.name}' from the stock?",
+        ),
+        actions: [
+          CupertinoDialogAction(
+            child: const Text('Yes'),
+            onPressed: () async {
+              Navigator.pop(context);
+              setState(() {
+                _isLoading = true;
+              });
+              Map response = await Provider.of<ProductStockProvider>(
+                context,
+                listen: false,
+              ).removeStock(
+                productStock.id,
+              );
+              setState(() {
+                _isLoading = false;
+              });
+            },
+          ),
+          CupertinoDialogAction(
+            child: const Text('No'),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          )
+        ],
+      ),
+      barrierDismissible: true,
+    );
+  }
+
+  Future<void> _onPageRefresh() async {
+    setState(() {
+      _isLoading = true;
+    });
+    await Provider.of<ProductStockProvider>(
+      context,
+      listen: false,
+    ).fetchStock();
+    if (!mounted) return;
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override
@@ -86,62 +171,137 @@ class _StockScreenState extends State<StockScreen> {
             ),
           ),
           const SizedBox(height: 2),
-          Consumer<ProductStockProvider>(
-            builder: (context, productStockProvider, child) => Expanded(
-              child: Padding(
-                padding: EdgeInsets.only(
-                  left: 16.0,
-                  right: 16.0,
-                  bottom: MediaQuery.of(context).size.height * 10.5 / 100,
-                ),
-                child: GridView.builder(
-                  itemCount: productStockProvider.stock.length,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    mainAxisExtent: 220,
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 5,
-                    mainAxisSpacing: 5,
-                  ),
-                  itemBuilder: (context, index) => CustomCard(
-                    image: const AssetImage('images/bakery&snacks.png'),
-                    title: productStockProvider.stock[index].product.name,
-                    subtitle: productStockProvider.stock[index].product.um,
-                    content: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const SquareButton(
-                          content: Icon(
-                            Icons.remove,
-                            color: Colors.grey,
-                            size: 18,
-                          ),
-                        ),
-                        const SizedBox(width: 15),
-                        SizedBox(
-                          width: 30,
-                          child: Center(
-                            child: Text(
-                              productStockProvider.stock[index].quantity
-                                  .toString(),
-                              maxLines: 1,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 15),
-                        const SquareButton(
-                          content: Icon(
-                            Icons.add,
-                            color: MyColors.greenColor,
-                            size: 18,
-                          ),
-                        ),
-                      ],
+          _isLoading
+              ? const Expanded(
+                  child: Center(
+                    child: CustomCircularProgressIndicator(
+                      color: MyColors.greenColor,
                     ),
                   ),
-                ),
-              ),
-            ),
-          )
+                )
+              : Consumer<ProductStockProvider>(
+                  builder: (context, productStockProvider, child) => Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        left: 16.0,
+                        right: 16.0,
+                        bottom: MediaQuery.of(context).size.height * 10.5 / 100,
+                      ),
+                      child: RefreshIndicator(
+                        color: MyColors.greenColor,
+                        onRefresh: _onPageRefresh,
+                        child: productStockProvider.stock.isEmpty
+                            ? Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: const [
+                                    Padding(
+                                      padding: EdgeInsets.all(30.0),
+                                      child: Image(
+                                        image: AssetImage(
+                                          'images/stock.png',
+                                        ),
+                                      ),
+                                    ),
+                                    Text(
+                                      'Your stock is empty at the moment',
+                                      style: TextStyle(color: Colors.black45),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            : GridView.builder(
+                                itemCount: productStockProvider.stock.length,
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                  mainAxisExtent: 220,
+                                  crossAxisCount: 2,
+                                  crossAxisSpacing: 5,
+                                  mainAxisSpacing: 5,
+                                ),
+                                itemBuilder: (context, index) => CustomCard(
+                                  onClickCallback: () {
+                                    Navigator.of(context).push(
+                                      CustomAnimations
+                                          .pageTransitionRightToLeft(
+                                        SubmitAddStockScreen(
+                                          productName: productStockProvider
+                                              .stock[index].product.name,
+                                          previousPageData: {
+                                            'page': 'Stock',
+                                            'product': productStockProvider
+                                                .stock[index].product,
+                                            'productStockId':
+                                                productStockProvider
+                                                    .stock[index].id,
+                                          },
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  onDeleteCallback: () {
+                                    _onProductStockDelete(
+                                      productStockProvider.stock[index],
+                                    );
+                                  },
+                                  image: const AssetImage(
+                                      'images/bakery&snacks.png'),
+                                  title: productStockProvider
+                                      .stock[index].product.name,
+                                  subtitle: productStockProvider
+                                      .stock[index].product.um,
+                                  content: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      SquareButton(
+                                        onTap: () {
+                                          _incrementDecrementHandler(
+                                            false,
+                                            productStockProvider
+                                                .stock[index].id,
+                                          );
+                                        },
+                                        content: const Icon(
+                                          Icons.remove,
+                                          color: Colors.grey,
+                                          size: 18,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 15),
+                                      SizedBox(
+                                        width: 30,
+                                        child: Center(
+                                          child: Text(
+                                            productStockProvider
+                                                .stock[index].quantity
+                                                .toString(),
+                                            maxLines: 1,
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(width: 15),
+                                      SquareButton(
+                                        onTap: () {
+                                          _incrementDecrementHandler(
+                                            true,
+                                            productStockProvider
+                                                .stock[index].id,
+                                          );
+                                        },
+                                        content: const Icon(
+                                          Icons.add,
+                                          color: MyColors.greenColor,
+                                          size: 18,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                      ),
+                    ),
+                  ),
+                )
         ],
       ),
     );

@@ -29,46 +29,43 @@ class _AddStockScreenState extends State<AddStockScreen> {
     ).fetchByText(text);
   }
 
-  void _onConfirm(String productName) {
+  void _onCreateProduct(String productName) {
     if (_key.currentState!.validate()) {
       Navigator.of(context).pushReplacement(
         CustomAnimations.pageTransitionRightToLeft(
           SubmitAddStockScreen(
             productName: productName,
+            previousPageData: const {'page': 'AddStock'},
           ),
         ),
       );
     }
   }
 
+  void _onProductSelected(String productName, String um) {
+    Navigator.of(context).pushReplacement(
+      CustomAnimations.pageTransitionRightToLeft(
+        SubmitAddStockScreen(
+          productName: productName,
+          previousPageData: {
+            'page': 'ProductSelected',
+            'um': um,
+          },
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(
+      appBar: const CustomAppBar(
         title: 'Add Stock',
-        border: const Border(
+        border: Border(
           bottom: BorderSide(
             color: Colors.black12,
           ),
         ),
-        actions: const [
-          Padding(
-            padding: EdgeInsets.all(16.0),
-            child: Center(
-              child: Text(
-                'Next',
-                style: TextStyle(
-                  color: MyColors.greenColor,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                ),
-              ),
-            ),
-          ),
-        ],
-        onActionTapCallback: () {
-          _onConfirm(_controller.text);
-        },
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -88,15 +85,41 @@ class _AddStockScreenState extends State<AddStockScreen> {
                       InputFieldValidators.productNameValidator(value),
                 ),
               ),
-              _controller.text == '' || productProvider.products.isEmpty
-                  ? const SizedBox(height: 10)
-                  : Container(),
-              _controller.text == '' || productProvider.products.isEmpty
+              _controller.text == '' ? const SizedBox(height: 10) : Container(),
+              _controller.text == ''
                   ? const Text(
                       'Name a product.',
                       style: TextStyle(
                         color: Colors.grey,
                       ),
+                    )
+                  : Container(),
+              _controller.text != '' && productProvider.products.isEmpty
+                  ? const SizedBox(height: 10)
+                  : Container(),
+              _controller.text != '' && productProvider.products.isEmpty
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'This product does not exist, want to create it?',
+                        ),
+                        InkWell(
+                          splashColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          hoverColor: Colors.transparent,
+                          onTap: () {
+                            _onCreateProduct(_controller.text);
+                          },
+                          child: const Text(
+                            'Next',
+                            style: TextStyle(
+                              color: MyColors.greenColor,
+                              fontSize: 20,
+                            ),
+                          ),
+                        )
+                      ],
                     )
                   : Container(),
               _controller.text == '' || productProvider.products.isEmpty
@@ -126,7 +149,12 @@ class _AddStockScreenState extends State<AddStockScreen> {
                         shrinkWrap: true,
                         itemCount: productProvider.products.length,
                         itemBuilder: (context, index) => InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            _onProductSelected(
+                              productProvider.products[index].name,
+                              productProvider.products[index].um,
+                            );
+                          },
                           child: Container(
                             decoration: const BoxDecoration(
                               border: Border(

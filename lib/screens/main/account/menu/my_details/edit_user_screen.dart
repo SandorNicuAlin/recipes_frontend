@@ -57,11 +57,12 @@ class _EditUserScreenState extends State<EditUserScreen> {
         if (true) {}
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-              content: Text(
-                errorBody,
-                style: const TextStyle(color: Colors.white),
-              ),
-              backgroundColor: Colors.red),
+            content: Text(
+              errorBody,
+              style: const TextStyle(color: Colors.white),
+            ),
+            backgroundColor: Colors.red,
+          ),
         );
       }
 

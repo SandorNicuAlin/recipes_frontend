@@ -91,19 +91,4 @@ class InputFieldValidators {
     }
     return null;
   }
-
-  static String? productUmValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please enter the measure unit';
-    }
-    for (String val in ['buc.', 'L', 'g', 'kg']) {
-      if (val != value) {
-        return "Please choose between 'buc.', 'L', 'g', or 'kg'";
-      }
-    }
-    if (value.length > 10) {
-      return "Please choose between 'buc.', 'L', 'g', or 'kg'";
-    }
-    return null;
-  }
 }
