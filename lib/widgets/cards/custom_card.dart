@@ -10,12 +10,16 @@ class CustomCard extends StatelessWidget {
     required this.title,
     required this.subtitle,
     required this.content,
+    this.onClickCallback,
+    this.onDeleteCallback,
   }) : super(key: key);
 
   final ImageProvider<Object> image;
   final String title;
   final String subtitle;
   final Widget content;
+  final void Function()? onClickCallback;
+  final void Function()? onDeleteCallback;
 
   final EdgeInsetsGeometry _symmetricOneEdgeInsets =
       const EdgeInsets.symmetric(vertical: 1);
@@ -23,29 +27,53 @@ class CustomCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Card(
-        elevation: 0,
+    return Card(
+      elevation: 0,
+      child: InkWell(
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+        hoverColor: Colors.transparent,
+        onTap: onClickCallback ?? () {},
+        splashFactory: NoSplash.splashFactory,
         child: Container(
           decoration: BoxDecoration(
             border: Border.all(color: Colors.grey, width: 0.3),
             borderRadius: BorderRadius.circular(15),
           ),
-          width: MediaQuery.of(context).size.width * 25 / 100,
-          height: MediaQuery.of(context).size.height * 25 / 100,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Center(
-                    child: Image(
-                      image: image,
+                Stack(
+                  children: [
+                    onDeleteCallback == null
+                        ? Container()
+                        : Positioned(
+                            right: 0,
+                            child: IconButton(
+                              splashColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
+                              hoverColor: Colors.transparent,
+                              splashRadius: 30,
+                              icon: const Icon(
+                                Icons.close,
+                                color: Colors.grey,
+                                size: 18,
+                              ),
+                              onPressed: onDeleteCallback,
+                            ),
+                          ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Center(
+                        child: Image(
+                          image: image,
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
                 Padding(
                   padding: const EdgeInsets.all(5.0),
@@ -57,6 +85,7 @@ class CustomCard extends StatelessWidget {
                         child: Text(
                           title,
                           style: TextStyle(fontWeight: _fontWeightBold),
+                          maxLines: 1,
                         ),
                       ),
                       Padding(
@@ -64,27 +93,14 @@ class CustomCard extends StatelessWidget {
                         child: Text(
                           subtitle,
                           style: const TextStyle(color: Colors.grey),
+                          maxLines: 1,
                         ),
                       ),
                     ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      content,
-                      CustomElevatedButton(
-                        borderRadius: 15,
-                        backgroundColor: MyColors.greenColor,
-                        onSubmitCallback: () {},
-                        content: const Icon(Icons.add),
-                      ),
-                    ],
-                  ),
-                )
+                const SizedBox(height: 8),
+                content,
               ],
             ),
           ),

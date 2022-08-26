@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/services.dart';
 
 import './screens/auth/register.dart';
 import './screens/auth/login.dart';
@@ -12,9 +13,19 @@ import './providers/group_provider.dart';
 import './providers/notification_provider.dart';
 import './providers/recipe_provider.dart';
 import './providers/recipe_step_provider.dart';
+import './providers/product_stock_provider.dart';
+import './providers/product_provider.dart';
 import './screens/main/account/menu/my_details/my_details_screen.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations(
+    [
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ],
+  );
+
   runApp(const MyApp());
 }
 
@@ -61,6 +72,8 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (ctx) => NotificationProvider()),
         ChangeNotifierProvider(create: (ctx) => RecipeProvider()),
         ChangeNotifierProvider(create: (ctx) => RecipeStepProvider()),
+        ChangeNotifierProvider(create: (ctx) => ProductStockProvider()),
+        ChangeNotifierProvider(create: (ctx) => ProductProvider()),
       ],
       child: MaterialApp(
         title: 'Recipes',

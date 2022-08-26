@@ -11,7 +11,7 @@ class InputFieldValidators {
       return 'Please enter your username';
     }
     if (value.length < 3) {
-      return 'Username must have 3 or more characters';
+      return 'The username must have 3 or more characters';
     }
     return null;
   }
@@ -43,7 +43,7 @@ class InputFieldValidators {
       return 'Please enter a password';
     }
     if (value.length < 4) {
-      return 'Password must have 4 or more characters';
+      return 'The password must have 4 or more characters';
     }
     return null;
   }
@@ -54,7 +54,7 @@ class InputFieldValidators {
       return 'Please re-enter your password';
     }
     if (passwordController.value.text != confirmPasswordController.value.text) {
-      return 'Passwords don\'t match';
+      return 'The passwords don\'t match';
     }
     return null;
   }
@@ -64,7 +64,30 @@ class InputFieldValidators {
       return 'Please enter a name for the group';
     }
     if (value.length < 2) {
-      return 'Username must have 2 or more characters';
+      return 'The username must have 2 or more characters';
+    }
+    return null;
+  }
+
+  static String? productNameValidator(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter a name';
+    }
+    if (value.length > 30) {
+      return 'The name can have maximum 30 characters';
+    }
+    return null;
+  }
+
+  static String? productQuantityValidator(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter the quantity';
+    }
+    if (double.tryParse(value) == null) {
+      return 'Please enter a numeric value';
+    }
+    if (double.parse(value) < 0 || double.parse(value) > 10000) {
+      return 'Please enter a valid value';
     }
     return null;
   }

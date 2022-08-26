@@ -35,11 +35,11 @@ class ActivityScreen extends StatelessWidget {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: const [
-                            Image(
-                              image: AssetImage('images/success_grey.png'),
-                            ),
-                            SizedBox(
-                              height: 50,
+                            Padding(
+                              padding: EdgeInsets.all(50.0),
+                              child: Image(
+                                image: AssetImage('images/inbox.gif'),
+                              ),
                             ),
                             Text(
                               'Your inbox is empty at the moment',

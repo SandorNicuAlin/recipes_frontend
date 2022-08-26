@@ -44,7 +44,10 @@ class _UserGroupsScreenState extends State<UserGroupsScreen> {
         builder: (context, groupProvider, child) => Center(
           child: groupProvider.groups_by_user.isEmpty
               ? const Center(
-                  child: Text('You are not currently part of any group.'),
+                  child: Text(
+                    'Your are not currently part of any group',
+                    style: TextStyle(color: Colors.black45),
+                  ),
                 )
               : Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 30.0),
@@ -58,6 +61,9 @@ class _UserGroupsScreenState extends State<UserGroupsScreen> {
                     children: [
                       ...groupProvider.groups_by_user.map(
                         (group) => InkWell(
+                          splashColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          hoverColor: Colors.transparent,
                           onTap: () {
                             Navigator.of(context).push(
                               PageRouteBuilder(
