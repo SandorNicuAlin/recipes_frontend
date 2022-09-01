@@ -7,6 +7,8 @@ import 'package:http/http.dart' as http;
 import '../classes/group.dart';
 import '../classes/user.dart';
 import '../helpers/http_request.dart';
+import '../classes/recipe.dart';
+import '../classes/recipe_step.dart';
 
 class GroupProvider with ChangeNotifier {
   // ignore: non_constant_identifier_names
@@ -136,6 +138,40 @@ class GroupProvider with ChangeNotifier {
       body: jsonEncode({
         'group_id': groupId,
         'new_members': newMembers,
+      }),
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    // print('statusCode: ${response.statusCode}');
+    // print('body: ${response.body}');
+
+    final decodedBody = jsonDecode(response.body) as Map<String, dynamic>;
+
+    return {
+      'statusCode': response.statusCode,
+      'body': decodedBody,
+    };
+  }
+
+  Future<Map> addRecipe(
+    int groupId,
+    String name,
+    String description,
+    List<Map<String, dynamic>> steps,
+  ) async {
+    final localStorage = await SharedPreferences.getInstance();
+    final token = localStorage.getString('API_ACCESS_KEY');
+    var url = Uri.parse('${HttpRequest.baseUrl}/api/recipes/add');
+    var response = await http.post(
+      url,
+      body: jsonEncode({
+        'group_id': groupId,
+        'name': name,
+        'description': description,
+        'recipe_steps': steps,
       }),
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',

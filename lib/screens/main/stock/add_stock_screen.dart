@@ -81,8 +81,7 @@ class _AddStockScreenState extends State<AddStockScreen> {
                   autofocus: true,
                   keyboardType: TextInputType.text,
                   onChanged: _onSearchTextChanged,
-                  validatorCallback: (String? value) =>
-                      InputFieldValidators.productNameValidator(value),
+                  validatorCallback: InputFieldValidators.productNameValidator,
                 ),
               ),
               _controller.text == '' ? const SizedBox(height: 10) : Container(),

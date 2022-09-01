@@ -67,9 +67,11 @@ class _UserGroupsScreenState extends State<UserGroupsScreen> {
                           onTap: () {
                             Navigator.of(context).push(
                               PageRouteBuilder(
-                                pageBuilder: (BuildContext context,
-                                        Animation<double> animation,
-                                        Animation<double> secondaryAnimation) =>
+                                pageBuilder: (
+                                  BuildContext context,
+                                  Animation<double> animation,
+                                  Animation<double> secondaryAnimation,
+                                ) =>
                                     SingleUserGroupScreen(
                                   groupId: group.id,
                                   name: group.name,

@@ -129,8 +129,8 @@ class _SubmitAddStockScreenState extends State<SubmitAddStockScreen> {
                 child: TextInputField(
                   controller: _quantityController,
                   label: 'Quantity',
-                  validatorCallback: (String? value) =>
-                      InputFieldValidators.productQuantityValidator(value),
+                  validatorCallback:
+                      InputFieldValidators.productQuantityValidator,
                   autofocus: true,
                   keyboardType: TextInputType.number,
                 ),

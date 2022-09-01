@@ -12,6 +12,8 @@ class TextInputField extends StatelessWidget {
     this.focusNode,
     this.autofocus,
     this.onChanged,
+    this.maxLines,
+    this.decoration,
   }) : super(key: key);
 
   final TextEditingController? controller;
@@ -21,27 +23,31 @@ class TextInputField extends StatelessWidget {
   final FocusNode? focusNode;
   final bool? autofocus;
   final Function(String)? onChanged;
+  final int? maxLines;
+  final InputDecoration? decoration;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      maxLines: maxLines,
       onChanged: onChanged ?? (_) {},
       autofocus: autofocus ?? false,
       focusNode: focusNode ?? FocusNode(),
       controller: controller,
       keyboardType: keyboardType!,
       cursorColor: MyColors.greenColor,
-      decoration: InputDecoration(
-        labelStyle: const TextStyle(
-          color: Colors.grey,
-        ),
-        focusedBorder: const UnderlineInputBorder(
-          borderSide: BorderSide(
-            color: MyColors.greenColor,
+      decoration: decoration ??
+          InputDecoration(
+            labelStyle: const TextStyle(
+              color: Colors.grey,
+            ),
+            focusedBorder: const UnderlineInputBorder(
+              borderSide: BorderSide(
+                color: MyColors.greenColor,
+              ),
+            ),
+            label: Text(label!),
           ),
-        ),
-        label: Text(label!),
-      ),
       validator: validatorCallback!,
     );
   }
