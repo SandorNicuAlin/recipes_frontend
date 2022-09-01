@@ -11,6 +11,8 @@ import '../../../../../colors/my_colors.dart';
 import '../../../../../widgets/modals/yes_no_modal.dart';
 import '../../../../../helpers/custom_animations.dart';
 import './add_member_screen.dart';
+import '../../../../../widgets/buttons/custom_elevated_button.dart';
+import './create_recipe_screen.dart';
 
 class SingleUserGroupScreen extends StatelessWidget {
   const SingleUserGroupScreen({
@@ -54,7 +56,7 @@ class SingleUserGroupScreen extends StatelessWidget {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(
-          MediaQuery.of(context).size.height * 60 / 100,
+          MediaQuery.of(context).size.height * 50 / 100,
         ),
         child: CustomAppBarWithImage(
           image: const AssetImage('images/groceries_2_2x.png'),
@@ -89,6 +91,59 @@ class SingleUserGroupScreen extends StatelessWidget {
         child: Center(
           child: Column(
             children: [
+              Padding(
+                padding: const EdgeInsets.only(
+                  top: 0,
+                  bottom: 20.0,
+                ),
+                child: Row(
+                  mainAxisAlignment: isAdministrator
+                      ? MainAxisAlignment.spaceAround
+                      : MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      width: 150,
+                      height: 38,
+                      child: CustomElevatedButton(
+                        borderRadius: 5,
+                        content: const Text(
+                          'Recipes',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                          ),
+                        ),
+                        backgroundColor: MyColors.greenColor,
+                        onSubmitCallback: () {},
+                      ),
+                    ),
+                    isAdministrator
+                        ? SizedBox(
+                            width: 150,
+                            height: 38,
+                            child: CustomElevatedButton(
+                              borderRadius: 5,
+                              content: const Text(
+                                'Create Recipe',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                ),
+                              ),
+                              backgroundColor: MyColors.greenColor,
+                              onSubmitCallback: () {
+                                Navigator.of(context).push(
+                                  CustomAnimations.pageTransitionRightToLeft(
+                                    CreateRecipeScreen(groupId: groupId),
+                                  ),
+                                );
+                              },
+                            ),
+                          )
+                        : Container(),
+                  ],
+                ),
+              ),
               Text(
                 name,
                 style: const TextStyle(

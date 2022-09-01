@@ -91,4 +91,24 @@ class InputFieldValidators {
     }
     return null;
   }
+
+  static String? recipeNameValidator(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter a name for the recipe';
+    }
+    if (value.length < 2 || value.length > 15) {
+      return 'The name must be between 2 and 15 characters long';
+    }
+    return null;
+  }
+
+  static String? recipeStepNameValidator(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter a name for the recipe step';
+    }
+    if (value.length < 2 || value.length > 25) {
+      return 'The name must be between 2 and 25 characters long';
+    }
+    return null;
+  }
 }
