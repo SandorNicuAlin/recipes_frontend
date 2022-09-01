@@ -14,7 +14,7 @@ import './add_member_screen.dart';
 import '../../../../../widgets/buttons/custom_elevated_button.dart';
 import './create_recipe_screen.dart';
 
-class SingleUserGroupScreen extends StatelessWidget {
+class SingleUserGroupScreen extends StatefulWidget {
   const SingleUserGroupScreen({
     Key? key,
     required this.groupId,
@@ -25,6 +25,13 @@ class SingleUserGroupScreen extends StatelessWidget {
   final int groupId;
   final String name;
   final bool isAdministrator;
+
+  @override
+  State<SingleUserGroupScreen> createState() => _SingleUserGroupScreenState();
+}
+
+class _SingleUserGroupScreenState extends State<SingleUserGroupScreen> {
+  bool _isLoading = false;
 
   Future<void> _giveAdminPrivilages(
     BuildContext context,
@@ -60,8 +67,8 @@ class SingleUserGroupScreen extends StatelessWidget {
         ),
         child: CustomAppBarWithImage(
           image: const AssetImage('images/groceries_2_2x.png'),
-          title: name,
-          actions: isAdministrator
+          title: widget.name,
+          actions: widget.isAdministrator
               ? [
                   Padding(
                     padding: const EdgeInsets.only(right: 10.0),
@@ -70,8 +77,8 @@ class SingleUserGroupScreen extends StatelessWidget {
                         Navigator.of(context).push(
                           CustomAnimations.pageTransitionRightToLeft(
                             AddGroupMemberScreen(
-                              groupId: groupId,
-                              groupName: name,
+                              groupId: widget.groupId,
+                              groupName: widget.name,
                             ),
                           ),
                         );
@@ -97,7 +104,7 @@ class SingleUserGroupScreen extends StatelessWidget {
                   bottom: 20.0,
                 ),
                 child: Row(
-                  mainAxisAlignment: isAdministrator
+                  mainAxisAlignment: widget.isAdministrator
                       ? MainAxisAlignment.spaceAround
                       : MainAxisAlignment.center,
                   children: [
@@ -114,10 +121,31 @@ class SingleUserGroupScreen extends StatelessWidget {
                           ),
                         ),
                         backgroundColor: MyColors.greenColor,
-                        onSubmitCallback: () {},
+                        onSubmitCallback: () async {
+                          await Provider.of<GroupProvider>(
+                            context,
+                            listen: false,
+                          ).fetchRecipesForGroup(widget.groupId);
+                          showModalBottomSheet(
+                            context: context,
+                            builder: (context) => Consumer<GroupProvider>(
+                              builder: (context, groupProvider, child) =>
+                                  ListView.builder(
+                                itemCount: groupProvider.recipes.length,
+                                itemBuilder: (context, index) => Text(
+                                  groupProvider.recipes[index].description,
+                                  key: Key(
+                                    (groupProvider.recipes[index].id + 1)
+                                        .toString(),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
                       ),
                     ),
-                    isAdministrator
+                    widget.isAdministrator
                         ? SizedBox(
                             width: 150,
                             height: 38,
@@ -134,7 +162,7 @@ class SingleUserGroupScreen extends StatelessWidget {
                               onSubmitCallback: () {
                                 Navigator.of(context).push(
                                   CustomAnimations.pageTransitionRightToLeft(
-                                    CreateRecipeScreen(groupId: groupId),
+                                    CreateRecipeScreen(groupId: widget.groupId),
                                   ),
                                 );
                               },
@@ -145,7 +173,7 @@ class SingleUserGroupScreen extends StatelessWidget {
                 ),
               ),
               Text(
-                name,
+                widget.name,
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 20,
@@ -153,7 +181,7 @@ class SingleUserGroupScreen extends StatelessWidget {
               ),
               Consumer<GroupProvider>(
                 builder: (context, groupProvider, child) {
-                  Group group = groupProvider.groupByName(name)!;
+                  Group group = groupProvider.groupByName(widget.name)!;
                   return Expanded(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -223,7 +251,7 @@ class SingleUserGroupScreen extends StatelessWidget {
                                       FontAwesomeIcons.solidChessKing,
                                       color: MyColors.greenColor,
                                     )
-                                  : (isAdministrator
+                                  : (widget.isAdministrator
                                       ? InkWell(
                                           child: const FaIcon(
                                             FontAwesomeIcons.chessKing,
