@@ -159,10 +159,10 @@ class _SingleRecipeScreenState extends State<SingleRecipeScreen> {
                                               ),
                                             ),
                                             const SizedBox(height: 3),
-                                            const Text(
-                                              // recipeStep.description,
-                                              'Adds snns siiwef wenfsdnfa wefwef sdfs sdfd d sfasfewf d afawergerrg dsgadfsdfw w w df sdfsdfsds asda dasdasd fdafds fsfsdf Adds snns siiwef wenfsdnfa wefwef sdfs sdfd d sfasfewf d afawergerrg dsgadfsdfw w w df sdfsdfsds asda dasdasd fdafds fsfsdf',
-                                              style: TextStyle(
+                                            Text(
+                                              recipeStep.description,
+                                              // 'Adds snns siiwef wenfsdnfa wefwef sdfs sdfd d sfasfewf d afawergerrg dsgadfsdfw w w df sdfsdfsds asda dasdasd fdafds fsfsdf Adds snns siiwef wenfsdnfa wefwef sdfs sdfd d sfasfewf d afawergerrg dsgadfsdfw w w df sdfsdfsds asda dasdasd fdafds fsfsdf',
+                                              style: const TextStyle(
                                                 fontSize: 15,
                                               ),
                                               textAlign: TextAlign.justify,
