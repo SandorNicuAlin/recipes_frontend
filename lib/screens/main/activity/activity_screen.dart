@@ -56,6 +56,10 @@ class ActivityScreen extends StatelessWidget {
                               .replaceAll(RegExp(r'[^0-9]'), '');
                           int groupIdInt = int.parse(groupIdStr);
                           return NotificationItem(
+                            key: Key(
+                              notificationProvider.notifications[index].id
+                                  .toString(),
+                            ),
                             notificationId:
                                 notificationProvider.notifications[index].id,
                             groupId: groupIdInt,

@@ -158,6 +158,7 @@ class _RecipesScreenState extends State<RecipesScreen> {
                                     ),
                                     itemCount: recipes.length,
                                     itemBuilder: (context, index) => InkWell(
+                                      key: Key(recipes[index].id.toString()),
                                       borderRadius: BorderRadius.circular(40),
                                       onTap: () {
                                         Navigator.of(context).push(

@@ -113,6 +113,7 @@ class _SingleRecipeScreenState extends State<SingleRecipeScreen> {
                         ...recipeStepProvider.recipeSteps
                             .map(
                               (recipeStep) => Container(
+                                key: Key(recipeStep.id.toString()),
                                 width: MediaQuery.of(context).size.width,
                                 decoration: const BoxDecoration(
                                   border: Border(
@@ -139,7 +140,6 @@ class _SingleRecipeScreenState extends State<SingleRecipeScreen> {
                                       ),
                                     ),
                                     const SizedBox(width: 20),
-                                    // TODO - afisare text dinamic (recipeStep.description)
                                     Expanded(
                                       child: Padding(
                                         padding: const EdgeInsets.only(

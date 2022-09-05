@@ -219,6 +219,7 @@ class _SingleUserGroupScreenState extends State<SingleUserGroupScreen> {
                     child: ListView.builder(
                       itemCount: group.members.length,
                       itemBuilder: (context, index) => Padding(
+                        key: Key(group.members[index].id.toString()),
                         padding: const EdgeInsets.symmetric(vertical: 5.0),
                         child: Padding(
                           padding: const EdgeInsets.symmetric(

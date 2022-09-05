@@ -111,6 +111,7 @@ class _AddGroupMemberScreenState extends State<AddGroupMemberScreen> {
                       child: ListView.builder(
                         itemCount: _filteredNonmembers.length,
                         itemBuilder: (context, index) => InkWell(
+                          key: Key(index.toString()),
                           onTap: () {
                             showCupertinoDialog(
                               context: context,
