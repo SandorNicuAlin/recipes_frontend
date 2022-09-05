@@ -19,6 +19,12 @@ class GroupProvider with ChangeNotifier {
     return _groups_by_user;
   }
 
+  List<Recipe> _recipes = [];
+
+  List<Recipe> get recipes {
+    return _recipes;
+  }
+
   Group? groupByName(String name) {
     for (var group in _groups_by_user) {
       if (group.name == name) {
@@ -183,6 +189,42 @@ class GroupProvider with ChangeNotifier {
     // print('body: ${response.body}');
 
     final decodedBody = jsonDecode(response.body) as Map<String, dynamic>;
+
+    return {
+      'statusCode': response.statusCode,
+      'body': decodedBody,
+    };
+  }
+
+  Future<Map> fetchRecipesForGroup(int groupId) async {
+    final localStorage = await SharedPreferences.getInstance();
+    final token = localStorage.getString('API_ACCESS_KEY');
+    var url = Uri.parse('${HttpRequest.baseUrl}/api/recipes');
+    var response = await http.post(
+      url,
+      body: jsonEncode({
+        'groups': [groupId]
+      }),
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    // print('statusCode: ${response.statusCode}');
+    // print('body: ${response.body}');
+
+    final decodedBody = jsonDecode(response.body) as Map<String, dynamic>;
+
+    _recipes = decodedBody['recipes']
+        .map<Recipe>(
+          (recipe) => Recipe(
+            id: recipe['id'],
+            name: recipe['name'],
+            description: recipe['description'],
+          ),
+        )
+        .toList();
 
     return {
       'statusCode': response.statusCode,
