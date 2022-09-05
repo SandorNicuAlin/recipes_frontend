@@ -90,94 +90,104 @@ class _RecipesScreenState extends State<RecipesScreen> {
   Widget build(BuildContext context) {
     List<Recipe> recipes = Provider.of<RecipeProvider>(context).filteredRecipes;
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Padding(
+            padding: EdgeInsets.only(
+              top: 16.0,
+              left: 16.0,
+              right: 16.0,
+            ),
+            child: Text(
               'Available Recipes',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
               ),
             ),
-            const SizedBox(height: 20),
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  _isLoading
-                      ? Container()
-                      : IosSearchField(
+          ),
+          const SizedBox(height: 10),
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                _isLoading
+                    ? Container()
+                    : Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: IosSearchField(
                           onChangeCallback: _onSearchHandler,
                           controller: _searchController,
                           prefixIcon: const Icon(Icons.search_rounded),
                           suffixIcon: const Icon(Icons.clear_rounded),
                         ),
-                  const SizedBox(height: 15),
-                  _isLoading
-                      ? const Center(
-                          child: CustomCircularProgressIndicator(
-                            color: MyColors.greenColor,
+                      ),
+                const SizedBox(height: 5),
+                _isLoading
+                    ? const Center(
+                        child: CustomCircularProgressIndicator(
+                          color: MyColors.greenColor,
+                        ),
+                      )
+                    : Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                            bottom:
+                                MediaQuery.of(context).size.height * 10.3 / 100,
                           ),
-                        )
-                      : Expanded(
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                              bottom:
-                                  MediaQuery.of(context).size.height * 8 / 100,
-                            ),
-                            child: recipes.isEmpty
-                                ? const Center(
-                                    child: Text(
-                                      'No recipes available',
-                                      style: TextStyle(color: Colors.grey),
+                          child: recipes.isEmpty
+                              ? const Center(
+                                  child: Text(
+                                    'No recipes available',
+                                    style: TextStyle(color: Colors.grey),
+                                  ),
+                                )
+                              : RefreshIndicator(
+                                  onRefresh: _onPageRefresh,
+                                  color: MyColors.greenColor,
+                                  child: GridView.builder(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 16.0,
                                     ),
-                                  )
-                                : RefreshIndicator(
-                                    onRefresh: _onPageRefresh,
-                                    color: MyColors.greenColor,
-                                    child: GridView.builder(
-                                      gridDelegate:
-                                          const SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 2,
-                                        crossAxisSpacing: 5,
-                                        mainAxisSpacing: 5,
-                                      ),
-                                      itemCount: recipes.length,
-                                      itemBuilder: (context, index) => InkWell(
-                                        borderRadius: BorderRadius.circular(40),
-                                        onTap: () {
-                                          Navigator.of(context).push(
-                                            CustomAnimations
-                                                .pageTransitionRightToLeft(
-                                              SingleRecipeScreen(
-                                                id: recipes[index].id,
-                                                name: recipes[index].name,
-                                                description:
-                                                    recipes[index].description,
-                                              ),
+                                    gridDelegate:
+                                        const SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 2,
+                                      crossAxisSpacing: 5,
+                                      mainAxisSpacing: 5,
+                                    ),
+                                    itemCount: recipes.length,
+                                    itemBuilder: (context, index) => InkWell(
+                                      borderRadius: BorderRadius.circular(40),
+                                      onTap: () {
+                                        Navigator.of(context).push(
+                                          CustomAnimations
+                                              .pageTransitionRightToLeft(
+                                            SingleRecipeScreen(
+                                              id: recipes[index].id,
+                                              name: recipes[index].name,
+                                              description:
+                                                  recipes[index].description,
                                             ),
-                                          );
-                                        },
-                                        child: CustomCardTwo(
-                                          color: MyColors.greenColor,
-                                          image: const AssetImage(
-                                            'images/frashfruits&vegetable.png',
                                           ),
-                                          text: recipes[index].name,
+                                        );
+                                      },
+                                      child: CustomCardTwo(
+                                        color: MyColors.greenColor,
+                                        image: const AssetImage(
+                                          'images/frashfruits&vegetable.png',
                                         ),
+                                        text: recipes[index].name,
                                       ),
                                     ),
                                   ),
-                          ),
+                                ),
                         ),
-                ],
-              ),
+                      ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
