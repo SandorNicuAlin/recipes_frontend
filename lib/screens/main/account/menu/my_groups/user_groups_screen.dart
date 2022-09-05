@@ -62,6 +62,7 @@ class _UserGroupsScreenState extends State<UserGroupsScreen> {
                   children: [
                     ...groupProvider.groups_by_user.map(
                       (group) => InkWell(
+                        key: Key(group.id.toString()),
                         splashColor: Colors.transparent,
                         highlightColor: Colors.transparent,
                         hoverColor: Colors.transparent,

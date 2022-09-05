@@ -224,6 +224,8 @@ class _StockScreenState extends State<StockScreen> {
                                   mainAxisSpacing: 5,
                                 ),
                                 itemBuilder: (context, index) => CustomCard(
+                                  key: Key(productStockProvider.stock[index].id
+                                      .toString()),
                                   onClickCallback: () {
                                     Navigator.of(context).push(
                                       CustomAnimations
