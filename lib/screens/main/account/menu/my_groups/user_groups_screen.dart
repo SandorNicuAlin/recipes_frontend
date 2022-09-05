@@ -49,54 +49,54 @@ class _UserGroupsScreenState extends State<UserGroupsScreen> {
                     style: TextStyle(color: Colors.black45),
                   ),
                 )
-              : Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                  child: GridView(
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 20,
-                      mainAxisSpacing: 20,
-                    ),
-                    children: [
-                      ...groupProvider.groups_by_user.map(
-                        (group) => InkWell(
-                          splashColor: Colors.transparent,
-                          highlightColor: Colors.transparent,
-                          hoverColor: Colors.transparent,
-                          onTap: () {
-                            Navigator.of(context).push(
-                              PageRouteBuilder(
-                                pageBuilder: (
-                                  BuildContext context,
-                                  Animation<double> animation,
-                                  Animation<double> secondaryAnimation,
-                                ) =>
-                                    SingleUserGroupScreen(
-                                  groupId: group.id,
-                                  name: group.name,
-                                  isAdministrator: group.isAdministrator!,
-                                ),
-                                transitionsBuilder: (context, animation,
-                                        secondaryAnimation, child) =>
-                                    Align(
-                                  child: FadeTransition(
-                                    opacity: animation,
-                                    child: child,
-                                  ),
+              : GridView(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20.0,
+                    vertical: 5.0,
+                  ),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                  ),
+                  children: [
+                    ...groupProvider.groups_by_user.map(
+                      (group) => InkWell(
+                        splashColor: Colors.transparent,
+                        highlightColor: Colors.transparent,
+                        hoverColor: Colors.transparent,
+                        onTap: () {
+                          Navigator.of(context).push(
+                            PageRouteBuilder(
+                              pageBuilder: (
+                                BuildContext context,
+                                Animation<double> animation,
+                                Animation<double> secondaryAnimation,
+                              ) =>
+                                  SingleUserGroupScreen(
+                                groupId: group.id,
+                                name: group.name,
+                                isAdministrator: group.isAdministrator!,
+                              ),
+                              transitionsBuilder: (context, animation,
+                                      secondaryAnimation, child) =>
+                                  Align(
+                                child: FadeTransition(
+                                  opacity: animation,
+                                  child: child,
                                 ),
                               ),
-                            );
-                          },
-                          child: GroupCard(
-                            name: group.name,
-                            members: group.members,
-                            isAdministrator: group.isAdministrator!,
-                          ),
+                            ),
+                          );
+                        },
+                        child: GroupCard(
+                          name: group.name,
+                          members: group.members,
+                          isAdministrator: group.isAdministrator!,
                         ),
-                      )
-                    ],
-                  ),
+                      ),
+                    )
+                  ],
                 ),
         ),
       ),

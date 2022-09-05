@@ -86,7 +86,7 @@ class InputFieldValidators {
     if (double.tryParse(value) == null) {
       return 'Please enter a numeric value';
     }
-    if (double.parse(value) < 0 || double.parse(value) > 10000) {
+    if (double.parse(value) <= 0 || double.parse(value) > 10000) {
       return 'Please enter a valid value';
     }
     return null;

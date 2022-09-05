@@ -93,139 +93,137 @@ class _SingleUserGroupScreenState extends State<SingleUserGroupScreen> {
               : [],
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.only(
-          left: 16.0,
-          right: 16.0,
-        ),
-        child: Center(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(
-                  top: 0,
-                  bottom: 20.0,
-                ),
-                child: Row(
-                  mainAxisAlignment: widget.isAdministrator
-                      ? MainAxisAlignment.spaceAround
-                      : MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      width: 150,
-                      height: 38,
-                      child: CustomElevatedButton(
-                        borderRadius: 5,
-                        content: _isLoading
-                            ? const SizedBox(
-                                width: 25,
-                                height: 25,
-                                child: CustomCircularProgressIndicator(),
-                              )
-                            : const Text(
-                                'Recipes',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14,
-                                ),
+      body: Center(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(
+                bottom: 20.0,
+              ),
+              child: Row(
+                mainAxisAlignment: widget.isAdministrator
+                    ? MainAxisAlignment.spaceEvenly
+                    : MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 150,
+                    height: 38,
+                    child: CustomElevatedButton(
+                      borderRadius: 5,
+                      content: _isLoading
+                          ? const SizedBox(
+                              width: 25,
+                              height: 25,
+                              child: CustomCircularProgressIndicator(),
+                            )
+                          : const Text(
+                              'Recipes',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
                               ),
-                        backgroundColor: MyColors.greenColor,
-                        onSubmitCallback: _isLoading
-                            ? () {}
-                            : () async {
-                                setState(() {
-                                  _isLoading = true;
-                                });
-                                await Provider.of<GroupProvider>(
-                                  context,
-                                  listen: false,
-                                ).fetchRecipesForGroup(widget.groupId);
-                                if (!mounted) return;
-                                setState(() {
-                                  _isLoading = false;
-                                });
-                                showModalBottomSheet(
-                                  isScrollControlled: true,
-                                  constraints: BoxConstraints(
-                                    minHeight:
-                                        MediaQuery.of(context).size.height *
-                                            20 /
-                                            100,
-                                    maxHeight:
-                                        MediaQuery.of(context).size.height *
-                                            80 /
-                                            100,
-                                    minWidth: MediaQuery.of(context).size.width,
-                                  ),
-                                  shape: const RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.vertical(
-                                      top: Radius.circular(20),
-                                    ),
-                                  ),
-                                  context: context,
-                                  builder: (context) => Consumer<GroupProvider>(
-                                    builder: (context, groupProvider, child) =>
-                                        groupProvider.recipes.isEmpty
-                                            ? const Center(
-                                                child: Text(
-                                                  'No recipes available',
-                                                  style: TextStyle(
-                                                    color: Colors.grey,
-                                                  ),
-                                                ),
-                                              )
-                                            : recipesList(
-                                                groupProvider.recipes,
-                                              ),
-                                  ),
-                                );
-                              },
-                      ),
-                    ),
-                    widget.isAdministrator
-                        ? SizedBox(
-                            width: 150,
-                            height: 38,
-                            child: CustomElevatedButton(
-                              borderRadius: 5,
-                              content: const Text(
-                                'Create Recipe',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14,
-                                ),
-                              ),
-                              backgroundColor: MyColors.greenColor,
-                              onSubmitCallback: () {
-                                Navigator.of(context).push(
-                                  CustomAnimations.pageTransitionRightToLeft(
-                                    CreateRecipeScreen(groupId: widget.groupId),
-                                  ),
-                                );
-                              },
                             ),
-                          )
-                        : Container(),
-                  ],
-                ),
+                      backgroundColor: MyColors.greenColor,
+                      onSubmitCallback: _isLoading
+                          ? () {}
+                          : () async {
+                              setState(() {
+                                _isLoading = true;
+                              });
+                              await Provider.of<GroupProvider>(
+                                context,
+                                listen: false,
+                              ).fetchRecipesForGroup(widget.groupId);
+                              if (!mounted) return;
+                              setState(() {
+                                _isLoading = false;
+                              });
+                              showModalBottomSheet(
+                                isScrollControlled: true,
+                                constraints: BoxConstraints(
+                                  minHeight:
+                                      MediaQuery.of(context).size.height *
+                                          20 /
+                                          100,
+                                  maxHeight:
+                                      MediaQuery.of(context).size.height *
+                                          80 /
+                                          100,
+                                  minWidth: MediaQuery.of(context).size.width,
+                                ),
+                                shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.vertical(
+                                    top: Radius.circular(20),
+                                  ),
+                                ),
+                                context: context,
+                                builder: (context) => Consumer<GroupProvider>(
+                                  builder: (context, groupProvider, child) =>
+                                      groupProvider.recipes.isEmpty
+                                          ? const Center(
+                                              child: Text(
+                                                'No recipes available',
+                                                style: TextStyle(
+                                                  color: Colors.grey,
+                                                ),
+                                              ),
+                                            )
+                                          : recipesList(
+                                              groupProvider.recipes,
+                                            ),
+                                ),
+                              );
+                            },
+                    ),
+                  ),
+                  widget.isAdministrator
+                      ? SizedBox(
+                          width: 150,
+                          height: 38,
+                          child: CustomElevatedButton(
+                            borderRadius: 5,
+                            content: const Text(
+                              'Create Recipe',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
+                              ),
+                            ),
+                            backgroundColor: MyColors.greenColor,
+                            onSubmitCallback: () {
+                              Navigator.of(context).push(
+                                CustomAnimations.pageTransitionRightToLeft(
+                                  CreateRecipeScreen(groupId: widget.groupId),
+                                ),
+                              );
+                            },
+                          ),
+                        )
+                      : Container(),
+                ],
               ),
-              Text(
-                widget.name,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                ),
+            ),
+            Text(
+              widget.name,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
               ),
-              Consumer<GroupProvider>(
-                builder: (context, groupProvider, child) {
-                  Group group = groupProvider.groupByName(widget.name)!;
-                  return Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: ListView.builder(
-                        itemCount: group.members.length,
-                        itemBuilder: (context, index) => Padding(
-                          padding: const EdgeInsets.all(8.0),
+            ),
+            Consumer<GroupProvider>(
+              builder: (context, groupProvider, child) {
+                Group group = groupProvider.groupByName(widget.name)!;
+                return Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: ListView.builder(
+                      itemCount: group.members.length,
+                      itemBuilder: (context, index) => Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 5.0),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 15.0,
+                          ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -334,11 +332,11 @@ class _SingleUserGroupScreenState extends State<SingleUserGroupScreen> {
                         ),
                       ),
                     ),
-                  );
-                },
-              ),
-            ],
-          ),
+                  ),
+                );
+              },
+            ),
+          ],
         ),
       ),
     );
@@ -351,11 +349,11 @@ class _SingleUserGroupScreenState extends State<SingleUserGroupScreen> {
         children: [
           Container(
             margin: const EdgeInsets.only(
-              top: 10.0,
+              top: 15.0,
               bottom: 15.0,
             ),
             width: MediaQuery.of(context).size.width * 20 / 100,
-            height: 4,
+            height: 4.5,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               color: Colors.grey,

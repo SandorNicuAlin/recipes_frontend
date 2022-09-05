@@ -183,9 +183,9 @@ class _StockScreenState extends State<StockScreen> {
                   builder: (context, productStockProvider, child) => Expanded(
                     child: Padding(
                       padding: EdgeInsets.only(
-                        left: 16.0,
-                        right: 16.0,
-                        bottom: MediaQuery.of(context).size.height * 10.5 / 100,
+                        // left: 16.0,
+                        // right: 16.0,
+                        bottom: MediaQuery.of(context).size.height * 10.3 / 100,
                       ),
                       child: RefreshIndicator(
                         color: MyColors.greenColor,
@@ -211,6 +211,10 @@ class _StockScreenState extends State<StockScreen> {
                                 ),
                               )
                             : GridView.builder(
+                                padding: const EdgeInsets.only(
+                                  left: 16.0,
+                                  right: 16.0,
+                                ),
                                 itemCount: productStockProvider.stock.length,
                                 gridDelegate:
                                     const SliverGridDelegateWithFixedCrossAxisCount(

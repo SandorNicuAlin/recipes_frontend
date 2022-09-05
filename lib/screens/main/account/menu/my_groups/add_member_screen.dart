@@ -81,7 +81,7 @@ class _AddGroupMemberScreenState extends State<AddGroupMemberScreen> {
             padding: const EdgeInsets.only(
               left: 16.0,
               right: 16.0,
-              top: 16.0,
+              top: 8.0,
               bottom: 8.0,
             ),
             child: IosSearchField(
