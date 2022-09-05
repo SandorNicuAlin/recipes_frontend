@@ -13,6 +13,9 @@ import '../../../../../helpers/custom_animations.dart';
 import './add_member_screen.dart';
 import '../../../../../widgets/buttons/custom_elevated_button.dart';
 import './create_recipe_screen.dart';
+import '../../../../../widgets/loading/custom_circular_progress_indicator.dart';
+import '../../../recipes/single_recipe_screen.dart';
+import '../../../../../classes/recipe.dart';
 
 class SingleUserGroupScreen extends StatefulWidget {
   const SingleUserGroupScreen({
@@ -113,328 +116,70 @@ class _SingleUserGroupScreenState extends State<SingleUserGroupScreen> {
                       height: 38,
                       child: CustomElevatedButton(
                         borderRadius: 5,
-                        content: const Text(
-                          'Recipes',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14,
-                          ),
-                        ),
+                        content: _isLoading
+                            ? const SizedBox(
+                                width: 25,
+                                height: 25,
+                                child: CustomCircularProgressIndicator(),
+                              )
+                            : const Text(
+                                'Recipes',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                ),
+                              ),
                         backgroundColor: MyColors.greenColor,
-                        onSubmitCallback: () async {
-                          await Provider.of<GroupProvider>(
-                            context,
-                            listen: false,
-                          ).fetchRecipesForGroup(widget.groupId);
-                          showModalBottomSheet(
-                            isScrollControlled: true,
-                            constraints: BoxConstraints(
-                                minHeight: MediaQuery.of(context).size.height *
-                                    20 /
-                                    100,
-                                maxHeight: MediaQuery.of(context).size.height *
-                                    80 /
-                                    100,
-                                minWidth: MediaQuery.of(context).size.width),
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.vertical(
-                                top: Radius.circular(20),
-                              ),
-                            ),
-                            context: context,
-                            builder: (context) => Consumer<GroupProvider>(
-                              builder: (context, groupProvider, child) =>
-                                  Column(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    margin: const EdgeInsets.all(10.0),
-                                    width: MediaQuery.of(context).size.width *
-                                        20 /
-                                        100,
-                                    height: 3.5,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: Colors.grey,
+                        onSubmitCallback: _isLoading
+                            ? () {}
+                            : () async {
+                                setState(() {
+                                  _isLoading = true;
+                                });
+                                await Provider.of<GroupProvider>(
+                                  context,
+                                  listen: false,
+                                ).fetchRecipesForGroup(widget.groupId);
+                                if (!mounted) return;
+                                setState(() {
+                                  _isLoading = false;
+                                });
+                                showModalBottomSheet(
+                                  isScrollControlled: true,
+                                  constraints: BoxConstraints(
+                                    minHeight:
+                                        MediaQuery.of(context).size.height *
+                                            20 /
+                                            100,
+                                    maxHeight:
+                                        MediaQuery.of(context).size.height *
+                                            80 /
+                                            100,
+                                    minWidth: MediaQuery.of(context).size.width,
+                                  ),
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.vertical(
+                                      top: Radius.circular(20),
                                     ),
                                   ),
-                                  Expanded(
-                                    child: SingleChildScrollView(
-                                      child: Column(
-                                        children: const [
-                                          Padding(
-                                            padding: EdgeInsets.symmetric(
-                                              vertical: 8.0,
-                                            ),
-                                            child: Text(
-                                              'test',
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20,
+                                  context: context,
+                                  builder: (context) => Consumer<GroupProvider>(
+                                    builder: (context, groupProvider, child) =>
+                                        groupProvider.recipes.isEmpty
+                                            ? const Center(
+                                                child: Text(
+                                                  'No recipes available',
+                                                  style: TextStyle(
+                                                    color: Colors.grey,
+                                                  ),
+                                                ),
+                                              )
+                                            : recipesList(
+                                                groupProvider.recipes,
                                               ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                              vertical: 8.0,
-                                            ),
-                                            child: Text(
-                                              'test',
-                                              style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20,
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                              vertical: 8.0,
-                                            ),
-                                            child: Text(
-                                              'test',
-                                              style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20,
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                              vertical: 8.0,
-                                            ),
-                                            child: Text(
-                                              'test',
-                                              style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20,
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                              vertical: 8.0,
-                                            ),
-                                            child: Text(
-                                              'test',
-                                              style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20,
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                              vertical: 8.0,
-                                            ),
-                                            child: Text(
-                                              'test',
-                                              style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20,
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                              vertical: 8.0,
-                                            ),
-                                            child: Text(
-                                              'test',
-                                              style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20,
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                              vertical: 8.0,
-                                            ),
-                                            child: Text(
-                                              'test',
-                                              style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20,
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                              vertical: 8.0,
-                                            ),
-                                            child: Text(
-                                              'test',
-                                              style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20,
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                              vertical: 8.0,
-                                            ),
-                                            child: Text(
-                                              'test',
-                                              style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20,
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                              vertical: 8.0,
-                                            ),
-                                            child: Text(
-                                              'test',
-                                              style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20,
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                              vertical: 8.0,
-                                            ),
-                                            child: Text(
-                                              'test',
-                                              style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20,
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                              vertical: 8.0,
-                                            ),
-                                            child: Text(
-                                              'test',
-                                              style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20,
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                              vertical: 8.0,
-                                            ),
-                                            child: Text(
-                                              'test',
-                                              style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20,
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                              vertical: 8.0,
-                                            ),
-                                            child: Text(
-                                              'test',
-                                              style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20,
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                              vertical: 8.0,
-                                            ),
-                                            child: Text(
-                                              'test',
-                                              style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20,
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                              vertical: 8.0,
-                                            ),
-                                            child: Text(
-                                              'test',
-                                              style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20,
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                              vertical: 8.0,
-                                            ),
-                                            child: Text(
-                                              'test',
-                                              style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20,
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                              vertical: 8.0,
-                                            ),
-                                            child: Text(
-                                              'test',
-                                              style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                        // groupProvider.recipes
-                                        //     .map(
-                                        //       (recipe) => Padding(
-                                        //         padding:
-                                        //             const EdgeInsets.symmetric(
-                                        //           vertical: 8.0,
-                                        //         ),
-                                        //         child: Text(
-                                        //           recipe.name,
-                                        //           key: Key(
-                                        //             recipe.id.toString(),
-                                        //           ),
-                                        //           style: const TextStyle(
-                                        //             fontWeight: FontWeight.bold,
-                                        //             fontSize: 20,
-                                        //           ),
-                                        //         ),
-                                        //       ),
-                                        //     )
-                                        //     .toList(),
-                                      ),
-                                    ),
                                   ),
-
-                                  // Expanded(
-                                  //   child: ListView.builder(
-                                  //     itemCount: groupProvider.recipes.length,
-                                  //     itemBuilder: (context, index) => Text(
-                                  //       groupProvider
-                                  //           .recipes[index].description,
-                                  //       key: Key(
-                                  //         (groupProvider.recipes[index].id + 1)
-                                  //             .toString(),
-                                  //       ),
-                                  //     ),
-                                  //   ),
-                                  // ),
-                                ],
-                              ),
-                            ),
-                          );
-                        },
+                                );
+                              },
                       ),
                     ),
                     widget.isAdministrator
@@ -598,4 +343,61 @@ class _SingleUserGroupScreenState extends State<SingleUserGroupScreen> {
       ),
     );
   }
+
+  Widget recipesList(List<Recipe> recipes) => Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Container(
+            margin: const EdgeInsets.only(
+              top: 10.0,
+              bottom: 15.0,
+            ),
+            width: MediaQuery.of(context).size.width * 20 / 100,
+            height: 4,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Colors.grey,
+            ),
+          ),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                children: recipes
+                    .map(
+                      (recipe) => Card(
+                        key: Key(recipe.id.toString()),
+                        child: ListTile(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              CustomAnimations.pageTransitionRightToLeft(
+                                SingleRecipeScreen(
+                                  id: recipe.id,
+                                  name: recipe.name,
+                                  description: recipe.description,
+                                ),
+                              ),
+                            );
+                          },
+                          title: Text(
+                            recipe.name,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                            overflow: TextOverflow.fade,
+                          ),
+                          subtitle: Text(
+                            recipe.description,
+                            overflow: TextOverflow.fade,
+                          ),
+                        ),
+                      ),
+                    )
+                    .toList(),
+              ),
+            ),
+          ),
+        ],
+      );
 }
