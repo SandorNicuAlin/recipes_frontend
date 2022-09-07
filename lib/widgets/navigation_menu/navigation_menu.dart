@@ -48,9 +48,9 @@ class NavigationMenu extends StatelessWidget {
             items: <BottomNavigationBarItem>[
               const BottomNavigationBarItem(
                 icon: Icon(
-                  Icons.menu_book_outlined,
+                  Icons.restaurant_menu_rounded,
                 ),
-                label: 'Recipes',
+                label: 'Cook',
               ),
               const BottomNavigationBarItem(
                 icon: Icon(

@@ -14,6 +14,11 @@ class ProductProvider with ChangeNotifier {
     return _products;
   }
 
+  void resetProducts() {
+    _products = [];
+    notifyListeners();
+  }
+
   Future<Map> fetchByText(String filterText) async {
     final localStorage = await SharedPreferences.getInstance();
     final token = localStorage.getString('API_ACCESS_KEY');

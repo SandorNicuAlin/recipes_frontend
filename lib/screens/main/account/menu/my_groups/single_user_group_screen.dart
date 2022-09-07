@@ -12,7 +12,7 @@ import '../../../../../widgets/modals/yes_no_modal.dart';
 import '../../../../../helpers/custom_animations.dart';
 import './add_member_screen.dart';
 import '../../../../../widgets/buttons/custom_elevated_button.dart';
-import './create_recipe_screen.dart';
+import 'recipes/create_recipe_screen.dart';
 import '../../../../../widgets/loading/custom_circular_progress_indicator.dart';
 import '../../../recipes/single_recipe_screen.dart';
 import '../../../../../classes/recipe.dart';
