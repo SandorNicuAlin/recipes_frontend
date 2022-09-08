@@ -68,7 +68,7 @@ class _AddIngredientScreenState extends State<AddIngredientScreen> {
     if (_key.currentState!.validate()) {
       widget.addIngredientCallback({
         'ingredientName': _productController.text,
-        'ingredientDescription': _quantityController.text,
+        'ingredientQuantity': _quantityController.text,
       });
       Navigator.pop(context);
     }

@@ -66,7 +66,7 @@ class _AddRecipestepScreenState extends State<AddRecipestepScreen> {
         _ingredients.indexWhere(
           (step) =>
               step['ingredientName'] == ingredient['name'] &&
-              step['ingredientDescription'] == ingredient['description'],
+              step['ingredientQuantity'] == ingredient['description'],
         ),
       );
     });
@@ -157,8 +157,7 @@ class _AddRecipestepScreenState extends State<AddRecipestepScreen> {
                       key: Key((index + 1).toString()),
                       thisIndex: index,
                       name: _ingredients[index]['ingredientName']!,
-                      description: _ingredients[index]
-                          ['ingredientDescription']!,
+                      description: _ingredients[index]['ingredientQuantity']!,
                       onDelete: _onDeleteIngredient,
                     ),
                   ),
