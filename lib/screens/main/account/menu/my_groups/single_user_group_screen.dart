@@ -36,29 +36,93 @@ class SingleUserGroupScreen extends StatefulWidget {
 class _SingleUserGroupScreenState extends State<SingleUserGroupScreen> {
   bool _isLoading = false;
 
-  Future<void> _giveAdminPrivilages(
-    BuildContext context,
-    userId,
-    groupId,
-  ) async {
-    Navigator.pop(context);
-    Map response = await Provider.of<GroupProvider>(
+  void _giveAdminPrivilages(String username, int userId, int groupId) {
+    showCupertinoDialog(
+      context: context,
+      builder: (context) => YesNoModal.yesNoModal(
+        title: const Text(
+          'Administrator Privilages',
+        ),
+        content: Text(
+          'Do you want to give $username administrator privilages?',
+        ),
+        actions: [
+          CupertinoDialogAction(
+            child: const Text('Yes'),
+            onPressed: () async {
+              Navigator.pop(context);
+              Map response = await Provider.of<GroupProvider>(
+                context,
+                listen: false,
+              ).giveAdminPrivilages(
+                userId,
+                groupId,
+              );
+
+              if (response['statusCode'] == 400) {
+                if (true) {}
+                await Flushbar(
+                  backgroundColor: Colors.red,
+                  title: 'Error',
+                  message: 'Something went wrong',
+                  duration: const Duration(seconds: 3),
+                ).show(context);
+              }
+            },
+          ),
+          CupertinoDialogAction(
+            child: const Text('No'),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          )
+        ],
+      ),
+      barrierDismissible: true,
+    );
+  }
+
+  Future<void> _openRecipes() async {
+    setState(() {
+      _isLoading = true;
+    });
+    await Provider.of<GroupProvider>(
       context,
       listen: false,
-    ).giveAdminPrivilages(
-      userId,
-      groupId,
+    ).fetchRecipesForGroup(widget.groupId);
+    if (!mounted) return;
+    setState(() {
+      _isLoading = false;
+    });
+    showModalBottomSheet(
+      isScrollControlled: true,
+      constraints: BoxConstraints(
+        minHeight: MediaQuery.of(context).size.height * 20 / 100,
+        maxHeight: MediaQuery.of(context).size.height * 80 / 100,
+        minWidth: MediaQuery.of(context).size.width,
+      ),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(20),
+        ),
+      ),
+      context: context,
+      builder: (context) => Consumer<GroupProvider>(
+        builder: (context, groupProvider, child) =>
+            groupProvider.recipes.isEmpty
+                ? const Center(
+                    child: Text(
+                      'No recipes available',
+                      style: TextStyle(
+                        color: Colors.grey,
+                      ),
+                    ),
+                  )
+                : recipesList(
+                    groupProvider.recipes,
+                  ),
+      ),
     );
-
-    if (response['statusCode'] == 400) {
-      if (true) {}
-      await Flushbar(
-        backgroundColor: Colors.red,
-        title: 'Error',
-        message: 'Something went wrong',
-        duration: const Duration(seconds: 3),
-      ).show(context);
-    }
   }
 
   @override
@@ -109,72 +173,22 @@ class _SingleUserGroupScreenState extends State<SingleUserGroupScreen> {
                     width: 150,
                     height: 38,
                     child: CustomElevatedButton(
-                      borderRadius: 5,
-                      content: _isLoading
-                          ? const SizedBox(
-                              width: 25,
-                              height: 25,
-                              child: CustomCircularProgressIndicator(),
-                            )
-                          : const Text(
-                              'Recipes',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14,
+                        borderRadius: 5,
+                        content: _isLoading
+                            ? const SizedBox(
+                                width: 25,
+                                height: 25,
+                                child: CustomCircularProgressIndicator(),
+                              )
+                            : const Text(
+                                'Recipes',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                ),
                               ),
-                            ),
-                      backgroundColor: MyColors.greenColor,
-                      onSubmitCallback: _isLoading
-                          ? () {}
-                          : () async {
-                              setState(() {
-                                _isLoading = true;
-                              });
-                              await Provider.of<GroupProvider>(
-                                context,
-                                listen: false,
-                              ).fetchRecipesForGroup(widget.groupId);
-                              if (!mounted) return;
-                              setState(() {
-                                _isLoading = false;
-                              });
-                              showModalBottomSheet(
-                                isScrollControlled: true,
-                                constraints: BoxConstraints(
-                                  minHeight:
-                                      MediaQuery.of(context).size.height *
-                                          20 /
-                                          100,
-                                  maxHeight:
-                                      MediaQuery.of(context).size.height *
-                                          80 /
-                                          100,
-                                  minWidth: MediaQuery.of(context).size.width,
-                                ),
-                                shape: const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.vertical(
-                                    top: Radius.circular(20),
-                                  ),
-                                ),
-                                context: context,
-                                builder: (context) => Consumer<GroupProvider>(
-                                  builder: (context, groupProvider, child) =>
-                                      groupProvider.recipes.isEmpty
-                                          ? const Center(
-                                              child: Text(
-                                                'No recipes available',
-                                                style: TextStyle(
-                                                  color: Colors.grey,
-                                                ),
-                                              ),
-                                            )
-                                          : recipesList(
-                                              groupProvider.recipes,
-                                            ),
-                                ),
-                              );
-                            },
-                    ),
+                        backgroundColor: MyColors.greenColor,
+                        onSubmitCallback: _isLoading ? () {} : _openRecipes),
                   ),
                   widget.isAdministrator
                       ? SizedBox(
@@ -262,8 +276,9 @@ class _SingleUserGroupScreenState extends State<SingleUserGroupScreen> {
                                       Text(
                                         group.members[index].username,
                                         style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 18),
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18,
+                                        ),
                                       ),
                                       SizedBox(
                                         height:
@@ -294,36 +309,10 @@ class _SingleUserGroupScreenState extends State<SingleUserGroupScreen> {
                                             color: MyColors.greenColor,
                                           ),
                                           onTap: () {
-                                            showCupertinoDialog(
-                                              context: context,
-                                              builder: (context) =>
-                                                  YesNoModal.yesNoModal(
-                                                title: const Text(
-                                                  'Administrator Privilages',
-                                                ),
-                                                content: Text(
-                                                  'Do you want to give ${group.members[index].username} administrator privilages?',
-                                                ),
-                                                actions: [
-                                                  CupertinoDialogAction(
-                                                    child: const Text('Yes'),
-                                                    onPressed: () async {
-                                                      await _giveAdminPrivilages(
-                                                        context,
-                                                        group.members[index].id,
-                                                        group.id,
-                                                      );
-                                                    },
-                                                  ),
-                                                  CupertinoDialogAction(
-                                                    child: const Text('No'),
-                                                    onPressed: () {
-                                                      Navigator.pop(context);
-                                                    },
-                                                  )
-                                                ],
-                                              ),
-                                              barrierDismissible: true,
+                                            _giveAdminPrivilages(
+                                              group.members[index].username,
+                                              group.members[index].id,
+                                              group.id,
                                             );
                                           },
                                         )

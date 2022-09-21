@@ -32,18 +32,18 @@ class _AddRecipestepScreenState extends State<AddRecipestepScreen> {
 
   void _onAdd() {
     if (_key.currentState!.validate()) {
-      if (_ingredients.isEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text(
-              'Please add some ingredients before',
-              style: TextStyle(color: Colors.white),
-            ),
-            backgroundColor: Colors.red,
-          ),
-        );
-        return;
-      }
+      // if (_ingredients.isEmpty) {
+      //   ScaffoldMessenger.of(context).showSnackBar(
+      //     const SnackBar(
+      //       content: Text(
+      //         'Please add some ingredients before',
+      //         style: TextStyle(color: Colors.white),
+      //       ),
+      //       backgroundColor: Colors.red,
+      //     ),
+      //   );
+      //   return;
+      // }
 
       widget.addStepCallback({
         'stepName': _stepNameController.text,
@@ -159,6 +159,7 @@ class _AddRecipestepScreenState extends State<AddRecipestepScreen> {
                       name: _ingredients[index]['ingredientName']!,
                       description: _ingredients[index]['ingredientQuantity']!,
                       onDelete: _onDeleteIngredient,
+                      elementType: 'ingredient',
                     ),
                   ),
                 ],

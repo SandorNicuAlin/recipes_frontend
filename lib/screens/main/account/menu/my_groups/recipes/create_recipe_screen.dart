@@ -196,6 +196,7 @@ class _CreateRecipeScreenState extends State<CreateRecipeScreen> {
                               name: recipeStep['stepName']!,
                               description: recipeStep['stepDescription']!,
                               onDelete: _onDeleteStep,
+                              elementType: 'recipe step',
                             ),
                           ),
                         )

@@ -10,12 +10,14 @@ class DeletableGreyElement extends StatelessWidget {
     required this.name,
     required this.description,
     required this.onDelete,
+    required this.elementType,
   }) : super(key: key);
 
   final int thisIndex;
   final String name;
   final String description;
   final Function onDelete;
+  final String elementType;
 
   @override
   Widget build(BuildContext context) {
@@ -51,11 +53,11 @@ class DeletableGreyElement extends StatelessWidget {
                 showCupertinoDialog(
                   context: context,
                   builder: (context) => YesNoModal.yesNoModal(
-                    title: const Text(
-                      'Delete recipe step',
+                    title: Text(
+                      'Delete $elementType',
                     ),
                     content: Text(
-                      "Do you want to delete '$name' step?",
+                      "Do you want to delete '$name' $elementType?",
                     ),
                     actions: [
                       CupertinoDialogAction(
