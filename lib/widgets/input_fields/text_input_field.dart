@@ -14,6 +14,7 @@ class TextInputField extends StatelessWidget {
     this.onChanged,
     this.maxLines,
     this.decoration,
+    this.enabled,
   }) : super(key: key);
 
   final TextEditingController? controller;
@@ -25,10 +26,12 @@ class TextInputField extends StatelessWidget {
   final Function(String)? onChanged;
   final int? maxLines;
   final InputDecoration? decoration;
+  final bool? enabled;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      enabled: enabled ?? true,
       maxLines: maxLines,
       onChanged: onChanged ?? (_) {},
       autofocus: autofocus ?? false,
