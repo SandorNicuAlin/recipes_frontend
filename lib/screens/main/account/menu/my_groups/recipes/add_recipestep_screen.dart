@@ -156,8 +156,8 @@ class _AddRecipestepScreenState extends State<AddRecipestepScreen> {
                     itemBuilder: (context, index) => DeletableGreyElement(
                       key: Key((index + 1).toString()),
                       thisIndex: index,
-                      name: _ingredients[index]['ingredientName']!,
-                      description: _ingredients[index]['ingredientQuantity']!,
+                      name: _ingredients[index]['name']!,
+                      description: _ingredients[index]['quantity']!,
                       onDelete: _onDeleteIngredient,
                       elementType: 'ingredient',
                     ),

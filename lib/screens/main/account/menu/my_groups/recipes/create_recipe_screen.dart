@@ -74,6 +74,7 @@ class _CreateRecipeScreenState extends State<CreateRecipeScreen> {
             .mapIndexed((index, step) => {
                   'name': step['stepName'],
                   'description': step['stepDescription'],
+                  'ingredients': step['ingredients'],
                   'order': index + 1,
                 })
             .toList(),
