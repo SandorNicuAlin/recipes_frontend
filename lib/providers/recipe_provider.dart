@@ -8,21 +8,21 @@ import '../classes/recipe.dart';
 import '../helpers/http_request.dart';
 
 class RecipeProvider with ChangeNotifier {
-  List<Recipe> _recipes = [];
   List<Recipe> _filteredRecipes = [];
-
-  List<Recipe> get recipes {
-    return _recipes;
-  }
+  List<Recipe> _availableRecipes = [];
 
   List<Recipe> get filteredRecipes {
     return _filteredRecipes;
   }
 
-  Future<void> getAllForGroups(List groups) async {
+  List<Recipe> get availableRecipes {
+    return _availableRecipes;
+  }
+
+  Future<void> getAvailableForGroups(List groups) async {
     final localStorage = await SharedPreferences.getInstance();
     final token = localStorage.getString('API_ACCESS_KEY');
-    var url = Uri.parse('${HttpRequest.baseUrl}/api/recipes');
+    var url = Uri.parse('${HttpRequest.baseUrl}/api/recipes/get-available');
     var response = await http.post(
       url,
       headers: {
@@ -41,10 +41,10 @@ class RecipeProvider with ChangeNotifier {
 
     final decodedBody = jsonDecode(response.body) as Map<String, dynamic>;
 
-    _recipes = [];
+    _availableRecipes = [];
     _filteredRecipes = [];
     decodedBody['recipes'].forEach((recipe) {
-      _recipes.add(
+      _availableRecipes.add(
         Recipe(
           id: recipe['id'],
           name: recipe['name'],
@@ -64,7 +64,7 @@ class RecipeProvider with ChangeNotifier {
   }
 
   void filterByText(String text) {
-    _filteredRecipes = _recipes
+    _filteredRecipes = _availableRecipes
         .where(
             (recipe) => recipe.name.toLowerCase().contains(text.toLowerCase()))
         .toList();

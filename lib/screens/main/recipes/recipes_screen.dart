@@ -44,7 +44,7 @@ class _RecipesScreenState extends State<RecipesScreen> {
       await Provider.of<RecipeProvider>(
         context,
         listen: false,
-      ).getAllForGroups(groupsId);
+      ).getAvailableForGroups(groupsId);
       if (!mounted) return;
       setState(() {
         _isLoading = false;
@@ -79,7 +79,7 @@ class _RecipesScreenState extends State<RecipesScreen> {
     await Provider.of<RecipeProvider>(
       context,
       listen: false,
-    ).getAllForGroups(groupsId);
+    ).getAvailableForGroups(groupsId);
     if (!mounted) return;
     setState(() {
       _isLoading = false;
