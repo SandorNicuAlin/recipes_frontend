@@ -83,18 +83,12 @@ class _StockScreenState extends State<StockScreen> {
             child: const Text('Yes'),
             onPressed: () async {
               Navigator.pop(context);
-              setState(() {
-                _isLoading = true;
-              });
               Map response = await Provider.of<ProductStockProvider>(
                 context,
                 listen: false,
               ).removeStock(
                 productStock.id,
               );
-              setState(() {
-                _isLoading = false;
-              });
             },
           ),
           CupertinoDialogAction(
@@ -110,17 +104,11 @@ class _StockScreenState extends State<StockScreen> {
   }
 
   Future<void> _onPageRefresh() async {
-    setState(() {
-      _isLoading = true;
-    });
     await Provider.of<ProductStockProvider>(
       context,
       listen: false,
     ).fetchStock();
     if (!mounted) return;
-    setState(() {
-      _isLoading = false;
-    });
   }
 
   @override
@@ -191,24 +179,34 @@ class _StockScreenState extends State<StockScreen> {
                         color: MyColors.greenColor,
                         onRefresh: _onPageRefresh,
                         child: productStockProvider.stock.isEmpty
-                            ? Center(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: const [
-                                    Padding(
-                                      padding: EdgeInsets.all(30.0),
-                                      child: Image(
-                                        image: AssetImage(
-                                          'images/stock.png',
-                                        ),
-                                      ),
-                                    ),
-                                    Text(
-                                      'Your stock is empty at the moment',
-                                      style: TextStyle(color: Colors.black45),
-                                    ),
-                                  ],
+                            ? GridView(
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 1,
                                 ),
+                                children: [
+                                  Center(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: const [
+                                        Padding(
+                                          padding: EdgeInsets.all(30.0),
+                                          child: Image(
+                                            image: AssetImage(
+                                              'images/stock.png',
+                                            ),
+                                          ),
+                                        ),
+                                        Text(
+                                          'Your stock is empty at the moment',
+                                          style:
+                                              TextStyle(color: Colors.black45),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
                               )
                             : GridView.builder(
                                 padding: const EdgeInsets.only(

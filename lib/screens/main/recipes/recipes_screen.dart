@@ -62,9 +62,6 @@ class _RecipesScreenState extends State<RecipesScreen> {
   }
 
   Future<void> _onPageRefresh() async {
-    setState(() {
-      _isLoading = true;
-    });
     await Provider.of<GroupProvider>(
       context,
       listen: false,
@@ -81,9 +78,6 @@ class _RecipesScreenState extends State<RecipesScreen> {
       listen: false,
     ).getAvailableForGroups(groupsId);
     if (!mounted) return;
-    setState(() {
-      _isLoading = false;
-    });
   }
 
   @override
@@ -136,17 +130,25 @@ class _RecipesScreenState extends State<RecipesScreen> {
                             bottom:
                                 MediaQuery.of(context).size.height * 10.3 / 100,
                           ),
-                          child: recipes.isEmpty
-                              ? const Center(
-                                  child: Text(
-                                    'No recipes available',
-                                    style: TextStyle(color: Colors.grey),
-                                  ),
-                                )
-                              : RefreshIndicator(
-                                  onRefresh: _onPageRefresh,
-                                  color: MyColors.greenColor,
-                                  child: GridView.builder(
+                          child: RefreshIndicator(
+                            onRefresh: _onPageRefresh,
+                            color: MyColors.greenColor,
+                            child: recipes.isEmpty
+                                ? GridView(
+                                    gridDelegate:
+                                        const SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 1,
+                                    ),
+                                    children: const [
+                                      Center(
+                                        child: Text(
+                                          'No recipes available',
+                                          style: TextStyle(color: Colors.grey),
+                                        ),
+                                      )
+                                    ],
+                                  )
+                                : GridView.builder(
                                     padding: const EdgeInsets.symmetric(
                                       horizontal: 16.0,
                                     ),
@@ -182,7 +184,7 @@ class _RecipesScreenState extends State<RecipesScreen> {
                                       ),
                                     ),
                                   ),
-                                ),
+                          ),
                         ),
                       ),
               ],
