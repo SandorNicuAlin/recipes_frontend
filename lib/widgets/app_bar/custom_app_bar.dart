@@ -8,6 +8,7 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
     this.actions,
     this.onActionTapCallback,
     this.border,
+    this.onGobackCallback,
   })  : preferredSize = const Size.fromHeight(kToolbarHeight),
         super(key: key);
 
@@ -15,6 +16,7 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   final List<Widget>? actions;
   final Function? onActionTapCallback;
   final ShapeBorder? border;
+  final void Function()? onGobackCallback;
 
   @override
   final Size preferredSize;
@@ -70,9 +72,10 @@ class _CustomAppBarState extends State<CustomAppBar> {
       centerTitle: true,
       leading: IconButton(
         icon: const Icon(Icons.arrow_back_ios),
-        onPressed: () {
-          Navigator.pop(context);
-        },
+        onPressed: widget.onGobackCallback ??
+            () {
+              Navigator.pop(context);
+            },
       ),
       foregroundColor: Colors.black,
       shape: widget.border ?? const Border(),

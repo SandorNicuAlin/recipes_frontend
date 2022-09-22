@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 // ignore: depend_on_referenced_packages
 import 'package:collection/collection.dart';
 
@@ -10,6 +11,7 @@ import '../../../../../../widgets/buttons/custom_elevated_button.dart';
 import '../../../../../../helpers/custom_animations.dart';
 import './add_ingredient_screen.dart';
 import '../../../../../../widgets/list_element/deletable_grey_element.dart';
+import '../../../../../../widgets/modals/yes_no_modal.dart';
 
 class AddRecipestepScreen extends StatefulWidget {
   const AddRecipestepScreen({
@@ -32,19 +34,6 @@ class _AddRecipestepScreenState extends State<AddRecipestepScreen> {
 
   void _onAdd() {
     if (_key.currentState!.validate()) {
-      // if (_ingredients.isEmpty) {
-      //   ScaffoldMessenger.of(context).showSnackBar(
-      //     const SnackBar(
-      //       content: Text(
-      //         'Please add some ingredients before',
-      //         style: TextStyle(color: Colors.white),
-      //       ),
-      //       backgroundColor: Colors.red,
-      //     ),
-      //   );
-      //   return;
-      // }
-
       widget.addStepCallback({
         'stepName': _stepNameController.text,
         'stepDescription': _stepDescriptionController.text,
@@ -65,8 +54,8 @@ class _AddRecipestepScreenState extends State<AddRecipestepScreen> {
       _ingredients.removeAt(
         _ingredients.indexWhere(
           (step) =>
-              step['ingredientName'] == ingredient['name'] &&
-              step['ingredientQuantity'] == ingredient['description'],
+              step['name'] == ingredient['name'] &&
+              step['quantity'] == ingredient['description'],
         ),
       );
     });
@@ -76,6 +65,41 @@ class _AddRecipestepScreenState extends State<AddRecipestepScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
+        onGobackCallback: (() {
+          if (_stepNameController.text == '' &&
+              _stepDescriptionController.text == '' &&
+              _ingredients.isEmpty) {
+            Navigator.pop(context);
+            return;
+          }
+          showCupertinoDialog(
+            context: context,
+            builder: (context) => YesNoModal.yesNoModal(
+              title: const Text(
+                'Confirm discard changes',
+              ),
+              content: const Text(
+                "Are you sure you want to discard all changes?",
+              ),
+              actions: [
+                CupertinoDialogAction(
+                  onPressed: () async {
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Yes'),
+                ),
+                CupertinoDialogAction(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('No'),
+                )
+              ],
+            ),
+            barrierDismissible: true,
+          );
+        }),
         onActionTapCallback: _onAdd,
         title: 'Add Recipe Step',
         border: const Border(
