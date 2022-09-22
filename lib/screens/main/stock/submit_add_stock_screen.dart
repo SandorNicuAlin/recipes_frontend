@@ -26,7 +26,7 @@ class SubmitAddStockScreen extends StatefulWidget {
 class _SubmitAddStockScreenState extends State<SubmitAddStockScreen> {
   final TextEditingController _quantityController = TextEditingController();
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
-  final List<String> _dropdownValues = ['buc.', 'L', 'g', 'kg'];
+  final List<String> _dropdownValues = ['buc.', 'ml', 'L', 'g', 'kg'];
   String _dropdownValue = 'buc.';
 
   Future<void> _onConfirm() async {

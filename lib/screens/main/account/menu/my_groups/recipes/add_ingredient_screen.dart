@@ -25,7 +25,7 @@ class _AddIngredientScreenState extends State<AddIngredientScreen> {
   final FocusNode _productInputFocusNode = FocusNode();
   final FocusNode _quantityInputFocusNode = FocusNode();
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
-  final List<String> _dropdownValues = ['buc.', 'L', 'g', 'kg'];
+  final List<String> _dropdownValues = ['buc.', 'ml', 'L', 'g', 'kg'];
   String _dropdownValue = 'buc.';
   bool _productNameEnabled = true;
   bool _productUmEnabled = true;
