@@ -96,8 +96,8 @@ class InputFieldValidators {
     if (value == null || value.isEmpty) {
       return 'Please enter a name for the recipe';
     }
-    if (value.length < 2 || value.length > 15) {
-      return 'The name must be between 2 and 15 characters long';
+    if (value.length < 2 || value.length > 30) {
+      return 'The name must be between 2 and 30 characters long';
     }
     return null;
   }
