@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 // ignore: depend_on_referenced_packages
 import 'package:collection/collection.dart';
 import 'package:provider/provider.dart';
@@ -12,6 +13,7 @@ import 'add_recipestep_screen.dart';
 import '../../../../../../helpers/custom_animations.dart';
 import '../../../../../../providers/group_provider.dart';
 import '../../../../../../widgets/list_element/deletable_grey_element.dart';
+import '../../../../../../widgets/modals/yes_no_modal.dart';
 
 class CreateRecipeScreen extends StatefulWidget {
   const CreateRecipeScreen({
@@ -114,6 +116,41 @@ class _CreateRecipeScreenState extends State<CreateRecipeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
+        onGobackCallback: (() {
+          if (_nameController.text == '' &&
+              _descriptionController.text == '' &&
+              _steps.isEmpty) {
+            Navigator.pop(context);
+            return;
+          }
+          showCupertinoDialog(
+            context: context,
+            builder: (context) => YesNoModal.yesNoModal(
+              title: const Text(
+                'Confirm discard changes',
+              ),
+              content: const Text(
+                "Are you sure you want to discard all changes?",
+              ),
+              actions: [
+                CupertinoDialogAction(
+                  onPressed: () async {
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Yes'),
+                ),
+                CupertinoDialogAction(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('No'),
+                )
+              ],
+            ),
+            barrierDismissible: true,
+          );
+        }),
         onActionTapCallback: _onFormSubmit,
         title: 'Create Recipe',
         border: const Border(
