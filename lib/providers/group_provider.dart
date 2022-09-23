@@ -231,4 +231,37 @@ class GroupProvider with ChangeNotifier {
       'body': decodedBody,
     };
   }
+
+  Future<Map> deleteRecipeForGroup(int groupId, int recipeId) async {
+    final localStorage = await SharedPreferences.getInstance();
+    final token = localStorage.getString('API_ACCESS_KEY');
+    var url = Uri.parse('${HttpRequest.baseUrl}/api/recipes/delete');
+    var response = await http.post(
+      url,
+      body: jsonEncode({
+        'group_id': groupId,
+        'recipe_id': recipeId,
+      }),
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    print('statusCode: ${response.statusCode}');
+    print('body: ${response.body}');
+
+    final decodedBody = jsonDecode(response.body) as Map<String, dynamic>;
+
+    if (response.statusCode == 200) {
+      _recipes.removeAt(_recipes.indexWhere((recipe) => recipe.id == recipeId));
+    }
+
+    notifyListeners();
+
+    return {
+      'statusCode': response.statusCode,
+      'body': decodedBody,
+    };
+  }
 }

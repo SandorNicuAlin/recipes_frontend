@@ -118,9 +118,7 @@ class _SingleUserGroupScreenState extends State<SingleUserGroupScreen> {
                       ),
                     ),
                   )
-                : recipesList(
-                    groupProvider.recipes,
-                  ),
+                : recipesList(groupProvider.recipes),
       ),
     );
   }
@@ -173,22 +171,23 @@ class _SingleUserGroupScreenState extends State<SingleUserGroupScreen> {
                     width: 150,
                     height: 38,
                     child: CustomElevatedButton(
-                        borderRadius: 5,
-                        content: _isLoading
-                            ? const SizedBox(
-                                width: 25,
-                                height: 25,
-                                child: CustomCircularProgressIndicator(),
-                              )
-                            : const Text(
-                                'Recipes',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14,
-                                ),
+                      borderRadius: 5,
+                      content: _isLoading
+                          ? const SizedBox(
+                              width: 25,
+                              height: 25,
+                              child: CustomCircularProgressIndicator(),
+                            )
+                          : const Text(
+                              'Recipes',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
                               ),
-                        backgroundColor: MyColors.greenColor,
-                        onSubmitCallback: _isLoading ? () {} : _openRecipes),
+                            ),
+                      backgroundColor: MyColors.greenColor,
+                      onSubmitCallback: _isLoading ? () {} : _openRecipes,
+                    ),
                   ),
                   widget.isAdministrator
                       ? SizedBox(
@@ -332,30 +331,105 @@ class _SingleUserGroupScreenState extends State<SingleUserGroupScreen> {
     );
   }
 
-  Widget recipesList(List<Recipe> recipes) => Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Container(
-            margin: const EdgeInsets.only(
-              top: 15.0,
-              bottom: 15.0,
+  Widget recipesList(List<Recipe> recipes) {
+    Future<void> _onDelete(int recipeId) async {
+      Navigator.pop(context);
+      Map response = await Provider.of<GroupProvider>(
+        context,
+        listen: false,
+      ).deleteRecipeForGroup(
+        widget.groupId,
+        recipeId,
+      );
+
+      if (response['statusCode'] == 400) {
+        if (!mounted) return;
+        Navigator.pop(context);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              response['body']['error'],
+              style: const TextStyle(color: Colors.white),
             ),
-            width: MediaQuery.of(context).size.width * 20 / 100,
-            height: 4.5,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: Colors.grey,
-            ),
+            backgroundColor: Colors.red,
           ),
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                children: recipes
-                    .map(
-                      (recipe) => Card(
-                        key: Key(recipe.id.toString()),
+        );
+      }
+    }
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Container(
+          margin: const EdgeInsets.only(
+            top: 15.0,
+            bottom: 15.0,
+          ),
+          width: MediaQuery.of(context).size.width * 20 / 100,
+          height: 4.5,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: Colors.grey,
+          ),
+        ),
+        Expanded(
+          child: SingleChildScrollView(
+            child: Column(
+              children: recipes
+                  .map(
+                    (recipe) => Dismissible(
+                      confirmDismiss: (_) {
+                        return showCupertinoDialog(
+                          context: context,
+                          builder: (context) => YesNoModal.yesNoModal(
+                            title: const Text(
+                              'Delete recipe',
+                            ),
+                            content: Text(
+                              "Are you sure you want to delete '${recipe.name}?'",
+                            ),
+                            actions: [
+                              CupertinoDialogAction(
+                                onPressed: () async {
+                                  await _onDelete(recipe.id);
+                                },
+                                child: const Text('Yes'),
+                              ),
+                              CupertinoDialogAction(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const Text('No'),
+                              )
+                            ],
+                          ),
+                          barrierDismissible: true,
+                        );
+                      },
+                      direction: DismissDirection.endToStart,
+                      background: Container(
+                        margin: const EdgeInsets.only(
+                          left: 5.0,
+                          top: 3.0,
+                          right: 5.0,
+                          bottom: 3.0,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.red.withAlpha(210),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: const Align(
+                          alignment: Alignment.centerRight,
+                          child: Padding(
+                            padding: EdgeInsets.only(right: 16.0),
+                            child: Icon(CupertinoIcons.delete),
+                          ),
+                        ),
+                      ),
+                      key: Key(recipe.id.toString()),
+                      child: Card(
                         child: ListTile(
                           onTap: () {
                             Navigator.of(context).push(
@@ -381,11 +455,13 @@ class _SingleUserGroupScreenState extends State<SingleUserGroupScreen> {
                           ),
                         ),
                       ),
-                    )
-                    .toList(),
-              ),
+                    ),
+                  )
+                  .toList(),
             ),
           ),
-        ],
-      );
+        ),
+      ],
+    );
+  }
 }
