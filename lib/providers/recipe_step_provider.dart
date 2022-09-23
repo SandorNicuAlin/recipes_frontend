@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 import '../classes/recipe_step.dart';
+import '../classes/ingredient.dart';
 import '../helpers/http_request.dart';
 
 class RecipeStepProvider with ChangeNotifier {
@@ -12,6 +13,12 @@ class RecipeStepProvider with ChangeNotifier {
 
   List<RecipeStep> get recipeSteps {
     return _recipeSteps;
+  }
+
+  List<Ingredient> _ingredients = [];
+
+  List<Ingredient> get ingredients {
+    return _ingredients;
   }
 
   Future<void> fetchAllForRecipe(recipeId) async {
@@ -40,10 +47,23 @@ class RecipeStepProvider with ChangeNotifier {
     decodedBody['recipe_steps'].forEach((recipeStep) {
       _recipeSteps.add(
         RecipeStep(
-            id: recipeStep['id'],
-            name: recipeStep['name'],
-            description: recipeStep['description'],
-            order: recipeStep['order']),
+          id: recipeStep['id'],
+          name: recipeStep['name'],
+          description: recipeStep['description'],
+          order: recipeStep['order'],
+        ),
+      );
+    });
+
+    _ingredients = [];
+    decodedBody['ingredients'].forEach((ingredient) {
+      _ingredients.add(
+        Ingredient(
+          id: ingredient['id'],
+          name: ingredient['name'],
+          quantity: ingredient['quantity'],
+          um: ingredient['um'],
+        ),
       );
     });
 

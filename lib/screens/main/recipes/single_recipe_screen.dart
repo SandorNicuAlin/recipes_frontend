@@ -88,6 +88,65 @@ class _SingleRecipeScreenState extends State<SingleRecipeScreen> {
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.0),
               child: Text(
+                'Ingredients',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+              ),
+            ),
+            const SizedBox(height: 8),
+            Consumer<RecipeStepProvider>(
+              builder: (context, recipeStepProvider, child) => Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 22.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: recipeStepProvider.ingredients
+                      .map(
+                        (ingredient) => Row(
+                          children: [
+                            ConstrainedBox(
+                              constraints: BoxConstraints(
+                                minWidth: MediaQuery.of(context).size.width *
+                                    20 /
+                                    100,
+                              ),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    '${ingredient.quantity} ',
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                  Text(
+                                    '${ingredient.um.replaceAll('buc.', 'x')} ',
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Text(
+                              ingredient.name,
+                              style: const TextStyle(
+                                fontSize: 15,
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                      .toList(),
+                ),
+              ),
+            ),
+            const SizedBox(height: 12),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.0),
+              child: Text(
                 'Steps',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
