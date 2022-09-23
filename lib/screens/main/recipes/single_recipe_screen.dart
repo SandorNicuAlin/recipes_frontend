@@ -97,51 +97,69 @@ class _SingleRecipeScreenState extends State<SingleRecipeScreen> {
             ),
             const SizedBox(height: 8),
             Consumer<RecipeStepProvider>(
-              builder: (context, recipeStepProvider, child) => Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 22.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: recipeStepProvider.ingredients
-                      .map(
-                        (ingredient) => Row(
-                          children: [
-                            ConstrainedBox(
-                              constraints: BoxConstraints(
-                                minWidth: MediaQuery.of(context).size.width *
-                                    20 /
-                                    100,
-                              ),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    '${ingredient.quantity} ',
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15,
+              builder: (context, recipeStepProvider, child) => _isLoading
+                  ? Column(
+                      children: [
+                        loadingTextIngredients(w: 80),
+                        loadingTextIngredients(w: 100),
+                        loadingTextIngredients(w: 80),
+                        loadingTextIngredients(w: 100),
+                        loadingTextIngredients(w: 100),
+                        loadingTextIngredients(w: 80),
+                      ],
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 22.0),
+                      child: recipeStepProvider.ingredients.isEmpty
+                          ? const Text(
+                              'No ingredients required',
+                              style: TextStyle(color: Colors.black87),
+                            )
+                          : Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: recipeStepProvider.ingredients
+                                  .map(
+                                    (ingredient) => Row(
+                                      children: [
+                                        ConstrainedBox(
+                                          constraints: BoxConstraints(
+                                            minWidth: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                20 /
+                                                100,
+                                          ),
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                '${ingredient.quantity} ',
+                                                style: const TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 15,
+                                                ),
+                                              ),
+                                              Text(
+                                                '${ingredient.um.replaceAll('buc.', 'x')} ',
+                                                style: const TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 15,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Text(
+                                          ingredient.name,
+                                          style: const TextStyle(
+                                            fontSize: 15,
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ),
-                                  Text(
-                                    '${ingredient.um.replaceAll('buc.', 'x')} ',
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                                  )
+                                  .toList(),
                             ),
-                            Text(
-                              ingredient.name,
-                              style: const TextStyle(
-                                fontSize: 15,
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
-                      .toList(),
-                ),
-              ),
+                    ),
             ),
             const SizedBox(height: 12),
             const Padding(
@@ -159,12 +177,12 @@ class _SingleRecipeScreenState extends State<SingleRecipeScreen> {
               builder: (context, recipeStepProvider, child) => _isLoading
                   ? Column(
                       children: [
-                        _loadingText(),
-                        _loadingText(),
-                        _loadingText(),
-                        _loadingText(),
-                        _loadingText(),
-                        _loadingText(),
+                        _loadingTextSteps(),
+                        _loadingTextSteps(),
+                        _loadingTextSteps(),
+                        _loadingTextSteps(),
+                        _loadingTextSteps(),
+                        _loadingTextSteps(),
                       ],
                     )
                   : Column(
@@ -244,7 +262,40 @@ class _SingleRecipeScreenState extends State<SingleRecipeScreen> {
     );
   }
 
-  Widget _loadingText() {
+  Widget loadingTextIngredients({required double w}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 22.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              ConstrainedBox(
+                constraints: BoxConstraints(
+                  minWidth: MediaQuery.of(context).size.width * 20 / 100,
+                ),
+                child: Row(
+                  children: const [
+                    TextPlaceholder(
+                      width: 40,
+                      height: 15,
+                    )
+                  ],
+                ),
+              ),
+              TextPlaceholder(
+                width: w,
+                height: 15,
+              )
+            ],
+          ),
+          const SizedBox(height: 8),
+        ],
+      ),
+    );
+  }
+
+  Widget _loadingTextSteps() {
     return Container(
       width: MediaQuery.of(context).size.width,
       decoration: const BoxDecoration(
