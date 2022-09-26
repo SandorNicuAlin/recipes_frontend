@@ -83,7 +83,7 @@ class _StockScreenState extends State<StockScreen> {
             child: const Text('Yes'),
             onPressed: () async {
               Navigator.pop(context);
-              Map response = await Provider.of<ProductStockProvider>(
+              await Provider.of<ProductStockProvider>(
                 context,
                 listen: false,
               ).removeStock(

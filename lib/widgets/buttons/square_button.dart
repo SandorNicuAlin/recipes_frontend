@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../colors/my_colors.dart';
-
 class SquareButton extends StatelessWidget {
   const SquareButton({
     Key? key,

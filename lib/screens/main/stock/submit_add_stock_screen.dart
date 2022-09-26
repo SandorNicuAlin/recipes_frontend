@@ -7,7 +7,6 @@ import '../../../colors/my_colors.dart';
 import '../../../widgets/input_fields/text_input_field.dart';
 import '../../../helpers/input_field_validators.dart';
 import '../../../providers/product_stock_provider.dart';
-import '../../../classes/product.dart';
 
 class SubmitAddStockScreen extends StatefulWidget {
   const SubmitAddStockScreen({
