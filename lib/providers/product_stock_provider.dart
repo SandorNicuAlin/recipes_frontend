@@ -172,12 +172,41 @@ class ProductStockProvider with ChangeNotifier {
       ),
     );
 
-    print('statusCode: ${response.statusCode}');
-    print('body: ${response.body}');
+    // print('statusCode: ${response.statusCode}');
+    // print('body: ${response.body}');
 
     final decodedBody = jsonDecode(response.body) as Map<String, dynamic>;
 
     await fetchStock();
+
+    return {
+      'statusCode': response.statusCode,
+      'body': decodedBody,
+    };
+  }
+
+  Future<Map> updateStockAfterCooking(int recipeId) async {
+    final localStorage = await SharedPreferences.getInstance();
+    final token = localStorage.getString('API_ACCESS_KEY');
+    var url =
+        Uri.parse('${HttpRequest.baseUrl}/api/product-stock/remove-for-recipe');
+    var response = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      },
+      body: jsonEncode(
+        {
+          'recipe_id': recipeId,
+        },
+      ),
+    );
+
+    print('statusCode: ${response.statusCode}');
+    print('body: ${response.body}');
+
+    final decodedBody = jsonDecode(response.body) as Map<String, dynamic>;
 
     return {
       'statusCode': response.statusCode,
