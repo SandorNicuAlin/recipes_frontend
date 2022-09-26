@@ -203,8 +203,8 @@ class ProductStockProvider with ChangeNotifier {
       ),
     );
 
-    print('statusCode: ${response.statusCode}');
-    print('body: ${response.body}');
+    // print('statusCode: ${response.statusCode}');
+    // print('body: ${response.body}');
 
     final decodedBody = jsonDecode(response.body) as Map<String, dynamic>;
 

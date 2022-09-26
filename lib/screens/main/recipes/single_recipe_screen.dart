@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
-import 'package:recipes_frontend/screens/auth/login.dart';
 
 import '../../../widgets/app_bar/custom_app_bar.dart';
 import '../../../widgets/accordion/custom_accordion.dart';

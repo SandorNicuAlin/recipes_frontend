@@ -8,7 +8,6 @@ import '../classes/group.dart';
 import '../classes/user.dart';
 import '../helpers/http_request.dart';
 import '../classes/recipe.dart';
-import '../classes/recipe_step.dart';
 
 class GroupProvider with ChangeNotifier {
   // ignore: non_constant_identifier_names

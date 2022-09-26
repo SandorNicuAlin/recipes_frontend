@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-// ignore: depend_on_referenced_packages
-import 'package:collection/collection.dart';
 
 import '../../../../../../widgets/app_bar/custom_app_bar.dart';
 import '../../../../../../colors/my_colors.dart';
