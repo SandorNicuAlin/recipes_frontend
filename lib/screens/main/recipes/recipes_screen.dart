@@ -171,6 +171,7 @@ class _RecipesScreenState extends State<RecipesScreen> {
                                               name: recipes[index].name,
                                               description:
                                                   recipes[index].description,
+                                              fromAvailableRecipeScreen: true,
                                             ),
                                           ),
                                         );

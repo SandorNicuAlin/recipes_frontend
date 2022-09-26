@@ -438,6 +438,7 @@ class _SingleUserGroupScreenState extends State<SingleUserGroupScreen> {
                                   id: recipe.id,
                                   name: recipe.name,
                                   description: recipe.description,
+                                  fromAvailableRecipeScreen: false,
                                 ),
                               ),
                             );

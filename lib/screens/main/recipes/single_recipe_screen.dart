@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
+import 'package:recipes_frontend/screens/auth/login.dart';
 
 import '../../../widgets/app_bar/custom_app_bar.dart';
 import '../../../widgets/accordion/custom_accordion.dart';
 import '../../../providers/recipe_step_provider.dart';
 import '../../../widgets/loading/text_placeholder.dart';
+import '../../../widgets/buttons/custom_elevated_button.dart';
+import '../../../colors/my_colors.dart';
+import '../../../widgets/modals/yes_no_modal.dart';
+import '../../../providers/product_stock_provider.dart';
+import '../home_screen.dart';
 
 class SingleRecipeScreen extends StatefulWidget {
   const SingleRecipeScreen({
@@ -12,11 +19,13 @@ class SingleRecipeScreen extends StatefulWidget {
     required this.id,
     required this.name,
     required this.description,
+    required this.fromAvailableRecipeScreen,
   }) : super(key: key);
 
   final int id;
   final String name;
   final String description;
+  final bool fromAvailableRecipeScreen;
 
   @override
   State<SingleRecipeScreen> createState() => _SingleRecipeScreenState();
@@ -25,9 +34,11 @@ class SingleRecipeScreen extends StatefulWidget {
 class _SingleRecipeScreenState extends State<SingleRecipeScreen> {
   bool _firstTime = true;
   bool _isLoading = false;
+  late NavigatorState _navigator;
 
   @override
   void didChangeDependencies() async {
+    _navigator = Navigator.of(context);
     if (_firstTime) {
       setState(() {
         _isLoading = true;
@@ -44,12 +55,86 @@ class _SingleRecipeScreenState extends State<SingleRecipeScreen> {
     super.didChangeDependencies();
   }
 
+  void _onDoneCooking() {
+    showCupertinoDialog(
+      context: context,
+      builder: (context) => YesNoModal.yesNoModal(
+        title: Text(
+          widget.name,
+        ),
+        content: const Text(
+          "We will remove the products required for this recipe from your stock. Continue?",
+        ),
+        actions: [
+          CupertinoDialogAction(
+            onPressed: () async {
+              Navigator.pop(context);
+              Map response = await Provider.of<ProductStockProvider>(
+                context,
+                listen: false,
+              ).updateStockAfterCooking(widget.id);
+
+              if (response['statusCode'] == 400) {
+                if (!mounted) return;
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      response['body']['error'],
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                    backgroundColor: Colors.red,
+                  ),
+                );
+              }
+              if (true) {}
+              _navigator.pushAndRemoveUntil(
+                MaterialPageRoute(
+                  builder: (BuildContext context) => const HomeScreen(),
+                ),
+                (Route<dynamic> route) => false,
+              );
+            },
+            child: const Text('Yes'),
+          ),
+          CupertinoDialogAction(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text('No'),
+          )
+        ],
+      ),
+      barrierDismissible: true,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CustomAppBar(
         title: 'Recipe steps',
       ),
+      floatingActionButton: widget.fromAvailableRecipeScreen
+          ? SizedBox(
+              width: MediaQuery.of(context).size.width * 90 / 100,
+              height: 50,
+              child: CustomElevatedButton(
+                borderRadius: 15,
+                backgroundColor: MyColors.greenColor,
+                content: const Text(
+                  'Cooked it!',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
+                ),
+                onSubmitCallback: _onDoneCooking,
+              ),
+            )
+          : null,
+      floatingActionButtonLocation: widget.fromAvailableRecipeScreen
+          ? FloatingActionButtonLocation.centerFloat
+          : null,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -255,7 +340,10 @@ class _SingleRecipeScreenState extends State<SingleRecipeScreen> {
                             .toList()
                       ],
                     ),
-            )
+            ),
+            const SizedBox(
+              height: 70,
+            ),
           ],
         ),
       ),
