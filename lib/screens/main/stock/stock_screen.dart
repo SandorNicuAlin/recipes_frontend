@@ -246,7 +246,8 @@ class _StockScreenState extends State<StockScreen> {
                                       productStockProvider.stock[index],
                                     );
                                   },
-                                  image: Image.asset('images/bakery&snacks.png')
+                                  image: Image.asset(
+                                          'assets/images/bakery&snacks.png')
                                       .image,
                                   title: productStockProvider
                                       .stock[index].product.name,
