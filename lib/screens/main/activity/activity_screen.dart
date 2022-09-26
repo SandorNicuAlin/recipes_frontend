@@ -37,7 +37,7 @@ class ActivityScreen extends StatelessWidget {
                           children: [
                             Padding(
                               padding: const EdgeInsets.all(50.0),
-                              child: Image.asset('images/inbox.gif'),
+                              child: Image.asset('assets/images/inbox.gif'),
                             ),
                             const Text(
                               'Your inbox is empty at the moment',
