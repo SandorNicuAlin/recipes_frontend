@@ -189,16 +189,14 @@ class _StockScreenState extends State<StockScreen> {
                                     child: Column(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
-                                      children: const [
+                                      children: [
                                         Padding(
-                                          padding: EdgeInsets.all(30.0),
-                                          child: Image(
-                                            image: AssetImage(
-                                              'images/stock.png',
-                                            ),
+                                          padding: const EdgeInsets.all(30.0),
+                                          child: Image.asset(
+                                            'images/stock.png',
                                           ),
                                         ),
-                                        Text(
+                                        const Text(
                                           'Your stock is empty at the moment',
                                           style:
                                               TextStyle(color: Colors.black45),
@@ -248,8 +246,8 @@ class _StockScreenState extends State<StockScreen> {
                                       productStockProvider.stock[index],
                                     );
                                   },
-                                  image: const AssetImage(
-                                      'images/bakery&snacks.png'),
+                                  image: Image.asset('images/bakery&snacks.png')
+                                      .image,
                                   title: productStockProvider
                                       .stock[index].product.name,
                                   subtitle: productStockProvider
