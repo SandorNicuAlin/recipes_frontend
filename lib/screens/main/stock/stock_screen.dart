@@ -193,7 +193,7 @@ class _StockScreenState extends State<StockScreen> {
                                         Padding(
                                           padding: const EdgeInsets.all(30.0),
                                           child: Image.asset(
-                                            'images/stock.png',
+                                            'assets/images/stock.png',
                                           ),
                                         ),
                                         const Text(

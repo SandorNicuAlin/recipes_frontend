@@ -179,7 +179,7 @@ class _RecipesScreenState extends State<RecipesScreen> {
                                       child: CustomCardTwo(
                                         color: MyColors.greenColor,
                                         image: Image.asset(
-                                          'images/frashfruits&vegetable.png',
+                                          'assets/images/frashfruits&vegetable.png',
                                         ).image,
                                         text: recipes[index].name,
                                       ),
