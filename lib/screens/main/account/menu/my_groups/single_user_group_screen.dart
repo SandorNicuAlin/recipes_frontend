@@ -131,7 +131,7 @@ class _SingleUserGroupScreenState extends State<SingleUserGroupScreen> {
           MediaQuery.of(context).size.height * 50 / 100,
         ),
         child: CustomAppBarWithImage(
-          image: const AssetImage('images/groceries_2_2x.png'),
+          image: Image.asset('assets/images/groceries_2_2x.png').image,
           title: widget.name,
           actions: widget.isAdministrator
               ? [
