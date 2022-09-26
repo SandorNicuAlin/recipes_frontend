@@ -72,9 +72,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               context,
               title: 'Registered Failed!',
               subtitle: errorBody,
-              image: const Image(
-                image: AssetImage('assets/images/groceries.png'),
-              ),
+              image: Image.asset('assets/images/groceries.png'),
               buttonText: 'Try again',
               buttonCallback: _navigatorPop,
             ),
@@ -92,9 +90,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 padding: EdgeInsets.only(
                   right: MediaQuery.of(context).size.width * 10 / 100,
                 ),
-                child: const Image(
-                  image: AssetImage('assets/images/success.png'),
-                ),
+                child: Image.asset('assets/images/success.png'),
               ),
               buttonText: 'Log In',
               buttonCallback: () {
@@ -129,10 +125,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
           Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               image: DecorationImage(
                 fit: BoxFit.fill,
-                image: AssetImage('assets/images/background.png'),
+                image: Image.asset('assets/images/background.png').image,
               ),
             ),
           ),
@@ -142,9 +138,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               children: [
                 keyboardUp
                     ? Container()
-                    : const Image(
-                        image: AssetImage('assets/images/carrot.png'),
-                      ),
+                    : Image.asset('assets/images/carrot.png'),
                 Padding(
                   padding: EdgeInsets.symmetric(
                     horizontal: MediaQuery.of(context).size.width * 6 / 100,

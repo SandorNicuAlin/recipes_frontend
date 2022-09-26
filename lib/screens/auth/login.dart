@@ -56,9 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
               context,
               title: 'Login Failed!',
               subtitle: errorBody,
-              image: const Image(
-                image: AssetImage('assets/images/groceries.png'),
-              ),
+              image: Image.asset('assets/images/groceries.png'),
               buttonText: 'Try again',
               buttonCallback: () => Auth.navigatorPop(context),
             ),
@@ -70,9 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
               context,
               title: 'Bad credentials',
               subtitle: response['body']['error'],
-              image: const Image(
-                image: AssetImage('assets/images/groceries.png'),
-              ),
+              image: Image.asset('assets/images/groceries.png'),
               buttonText: 'Try again',
               buttonCallback: () => Auth.navigatorPop(context),
             ),
@@ -112,10 +108,10 @@ class _LoginScreenState extends State<LoginScreen> {
           Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               image: DecorationImage(
                 fit: BoxFit.fill,
-                image: AssetImage('assets/images/background.png'),
+                image: Image.asset('assets/images/background.png').image,
               ),
             ),
           ),
@@ -123,9 +119,7 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                const Image(
-                  image: AssetImage('assets/images/carrot.png'),
-                ),
+                Image.asset('assets/images/carrot.png'),
                 Padding(
                   padding: EdgeInsets.symmetric(
                     horizontal: MediaQuery.of(context).size.width * 6 / 100,

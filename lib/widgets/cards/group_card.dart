@@ -47,9 +47,9 @@ class GroupCard extends StatelessWidget {
         children: [
           Hero(
             tag: 'group:$name',
-            child: const Image(
+            child: Image(
               fit: BoxFit.fill,
-              image: AssetImage('images/groceries_2_2x.png'),
+              image: Image.asset('images/groceries_2_2x.png').image,
             ),
           ),
           Column(

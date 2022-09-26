@@ -13,16 +13,16 @@ class LoadingScreen extends StatelessWidget {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
+          children: [
             SizedBox(
               width: 60,
               height: 60,
-              child: Image(image: AssetImage('assets/images/carrot_white.png')),
+              child: Image.asset('assets/images/carrot_white.png'),
             ),
-            SizedBox(
+            const SizedBox(
               height: 100,
             ),
-            CustomCircularProgressIndicator()
+            const CustomCircularProgressIndicator()
           ],
         ),
       ),

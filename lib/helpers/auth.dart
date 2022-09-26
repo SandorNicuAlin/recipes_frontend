@@ -104,9 +104,7 @@ class Auth {
         context,
         title: 'Server Error - 500',
         subtitle: 'Something went wrong!',
-        image: const Image(
-          image: AssetImage('assets/images/groceries.png'),
-        ),
+        image: Image.asset('assets/images/groceries.png'),
         buttonText: 'Try again',
         buttonCallback: navigatorPop,
       ),
