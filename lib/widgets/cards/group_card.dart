@@ -49,7 +49,7 @@ class GroupCard extends StatelessWidget {
             tag: 'group:$name',
             child: Image(
               fit: BoxFit.fill,
-              image: Image.asset('images/groceries_2_2x.png').image,
+              image: Image.asset('assets/images/groceries_2_2x.png').image,
             ),
           ),
           Column(
