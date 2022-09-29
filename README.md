@@ -1,16 +1,16 @@
-# recipes_frontend
+<div align="center">
+<a href="https://flutter-recipes.herokuapp.com" target="_blank"><img src="https://flutter-recipes.herokuapp.com/assets/assets/images/carrot.png" width="50"></a>
+&nbsp;
+<a href="https://flutter.dev" target="_blank"><img src="https://storage.googleapis.com/cms-storage-bucket/ec64036b4eacc9f3fd73.svg" width="180"></a>
+</div>
 
-A new Flutter project.
+# Recipes Mobile App
 
-## Getting Started
+Recipes is an mobile application that keeps track of the aliments that you have in your house and based on those it displays different cooking recipes. If you are tierd of spending too much ordering food, this app is for you.
 
-This project is a starting point for a Flutter application.
+# UI
+### Login & Register
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Layout base
+- [Link](https://www.figma.com/community/file/882645007956337261)
