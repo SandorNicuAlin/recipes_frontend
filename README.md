@@ -7,7 +7,7 @@
 
 # Recipes Mobile App
 
-Recipes is a mobile application that keeps track of the aliments that you have in your house and based on those it displays different cooking recipes. If you are tierd of spending too much money ordering food, this app is for you.
+Recipes is a mobile application that keeps track of the aliments in your house and based on those it displays different cooking recipes. If you are tierd of spending too much money ordering food, this app is for you.
 
 ## :rocket: App preview on Heroku
 - https://flutter-recipes.herokuapp.com
