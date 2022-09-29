@@ -5,23 +5,17 @@
 </div>
 <p align="center">by <a href="https://github.com/SandorNicuAlin">Alin Șandor</a></p>
 
-<div align="center">
-  <a href="https://www.linkedin.com/in/alin-%C8%99andor-42452224a"><img src="https://raw.githubusercontent.com/SandorNicuAlin/recipes_frontend/main/assets/images/linkedin.png" alt="icon | LinkedIn" width="30px"/></a>
-  <a href="https://www.facebook.com/sandor.alin.nicu"><img src="https://raw.githubusercontent.com/SandorNicuAlin/recipes_frontend/main/assets/images/facebook.png" alt="icon | Facebook" width="30px"/></a>
-  <a href="https://www.instagram.com/alinsandor"><img src="https://raw.githubusercontent.com/SandorNicuAlin/recipes_frontend/main/assets/images/instagram.png" alt="icon | Instagram" width="30px"/></a>
-</div>
-
 # Recipes Mobile App
 
-Recipes is an mobile application that keeps track of the aliments that you have in your house and based on those it displays different cooking recipes. If you are tierd of spending too much money ordering food, this app is for you.
+Recipes is a mobile application that keeps track of the aliments that you have in your house and based on those it displays different cooking recipes. If you are tierd of spending too much money ordering food, this app is for you.
 
-# App preview on Heroku
+## :rocket: App preview on Heroku
 - https://flutter-recipes.herokuapp.com
 
-# Backend - RESTful Laravel App
+## :electric_plug: Backend - RESTful Laravel App
 - https://lara-recipes.herokuapp.com
 
-# UI
+## :iphone: UI
 ### Login & Register
 <div>
   &nbsp;
@@ -40,5 +34,11 @@ Recipes is an mobile application that keeps track of the aliments that you have 
   <img src="https://raw.githubusercontent.com/SandorNicuAlin/recipes_frontend/main/assets/images/groups_screen.png" width="250">
 </div>
 
-## Layout base
+## :framed_picture: Layout base
 - [Link](https://www.figma.com/community/file/882645007956337261)
+
+<div align="center">
+  <a href="https://www.linkedin.com/in/alin-%C8%99andor-42452224a"><img src="https://raw.githubusercontent.com/SandorNicuAlin/recipes_frontend/main/assets/images/linkedin.png" alt="icon | LinkedIn" width="30px"/></a>
+  <a href="https://www.facebook.com/sandor.alin.nicu"><img src="https://raw.githubusercontent.com/SandorNicuAlin/recipes_frontend/main/assets/images/facebook.png" alt="icon | Facebook" width="30px"/></a>
+  <a href="https://www.instagram.com/alinsandor"><img src="https://raw.githubusercontent.com/SandorNicuAlin/recipes_frontend/main/assets/images/instagram.png" alt="icon | Instagram" width="30px"/></a>
+</div>
