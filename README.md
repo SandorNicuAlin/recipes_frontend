@@ -3,6 +3,7 @@
 &nbsp;
 <a href="https://flutter.dev" target="_blank"><img src="https://storage.googleapis.com/cms-storage-bucket/ec64036b4eacc9f3fd73.svg" width="180"></a>
 </div>
+<p align="center">by <a href="https://www.linkedin.com/in/alin-%C8%99andor-42452224a">Alin Șandor</a></p>
 
 # Recipes Mobile App
 
