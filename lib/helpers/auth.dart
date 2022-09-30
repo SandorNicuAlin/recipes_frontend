@@ -48,7 +48,8 @@ class Auth {
       body: jsonEncode({
         'email': email,
         'password': password,
-        'device_name': await _getDeviceName(),
+        // 'device_name': await _getDeviceName(),
+        'device_name': 'default',
       }),
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',
