@@ -37,6 +37,11 @@ This web version of the app it's just for presentation purposes. It is best prac
   <img src="https://raw.githubusercontent.com/SandorNicuAlin/recipes_frontend/main/assets/images/groups_screen.png" width="250">
 </div>
 
+## :newspaper: UML Database Diagram
+<div align="center">
+  <img src="https://raw.githubusercontent.com/SandorNicuAlin/recipes_frontend/main/assets/images/DB_UML_diagram.PNG">
+</div>
+
 ## :framed_picture: Layout base
 - [Link](https://www.figma.com/community/file/882645007956337261)
 
