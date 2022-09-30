@@ -340,9 +340,11 @@ class _SingleRecipeScreenState extends State<SingleRecipeScreen> {
                       ],
                     ),
             ),
-            const SizedBox(
-              height: 70,
-            ),
+            widget.fromAvailableRecipeScreen
+                ? const SizedBox(
+                    height: 70,
+                  )
+                : Container(),
           ],
         ),
       ),
