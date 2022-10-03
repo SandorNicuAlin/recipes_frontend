@@ -12,8 +12,9 @@ Recipes is a mobile application that keeps track of the aliments in your house a
 ## :rocket: App preview on Heroku
 - https://flutter-recipes.herokuapp.com
 ### :taxi: Walkthrough
-This web version of the app it's just for presentation purposes. It is best practice to walk thorugh it with browser's developer tools (CTRL+SHIFT+C) opened in mobile mode (toggle device toolbar). Refresh the page if the UI goes crazy :smiley:.
-
+This web version of the app it's just for presentation purposes. It is best practice to walk thorugh it with browser's developer tools (CTRL+SHIFT+C) opened in mobile mode (toggle device toolbar). Refresh the page if the UI goes crazy :smiley:.<br><br>
+I've created some accounts for you if you want to test the flow of the app, just checkout the link below (recomanded) or create your own account.
+- [The Office family](https://raw.githubusercontent.com/SandorNicuAlin/recipes_frontend/main/assets/images/the_office_accounts.txt)
 
 ## :electric_plug: Backend - RESTful Laravel App
 - https://lara-recipes.herokuapp.com
