@@ -27,12 +27,14 @@ class CustomCardTwo extends StatelessWidget {
           height: MediaQuery.of(context).size.height * 28 / 100,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Image(
                 image: image,
               ),
               Text(
                 text,
+                textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
