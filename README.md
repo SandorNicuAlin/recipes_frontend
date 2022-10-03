@@ -37,6 +37,30 @@ This web version of the app it's just for presentation purposes. It is best prac
   <img src="https://raw.githubusercontent.com/SandorNicuAlin/recipes_frontend/main/assets/images/groups_screen.png" width="250">
 </div>
 
+### Notifications
+<div>
+  &nbsp;
+  <img src="https://raw.githubusercontent.com/SandorNicuAlin/recipes_frontend/main/assets/images/activity_screen.png" width="250">
+  &nbsp;
+  <img src="https://raw.githubusercontent.com/SandorNicuAlin/recipes_frontend/main/assets/images/invite_to_group.gif" width="250">
+</div>
+
+### Stock
+<div>
+  &nbsp;
+  <img src="https://raw.githubusercontent.com/SandorNicuAlin/recipes_frontend/main/assets/images/stock_screen.png" width="250">
+  &nbsp;
+  <img src="https://raw.githubusercontent.com/SandorNicuAlin/recipes_frontend/main/assets/images/add_stock.gif" width="250">
+</div>
+
+### Recipes
+<div>
+  &nbsp;
+  <img src="https://raw.githubusercontent.com/SandorNicuAlin/recipes_frontend/main/assets/images/recipes_screen.png" width="250">
+  &nbsp;
+  <img src="https://raw.githubusercontent.com/SandorNicuAlin/recipes_frontend/main/assets/images/recipes_group_screen.png" width="250">
+</div>
+
 ## :newspaper: UML Database Diagram
 <div align="center">
   <img src="https://raw.githubusercontent.com/SandorNicuAlin/recipes_frontend/main/assets/images/DB_UML_diagram.PNG">
